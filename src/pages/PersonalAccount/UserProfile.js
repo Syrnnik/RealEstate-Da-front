@@ -35,6 +35,7 @@ export default function UserProfile() {
             setLastName(currentUser?.lastName)
             setPhone(currentUser?.phone)
             setEmail(currentUser?.email)
+            setIsSubscribed(currentUser?.isSubscribed)
             setSex(currentUser?.sex)
             setDay(+currentBirthDayDay || startDay - 1)
             setMonth(+currentBirthDayMonth - 1 || startMonth)
@@ -502,8 +503,9 @@ export default function UserProfile() {
                                 <div className="col-sm-8">
                                     <label>
                                         <input
-                                            name="isSubscribed"
                                             type="checkbox"
+                                            name="isSubscribed"
+                                            checked={data.isSubscribed}
                                             className="fs-11"
                                             onChange={(e) =>
                                                 setIsSubscribed(e.target.type === 'checkbox' ? e.target.checked : e.target.value)

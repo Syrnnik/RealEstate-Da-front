@@ -38,6 +38,17 @@ export default function CreateService() {
     const {setAlert} = bindActionCreators(alertActions, dispatch)
     const [address, setAddress] = useState({})
     const [district, setDistrict] = useState({})
+
+    //! Для пункта с дизайнерами
+    // const handleCheckbox = (e) => {
+    //     const {target} = e;
+    //     const value = target.type === 'checkbox' ? target.checked : target.value
+    //     const {name} = target
+    //     setData(prevData => {
+    //         return {...prevData, [name]: value};
+    //     })
+    // }
+
     useEffect(() => {
         setPayloads(prevState => ({
             ...prevState,
@@ -57,7 +68,24 @@ export default function CreateService() {
     useEffect(() => {
         (serviceSelect?.value) && getSubServicesTypes(axiosPrivate, serviceSelect?.value)
             .then(res => {
-                setSubServiceType(res.map(i => ({title: i.name, value: i.id})))
+                setSubServiceType(res.map(i => (
+                    {title: i.name, value: i.id}
+
+                    //! Для пункта с дизайнерами
+                    // <div key={i.id}>
+                    //     <input
+                    //         type="checkbox"
+                    //         name={i.id}
+                    //         // checked={[i.id ? true : false]}
+                    //         onChange={({title, value, e}) => {
+                    //             setSubServiceSelect({value, title})
+                    //             setPayloads(prevState => ({...prevState, servicesTypesSubServiceId: value}))
+                    //             resetFieldVal(e, 'isInValidServicesTypesSubServiceId')
+                    //         }}
+                    //     />
+                    //     <span className="fs-11 ms-3">{i.name}</span>
+                    // </div>
+                )))
             })
     }, [serviceSelect?.value])
 
@@ -232,8 +260,12 @@ export default function CreateService() {
                                 resetFieldVal(e, 'isInValidServicesTypesSubServiceId')
                             }}
                         />
+
+                        {/* //! Для пункта с дизайнерами
+                        {subServiceType} */}
                     </div>
                 </div>
+
                 {/* <div className="row mb-3 mb-sm-4 mb-xl-5">
                     <div className="col-sm-4">
                         <div className="fs-11 mb-1">Предоставляемые услуги:</div>

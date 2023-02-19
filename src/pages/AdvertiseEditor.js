@@ -215,7 +215,6 @@ export default function Advertise() {
         setData(prevData => {
             return {...prevData, [name]: value};
         })
-
     }
 
     useEffect(() => {
