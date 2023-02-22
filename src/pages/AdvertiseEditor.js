@@ -273,7 +273,7 @@ export default function Advertise() {
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea < 0
         const isInValidLivingArea = data?.livingArea < 0;
         const isInValidKitchenArea = data?.kitchenArea < 0;
-        const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
+        const isInValidFloor = data?.floor === undefined || data?.floor < 0;
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidImage = imgs?.length === 0 || imgs === undefined || imgs?.length === 1
