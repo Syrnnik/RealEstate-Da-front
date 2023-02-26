@@ -21,6 +21,7 @@ import NotFound from '../pages/NotFound';
 import Hypothec from '../pages/Hypothec';
 import AuthProtector from "./AuthProtector";
 import CatalogList from "../pages/CatalogList";
+import Policy from "../pages/Policy";
 
 const AppRouter = () => {
 
@@ -55,6 +56,7 @@ const AppRouter = () => {
                 <Route path="password-2/:token" element={<Password2/>}/>
                 <Route path='catalog-list' element={<CatalogList/>}/>
                 <Route path="waitAccountActivation/:uuid" element={<WaitAccountActivation/>}/>
+                <Route path="policy" element={<Policy/>}/>
                 <Route path="*" element={<NotFound/>}/>
             </Route>
         </Routes>
