@@ -2,8 +2,8 @@ import React from "react";
 
 export default function Policy() {
     return (
-        <main>
-            <section className="container">
+        <main className="mb-5 py-md-4">
+            <section id="policy" className="container">
                 <h1 className="mt-4">Пользовательское Соглашение</h1>
                 <p className="mt-3 mb-3">
                     Настоящее Пользовательское Соглашение (Далее Соглашение)
