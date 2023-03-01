@@ -375,7 +375,7 @@ export default function Advertise() {
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
         const isInValidLivingArea = data?.livingArea < 0;
         const isInValidKitchenArea = data?.kitchenArea < 0;
-        const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
+        const isInValidFloor = data?.floor === undefined || data?.floor < 0;
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidImage = image === undefined
@@ -653,7 +653,7 @@ export default function Advertise() {
 
     const seterDataInComponent = useCallback((e) => {
         const name = e.target.name
-        setData(prevState => ({...prevState, [name]: e.target.value}))
+        setData(prevState => ({...prevState, [name]: e.target.value ? e.target.value : undefined}))
         if (e.target.type === 'checkbox') {
             setData(prevState => ({...prevState, [name]: e.target.checked}))
         }
