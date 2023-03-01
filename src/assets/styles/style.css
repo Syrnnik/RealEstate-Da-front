@@ -5164,3 +5164,20 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 
 /*# sourceMappingURL=style.css.map */
+#policy {
+  width: 50%;
+}
+
+ol.policy {
+  counter-reset: item
+}
+ol.policy li.policy {
+  display: block
+}
+ol.policy li.policy:before {
+  content: counters(item, ".") ". ";
+  counter-increment: item
+}
+ul.policy {
+  list-style-type: '- ' !important;
+}
