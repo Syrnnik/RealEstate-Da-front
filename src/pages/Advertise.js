@@ -2089,12 +2089,13 @@ export default function Advertise() {
                                               offset={-80} duration={300}
                                               isDynamic={true}><span>Описание и фото</span></Link>
                                     </li>
+                                    {!data?.estateTypeName?.includes('Земельные участки') &&
                                     <li data-target="anchor-4">
                                         <Link activeClass='active' to="anchor-4" spy={true} smooth={true}
                                               hashSpy={true}
                                               offset={-80} duration={300}
                                               isDynamic={true}><span>О здании</span></Link>
-                                    </li>
+                                    </li>}
                                     <li data-target="anchor-5">
                                         <Link activeClass="active" to="anchor-5" spy={true} smooth={true}
                                               hashSpy={true}
