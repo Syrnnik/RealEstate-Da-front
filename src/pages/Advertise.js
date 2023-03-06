@@ -373,9 +373,9 @@ export default function Advertise() {
         const isInValidHouseType = data.houseType === undefined
         const isInValidRoomType = data.roomType === undefined
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
-        const isInValidLivingArea = data?.livingArea < 0;
-        const isInValidKitchenArea = data?.kitchenArea < 0;
-        const isInValidFloor = data?.floor === undefined || data?.floor < 0;
+        const isInValidLivingArea = data?.livingArea < 0
+        const isInValidKitchenArea = data?.kitchenArea < 0
+        const isInValidFloor = data.floor === undefined || data.floor <= 0
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidImage = image === undefined
@@ -511,16 +511,16 @@ export default function Advertise() {
         const isInValidAddress = data.address?.length < 5 || data.address === undefined
         const isInValidHouseType = data.houseType === undefined
         const isInValidRoomType = data.roomType === undefined
-        const isInValidTotalArea = data.totalArea === undefined || data.totalArea < 0
+        const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
         const isInValidLivingArea = data?.livingArea < 0;
         const isInValidKitchenArea = data?.kitchenArea < 0;
-        const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
+        const isInValidFloor = data?.floor === undefined || data.floor <= 0
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidPrice = data.price === undefined || data?.price < 0
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
-        const isInValidCeilingHeight = data.ceilingHeight < 3 || data.ceilingHeight > 100
+        const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
         const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
         const isInValidCadastralNumber = data?.cadastralNumber === undefined
         const isInValidAcres = data?.acres === undefined
@@ -1181,7 +1181,7 @@ export default function Advertise() {
                                         placeholder="Расскажите подробне об объекте и условиях сделки."
                                         onChange={e => {
                                             setData(prevData => {
-                                                return {...prevData, "description": e.target.value}
+                                                return {...prevData, "description": e.target.value ? e.target.value : undefined}
                                             })
                                             resetFieldVal(e, 'isInValidDescription')
                                         }}/>
@@ -1432,7 +1432,7 @@ export default function Advertise() {
                                                 className="fs-11 price"
                                                 onChange={e => {
                                                     setData(prevData => {
-                                                        return {...prevData, "price": e.target.value}
+                                                        return {...prevData, "price": e.target.value ? e.target.value : undefined}
                                                     })
                                                     resetFieldVal(e, 'isInValidPrice')
                                                 }}
@@ -1622,7 +1622,7 @@ export default function Advertise() {
                                                         onChange={(e) => {
                                                             setData(prevState => ({
                                                                 ...prevState,
-                                                                cadastralNumber: e.target.value
+                                                                cadastralNumber: e.target.value ? e.target.value : undefined
                                                             }))
                                                             resetFieldVal(e, 'isInValidCadastralNumber')
                                                         }}
@@ -1931,7 +1931,7 @@ export default function Advertise() {
                                                         onChange={(e) => {
                                                             setData(prevState => ({
                                                                 ...prevState,
-                                                                cadastralNumber: e.target.value
+                                                                cadastralNumber: e.target.value ? e.target.value : undefined
                                                             }))
                                                             resetFieldVal(e, 'isInValidCadastralNumber')
                                                         }}
@@ -2089,7 +2089,7 @@ export default function Advertise() {
                                               offset={-80} duration={300}
                                               isDynamic={true}><span>Описание и фото</span></Link>
                                     </li>
-                                    {!data?.estateTypeName?.includes('Земельные участки') &&
+                                    {!data?.estateTypeName?.toLowerCase().includes('земельные участки') &&
                                     <li data-target="anchor-4">
                                         <Link activeClass='active' to="anchor-4" spy={true} smooth={true}
                                               hashSpy={true}
