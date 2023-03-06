@@ -373,9 +373,9 @@ export default function Advertise() {
         const isInValidHouseType = data.houseType === undefined
         const isInValidRoomType = data.roomType === undefined
         const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
-        const isInValidLivingArea = data?.livingArea < 0;
-        const isInValidKitchenArea = data?.kitchenArea < 0;
-        const isInValidFloor = data?.floor === undefined || data?.floor < 0;
+        const isInValidLivingArea = data?.livingArea < 0
+        const isInValidKitchenArea = data?.kitchenArea < 0
+        const isInValidFloor = data.floor === undefined || data.floor <= 0
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidImage = image === undefined
@@ -511,16 +511,16 @@ export default function Advertise() {
         const isInValidAddress = data.address?.length < 5 || data.address === undefined
         const isInValidHouseType = data.houseType === undefined
         const isInValidRoomType = data.roomType === undefined
-        const isInValidTotalArea = data.totalArea === undefined || data.totalArea < 0
+        const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
         const isInValidLivingArea = data?.livingArea < 0;
         const isInValidKitchenArea = data?.kitchenArea < 0;
-        const isInValidFloor = data["floor"] === undefined || data?.floor < 0;
+        const isInValidFloor = data?.floor === undefined || data.floor <= 0
         const isInValidMaxFloor = data?.maxFloor < 0;
         const isInValidDescription = data.description?.length < 30 || data.description === undefined
         const isInValidPrice = data.price === undefined || data?.price < 0
         const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
         const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
-        const isInValidCeilingHeight = data.ceilingHeight < 3 || data.ceilingHeight > 100
+        const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
         const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
         const isInValidCadastralNumber = data?.cadastralNumber === undefined
         const isInValidAcres = data?.acres === undefined
@@ -683,6 +683,14 @@ export default function Advertise() {
         setBtnRadio(prevState => ({...prevState, [name]: +(e.target.value)}))
     })
 
+    const advertiseSteps = [
+        { title: "Тип объявления" },
+        { title: "Об объекте" },
+        { title: "Описание и фото" },
+        { title: "О здании" },
+        { title: "Условия сделки" },
+    ]
+
     return (
         <main>
             <div className="container py-3 py-sm-4 py-lg-5">
@@ -707,33 +715,16 @@ export default function Advertise() {
                     noValidate
                 >
                     <div className="mob-indicator">
-                        <div
-                            className={(activeField === 1) ? 'active' : ''}
-                        >
-                            1
-                        </div>
-                        <div
-                            className={(activeField === 2) ? 'active' : ''}
-                        >
-                            2
-                        </div>
-                        <div
-                            className={(activeField === 3) ? 'active' : ''}
-                            style={{backgroundColor: (valid?.isInValidDescription || valid?.isInValidImage || valid?.isInValidAddress) ? '#DA1E2A' : ''}}
-                        >
-                            3
-                        </div>
-                        <div
-                            className={(activeField === 4) ? 'active' : ''}
-                        >
-                            4
-                        </div>
-                        <div
-                            className={(activeField === 5) ? 'active' : ''}
-                            style={{backgroundColor: valid?.isInValidPrice ? '#DA1E2A' : ''}}
-                        >
-                            5
-                        </div>
+                        {advertiseSteps?.map(( { title }, index ) => {
+                            if (data?.estateTypeName?.toLowerCase().includes('земельные участки') && index == 3) {
+                                advertiseSteps.pop(index)
+                            }
+                            return (
+                                <div className={(activeField === index+1) ? 'active' : ''}>
+                                    {index+1}
+                                </div>
+                            )
+                        })}
                     </div>
                     <div className="col-lg-9">
                         <fieldset
@@ -1181,7 +1172,7 @@ export default function Advertise() {
                                         placeholder="Расскажите подробне об объекте и условиях сделки."
                                         onChange={e => {
                                             setData(prevData => {
-                                                return {...prevData, "description": e.target.value}
+                                                return {...prevData, "description": e.target.value ? e.target.value : undefined}
                                             })
                                             resetFieldVal(e, 'isInValidDescription')
                                         }}/>
@@ -1432,7 +1423,7 @@ export default function Advertise() {
                                                 className="fs-11 price"
                                                 onChange={e => {
                                                     setData(prevData => {
-                                                        return {...prevData, "price": e.target.value}
+                                                        return {...prevData, "price": e.target.value ? e.target.value : undefined}
                                                     })
                                                     resetFieldVal(e, 'isInValidPrice')
                                                 }}
@@ -1622,7 +1613,7 @@ export default function Advertise() {
                                                         onChange={(e) => {
                                                             setData(prevState => ({
                                                                 ...prevState,
-                                                                cadastralNumber: e.target.value
+                                                                cadastralNumber: e.target.value ? e.target.value : undefined
                                                             }))
                                                             resetFieldVal(e, 'isInValidCadastralNumber')
                                                         }}
@@ -1931,7 +1922,7 @@ export default function Advertise() {
                                                         onChange={(e) => {
                                                             setData(prevState => ({
                                                                 ...prevState,
-                                                                cadastralNumber: e.target.value
+                                                                cadastralNumber: e.target.value ? e.target.value : undefined
                                                             }))
                                                             resetFieldVal(e, 'isInValidCadastralNumber')
                                                         }}
@@ -2065,43 +2056,24 @@ export default function Advertise() {
                         <aside>
                             <nav className="contents mb-4 mb-lg-5">
                                 <ol>
-                                    <li data-target="anchor-1">
-                                        <Link
-                                            activeClass="active"
-                                            to="anchor-1"
-                                            spy={true}
-                                            smooth={true}
-                                            hashSpy={true}
-                                            offset={-80} duration={300}
-                                            isDynamic={true}>
-                                            <span>Тип объявления</span>
-                                        </Link>
-                                    </li>
-                                    <li data-target="anchor-2">
-                                        <Link activeClass="active" to="anchor-2" spy={true} smooth={true}
-                                              hashSpy={true}
-                                              offset={-80} duration={300}
-                                              isDynamic={true}><span>Об объекте</span></Link>
-                                    </li>
-                                    <li data-target="anchor-3">
-                                        <Link activeClass="active" to="anchor-3" spy={true} smooth={true}
-                                              hashSpy={true}
-                                              offset={-80} duration={300}
-                                              isDynamic={true}><span>Описание и фото</span></Link>
-                                    </li>
-                                    {!data?.estateTypeName?.includes('Земельные участки') &&
-                                    <li data-target="anchor-4">
-                                        <Link activeClass='active' to="anchor-4" spy={true} smooth={true}
-                                              hashSpy={true}
-                                              offset={-80} duration={300}
-                                              isDynamic={true}><span>О здании</span></Link>
-                                    </li>}
-                                    <li data-target="anchor-5">
-                                        <Link activeClass="active" to="anchor-5" spy={true} smooth={true}
-                                              hashSpy={true}
-                                              offset={-80} duration={300}
-                                              isDynamic={true}><span>Условия сделки</span></Link>
-                                    </li>
+                                    {advertiseSteps?.map(( { title }, index ) => {
+                                        if (data?.estateTypeName?.toLowerCase().includes('земельные участки') && index == 3) return;
+                                        return (
+                                            <li data-target={`anchor-${index+1}`}>
+                                                <Link
+                                                    activeClass="active"
+                                                    to={`anchor-${index+1}`}
+                                                    spy={true}
+                                                    smooth={true}
+                                                    hashSpy={true}
+                                                    offset={-80} duration={300}
+                                                    isDynamic={true}
+                                                >
+                                                    <span>{title}</span>
+                                                </Link>
+                                            </li>
+                                        )
+                                    })}
                                 </ol>
                             </nav>
                             <div className="faster">
