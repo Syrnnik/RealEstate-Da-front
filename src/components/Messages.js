@@ -162,7 +162,6 @@ const Messages = ({conversationId, conversationUser, isConnected}) => {
             })
 
             socketInstance.on(messageListeners.viewed, () => {
-                console.log('viewed')
                 setMessages(prev => ({
                     ...prev,
                     items: prev.items.map(item => ({...item, isViewed: true}))
