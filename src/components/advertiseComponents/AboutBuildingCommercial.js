@@ -5,6 +5,7 @@ const AboutBuildingCommercial = (
         onChange,
         activeField,
         seterActiveField,
+        isValid,
         info,
         seterRadio
     }) => {
@@ -384,7 +385,12 @@ const AboutBuildingCommercial = (
                 </div>
                 <div>
                     <button type="button" className="btn btn-1 w-100"
-                            onClick={() => seterActiveField(5)}>Далее
+                            onClick={() => {
+                                if (isValid(activeField))
+                                    seterActiveField(5)
+                            }}
+                    >
+                        Далее
                     </button>
                 </div>
             </div>

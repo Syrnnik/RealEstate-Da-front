@@ -5,6 +5,7 @@ const AboutCommercial = (
         onChange,
         activeField,
         seterActiveField,
+        isValid,
         valid,
         resetValid,
         info,
@@ -121,7 +122,12 @@ const AboutCommercial = (
                 </div>
                 <div>
                     <button type="button" className="btn btn-1 w-100"
-                            onClick={() => seterActiveField(3)}>Далее
+                            onClick={() => {
+                                if (isValid(activeField))
+                                    seterActiveField(3)
+                            }}
+                    >
+                        Далее
                     </button>
                 </div>
             </div>

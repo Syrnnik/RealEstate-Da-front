@@ -365,6 +365,161 @@ export default function Advertise() {
         return years.find(i => i === +data?.yearOfConstruction)
     }
 
+    const isValid = (curField) => {
+        const isInValidEstateId = data.estateId === undefined || data.estateId === 0
+        const isInValidTransactionType = data.transactionType === undefined
+        const isInValidAddress = data.address?.length < 5 || data.address === undefined
+        const isInValidHouseType = data.houseType === undefined
+        const isInValidRoomType = data.roomType === undefined
+        const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
+        const isInValidLivingArea = data?.livingArea < 0
+        const isInValidKitchenArea = data?.kitchenArea < 0
+        const isInValidFloor = data.floor === undefined || data.floor <= 0
+        const isInValidMaxFloor = data?.maxFloor < 0;
+        const isInValidDescription = data.description?.length < 30 || data.description === undefined
+        const isInValidImage = image === undefined
+        const isInValidPrice = data.price === undefined || data?.price < 0
+        const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
+        const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
+        const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
+        const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
+        const isInValidCadastralNumber = data?.cadastralNumber === undefined
+        const isInValidAcres = data?.acres === undefined
+        const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
+        const isInValidBuildingType = data?.buildingType === undefined
+
+        // Step 1
+        if (curField === 1) {
+            console.log("isInValidTransactionType", isInValidTransactionType)
+            console.log("isInValidEstateTypeId", isInValidEstateTypeId)
+            console.log("isInValidEstateId", isInValidEstateId)
+            if (isInValidTransactionType) {
+                scroll.scrollTo("anchor-1")
+                setValid({...valid, isInValidTransactionType: true})
+            } else if (isInValidEstateTypeId) {
+                scroll.scrollTo("anchor-1")
+                setValid({...valid, isInValidEstateTypeId: true})
+            } else if (isInValidEstateId) {
+                scroll.scrollTo("anchor-1")
+                setValid({...valid, isInValidEstateId: true})
+            }  else
+                return true;
+        }
+        
+        // Step 2
+        else if (curField === 2) {
+            if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidHouseType) {
+                console.log("isInValidHouseType", isInValidHouseType)
+                scroller.scrollTo("anchor-2", {offset: -80})
+                setValid({...valid, isInValidHouseType: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('коммерческая недвижимость') && isInValidBuildingType) {
+                console.log("isInValidBuildingType", isInValidBuildingType)
+                scroller.scrollTo("anchor-2", {offset: -80})
+                setValid({...valid, isInValidBuildingType: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidRoomType) {
+                console.log("isInValidRoomType", isInValidRoomType)
+                scroller.scrollTo("anchor-2")
+                setValid({...valid, isInValidRoomType: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidTotalArea) {
+                console.log("isInValidTotalArea", isInValidTotalArea)
+                scroller.scrollTo("anchor-2")
+                setValid({...valid, isInValidTotalArea: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidLivingArea) {
+                console.log("isInValidLivingArea", isInValidLivingArea)
+                scroller.scrollTo("anchor-2")
+                setValid({...valid, isInValidLivingArea: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidKitchenArea) {
+                console.log("isInValidKitchenArea", isInValidKitchenArea)
+                scroller.scrollTo("anchor-2")
+                setValid({...valid, isInValidKitchenArea: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidFloor) {
+                console.log("isInValidFloor", isInValidFloor)
+                scroller.scrollTo("anchor-2")
+                setValid({...valid, isInValidFloor: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidMaxFloor) {
+                console.log("isInValidMaxFloor", isInValidMaxFloor)
+                scroller.scrollTo("anchor-2")
+                setValid({...valid, isInValidMaxFloor: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('земельные участки') && isInValidAcres) {
+                console.log("isInValidAcres", isInValidAcres)
+                scroller.scrollTo("anchor-2")
+                setValid({...valid, isInValidAcres: true})
+                return false
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж') && isInValidTotalAreaParking) {
+                console.log("isInValidTotalAreaParking", isInValidTotalAreaParking)
+                scroller.scrollTo("anchor-2")
+                setValid({...valid, isInValidTotalAreaParking: true})
+                return false
+            } else
+                return true;
+        }
+        
+        // Step 3
+        else if (curField === 3) {
+            console.log("isInValidAddress", isInValidAddress)
+            console.log("isInValidDescription", isInValidDescription)
+            console.log("isInValidImage", isInValidImage)
+            if (isInValidAddress) {
+                scroller.scrollTo("anchor-3", {offset: -80})
+                setValid({...valid, isInValidAddress: true})
+            } else if (isInValidDescription) {
+                scroller.scrollTo("anchor-3", {offset: -80})
+                setValid({...valid, isInValidDescription: true})
+            } else if (isInValidImage) {
+                scroller.scrollTo("anchor-3", {offset: -80})
+                setValid({...valid, isInValidImage: true})
+            } else
+                return true;
+        }
+        
+        // Step 4
+        else if (curField === 4) {
+            console.log("isInValidYear", isInValidYear)
+            console.log("isInValidCeilingHeight", isInValidCeilingHeight)
+            if ((
+                    data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты')
+                    ||
+                    data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж')
+                )
+                && isInValidYear) {
+                scroller.scrollTo("anchor-4", {offset: -80})
+                setValid({...valid, isInValidYear: true})
+            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidCeilingHeight) {
+                scroller.scrollTo("anchor-4", {offset: -80})
+                setValid({...valid, isInValidCeilingHeight: true})
+            } else
+                return true;
+        }
+        
+        // Step 5
+        else if (curField === 5) {
+            console.log("isInValidPrice", isInValidPrice)
+            console.log("isInValidCommission", isInValidCommission)
+            console.log("isInValidCadastralNumber", isInValidCadastralNumber)
+            if (isInValidPrice) {
+                scroller.scrollTo("anchor-5")
+                setValid({...valid, isInValidPrice: true})
+            } else if (isInValidCommission) {
+                scroller.scrollTo("anchor-5")
+                setValid({...valid, isInValidCommission: true})
+            } else if (isInValidCadastralNumber) {
+                scroller.scrollTo("anchor-5")
+                setValid({...valid, isInValidCadastralNumber: true})
+            } else
+                return true;
+        }
+
+        return false;
+    }
+
     const handleSub = (e) => {
         e.preventDefault()
         const isInValidEstateId = data.estateId === undefined || data.estateId === 0
@@ -716,11 +871,25 @@ export default function Advertise() {
                 >
                     <div className="mob-indicator">
                         {advertiseSteps?.map(( { title }, index ) => {
-                            if (data?.estateTypeName?.toLowerCase().includes('земельные участки') && index == 3) {
+                            if (data?.estateTypeName?.toLowerCase() === 'земельные участки' && index === 3) {
                                 advertiseSteps.pop(index)
                             }
                             return (
-                                <div className={(activeField === index+1) ? 'active' : ''}>
+                                <div
+                                    className={
+                                        (activeField === index + 1)
+                                        ||
+                                        (
+                                            index === 3
+                                            &&
+                                            activeField === 5
+                                            &&
+                                            data?.estateTypeName?.toLowerCase() === 'земельные участки'
+                                        )
+                                        ? 'active'
+                                        : ''
+                                    }
+                                >
                                     {index+1}
                                 </div>
                             )
@@ -1022,8 +1191,10 @@ export default function Advertise() {
                                     <button
                                         type="button"
                                         className="btn btn-1 w-100"
-                                        disabled={data?.estateTypeId === undefined}
-                                        onClick={() => setActiveField(2)}
+                                        onClick={() => {
+                                            if (isValid(activeField))
+                                                setActiveField(2)
+                                        }}
                                     >
                                         Далее
                                     </button>
@@ -1073,6 +1244,7 @@ export default function Advertise() {
                                 estateName={data?.estateName}
                                 onChange={seterDataInComponent}
                                 seterActiveField={seterActiveField}
+                                isValid={isValid}
                             />
                         }
                         {
@@ -1082,6 +1254,7 @@ export default function Advertise() {
                                 resetValid={resetValid}
                                 activeField={activeField}
                                 seterActiveField={seterActiveField}
+                                isValid={isValid}
                                 onChange={seterDataInComponent}
                                 info={{
                                     buildingType: btnRadio?.buildingType
@@ -1104,6 +1277,7 @@ export default function Advertise() {
                                 }}
                                 seterRadio={seterRadioBtns}
                                 seterActiveField={seterActiveField}
+                                isValid={isValid}
                                 onChange={seterDataInComponent}
                             />
                         }
@@ -1118,6 +1292,7 @@ export default function Advertise() {
                                     cityDistance: data?.cityDistance
                                 }}
                                 seterActiveField={seterActiveField}
+                                isValid={isValid}
                                 onChange={seterDataInComponent}
                             />
                         }
@@ -1324,13 +1499,28 @@ export default function Advertise() {
                             <div
                                 className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4">
                                 <div>
-                                    <button type="button" className="btn btn-2 w-100"
-                                            onClick={() => setActiveField(2)}>Назад
+                                    <button
+                                        type="button"
+                                        className="btn btn-2 w-100"
+                                        onClick={() => setActiveField(activeField - 1)}
+                                    >
+                                        Назад
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="button" className="btn btn-1 w-100"
-                                            onClick={() => setActiveField((data?.estateTypeName?.toLowerCase() === 'земельные участки') ? 5 : 4)}>Далее
+                                    <button
+                                        type="button"
+                                        className="btn btn-1 w-100"
+                                        onClick={() => {
+                                            if (isValid(activeField))
+                                                setActiveField(
+                                                    (data?.estateTypeName?.toLowerCase() === 'земельные участки')
+                                                    ? 5
+                                                    : 4
+                                                )
+                                        }}
+                                    >
+                                        Далее
                                     </button>
                                 </div>
                             </div>
@@ -1343,6 +1533,7 @@ export default function Advertise() {
                                 valid={valid}
                                 activeField={activeField}
                                 seterActiveField={seterActiveField}
+                                isValid={isValid}
                                 onChange={seterDataInComponent}
                                 info={{
                                     yearOfConstruction: data?.yearOfConstruction,
@@ -1365,6 +1556,7 @@ export default function Advertise() {
                             <AboutBuildingCommercial
                                 activeField={activeField}
                                 seterActiveField={seterActiveField}
+                                isValid={isValid}
                                 onChange={seterDataInComponent}
                                 info={{
                                     yearOfConstruction: data?.yearOfConstruction,
@@ -1390,6 +1582,7 @@ export default function Advertise() {
                                 resetValid={resetValid}
                                 activeField={activeField}
                                 seterActiveField={seterActiveField}
+                                isValid={isValid}
                                 onChange={seterDataInComponent}
                                 info={{
                                     yearOfConstruction: data?.yearOfConstruction,
@@ -1996,8 +2189,16 @@ export default function Advertise() {
                             <div
                                 className="d-lg-none row row-cols-2 row-cols-sm-3 justify-content-center gx-2 gx-sm-4 mt-4">
                                 <div>
-                                    <button type="button" className="btn btn-2 w-100"
-                                            onClick={() => setActiveField((data?.estateTypeName?.toLowerCase() === 'земельные участки') ? 3 : 4)}>Назад
+                                    <button
+                                        type="button"
+                                        className="btn btn-2 w-100"
+                                        onClick={() => setActiveField(
+                                            (data?.estateTypeName?.toLowerCase() === 'земельные участки')
+                                            ? activeField - 2
+                                            : activeField - 1
+                                        )}
+                                    >
+                                        Назад
                                     </button>
                                 </div>
                                 <div>
@@ -2057,7 +2258,7 @@ export default function Advertise() {
                             <nav className="contents mb-4 mb-lg-5">
                                 <ol>
                                     {advertiseSteps?.map(( { title }, index ) => {
-                                        if (data?.estateTypeName?.toLowerCase().includes('земельные участки') && index == 3) return;
+                                        if (data?.estateTypeName?.toLowerCase() === 'земельные участки' && index === 3) return;
                                         return (
                                             <li data-target={`anchor-${index+1}`}>
                                                 <Link
