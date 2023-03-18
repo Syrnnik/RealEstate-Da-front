@@ -3,5 +3,5 @@ export const localEstates = {
     parking: 'паркинг гараж',
     zemelia: 'земельные участки',
     commer: 'коммерческая недвижимость',
-    dom: 'дом',
+    dom: 'дом дача',
 }
