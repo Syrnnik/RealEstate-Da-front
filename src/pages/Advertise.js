@@ -723,11 +723,11 @@ export default function Advertise() {
     })
 
     const advertiseSteps = [
-        { title: "Тип объявления" },
-        { title: "Об объекте" },
-        { title: "Описание и фото" },
-        { title: "О здании" },
-        { title: "Условия сделки" },
+        { index: 0, title: "Тип объявления" },
+        { index: 1, title: "Об объекте" },
+        { index: 2, title: "Описание и фото" },
+        { index: 3, title: "О здании" },
+        { index: 4, title: "Условия сделки" },
     ]
 
     return (
@@ -754,25 +754,36 @@ export default function Advertise() {
                     noValidate
                 >
                     <div className="mob-indicator">
-                        {advertiseSteps?.map(( { title }, index ) => {
-                            if (data?.estateTypeName?.toLowerCase() === localEstates.zemelia &&
+                        {advertiseSteps?.map(( { index, title } ) => {
+                            if (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
                                 index === 3) {
                                 advertiseSteps.pop(index)
+                                // return
                             }
                             return (
                                 <div
                                     className={
                                         (activeField === index + 1) ||
                                         (
-                                            index === 3 &&
+                                            data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
                                             activeField === 5 &&
-                                            data?.estateTypeName?.toLowerCase() === localEstates.zemelia
+                                            index === 3
                                         )
                                         ? 'active'
                                         : ''
                                     }
+                                    onClick={() => {
+                                        if ((index + 1) < activeField || isValid(activeField))
+                                            if (
+                                                data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
+                                                index === 3
+                                            )
+                                                setActiveField(index + 2)
+                                            else
+                                                setActiveField(index + 1)
+                                    }}
                                 >
-                                    {index+1}
+                                    {index + 1}
                                 </div>
                             )
                         })}
