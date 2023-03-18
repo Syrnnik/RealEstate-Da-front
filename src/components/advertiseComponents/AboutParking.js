@@ -18,8 +18,7 @@ const AboutParking = (
                   className="element frame p-lg-4 mb-4 mb-lg-5">
             <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">Об объекте
             </legend>
-            {
-                estateName?.toLowerCase() === 'паркинг' &&
+            {estateName?.toLowerCase() === 'паркинг' &&
                     <div className="row align-items-center">
                         <div className="col-md-3 fs-11 title mt-4 mt-sm-5 mb-3 m-md-0">Название ЖК:</div>
                         <div className="col-md-9">
@@ -34,8 +33,7 @@ const AboutParking = (
                         </div>
                     </div>
             }
-            {
-                estateName?.toLowerCase() === 'гараж' &&
+            {estateName?.toLowerCase() === 'гараж' &&
                 <>
                     <div className="row">
                         <div
@@ -89,7 +87,7 @@ const AboutParking = (
                     <span
                         data-for="total-area"
                         data-status={false}
-                        style={{color: valid.isInValidTotalAreaParking ? '#DA1E2A' : ''}}
+                        style={{color: valid.isInValidTotalArea ? '#DA1E2A' : ''}}
                     >
                         Общая площадь*:
                     </span>
@@ -100,11 +98,11 @@ const AboutParking = (
                         name="totalArea"
                         value={info?.totalArea || ''}
                         placeholder="0"
-                        style={{borderColor: valid.isInValidTotalAreaParking ? '#DA1E2A' : ''}}
+                        style={{borderColor: valid.isInValidTotalArea ? '#DA1E2A' : ''}}
                         className="fs-11 area w-100"
                         onChange={(e) => {
                             onChange(e)
-                            resetValid(e)
+                            resetValid(e, 'isInValidTotalArea')
                         }}
                     />
                 </div>

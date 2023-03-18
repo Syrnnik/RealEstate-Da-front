@@ -23,7 +23,7 @@ import AdTypeResidential from "../components/advertiseComponents/AdTypeResidenti
 import AdTypeCommercial from "../components/advertiseComponents/AdTypeCommercial";
 import {AddressSuggestions} from "react-dadata";
 import env from "../config/env";
-import {fields} from "../components/advertiseComponents/fields";
+import { fields } from "../components/advertiseComponents/fields";
 import {getAdsPage} from "../API/adspage";
 import {dadataReAddress} from "../API/dadataReAddress";
 import {updateAd} from "../API/users";
@@ -385,89 +385,100 @@ export default function Advertise() {
         const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
         const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
         const isInValidCadastralNumber = data?.cadastralNumber === undefined
-        const isInValidAcres = data?.acres === undefined
-        const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
+        const isInValidAcres = data?.acres === undefined || data?.acres <= 0
         const isInValidBuildingType = data?.buildingType === undefined
+        const isInValidParking = data?.hasGroundParking === undefined || data?.hasUnderGroundParking === undefined
 
         // Step 1
         if (curField === 1) {
-            console.log("isInValidTransactionType", isInValidTransactionType)
-            console.log("isInValidEstateTypeId", isInValidEstateTypeId)
-            console.log("isInValidEstateId", isInValidEstateId)
             if (isInValidTransactionType) {
-                scroll.scrollTo("anchor-1")
+                scroll.scrollTo("anchor-1", {offset: -80})
                 setValid({...valid, isInValidTransactionType: true})
             } else if (isInValidEstateTypeId) {
-                scroll.scrollTo("anchor-1")
+                scroll.scrollTo("anchor-1", {offset: -80})
                 setValid({...valid, isInValidEstateTypeId: true})
             } else if (isInValidEstateId) {
-                scroll.scrollTo("anchor-1")
+                scroll.scrollTo("anchor-1", {offset: -80})
                 setValid({...valid, isInValidEstateId: true})
             }  else
-                return true;
+                return true
         }
         
         // Step 2
         else if (curField === 2) {
-            if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidHouseType) {
-                console.log("isInValidHouseType", isInValidHouseType)
+            if (
+                data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) &&
+                isInValidHouseType
+            ) {
                 scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidHouseType: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) && isInValidBuildingType) {
-                console.log("isInValidBuildingType", isInValidBuildingType)
+            } else if (
+                data?.estateTypeName?.toLowerCase().includes(localEstates.commer) &&
+                isInValidBuildingType
+            ) {
                 scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidBuildingType: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidRoomType) {
-                console.log("isInValidRoomType", isInValidRoomType)
-                scroller.scrollTo("anchor-2")
+            } else if (
+                (data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) ||
+                data?.estateTypeName?.toLowerCase().includes(localEstates.dom)) &&
+                isInValidRoomType
+            ) {
+                scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidRoomType: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidTotalArea) {
-                console.log("isInValidTotalArea", isInValidTotalArea)
-                scroller.scrollTo("anchor-2")
+            } else if (
+                (data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) ||
+                data?.estateTypeName?.toLowerCase().includes(localEstates.parking) ||
+                data?.estateTypeName?.toLowerCase().includes(localEstates.dom)) &&
+                isInValidTotalArea
+            ) {
+                scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidTotalArea: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidLivingArea) {
-                console.log("isInValidLivingArea", isInValidLivingArea)
-                scroller.scrollTo("anchor-2")
+            } else if (
+                data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+                isInValidLivingArea
+            ) {
+                scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidLivingArea: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidKitchenArea) {
-                console.log("isInValidKitchenArea", isInValidKitchenArea)
-                scroller.scrollTo("anchor-2")
+            } else if (
+                data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+                isInValidKitchenArea
+            ) {
+                scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidKitchenArea: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidFloor) {
-                console.log("isInValidFloor", isInValidFloor)
-                scroller.scrollTo("anchor-2")
+            } else if (
+                (data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) ||
+                data?.estateTypeName?.toLowerCase().includes(localEstates.dom)) &&
+                isInValidFloor
+            ) {
+                scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidFloor: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidMaxFloor) {
-                console.log("isInValidMaxFloor", isInValidMaxFloor)
-                scroller.scrollTo("anchor-2")
+            } else if (
+                data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+                isInValidMaxFloor
+            ) {
+                scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidMaxFloor: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && isInValidAcres) {
-                console.log("isInValidAcres", isInValidAcres)
-                scroller.scrollTo("anchor-2")
+            } else if (
+                data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
+                isInValidAcres
+            ) {
+                scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidAcres: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking) && isInValidTotalAreaParking) {
-                console.log("isInValidTotalAreaParking", isInValidTotalAreaParking)
-                scroller.scrollTo("anchor-2")
-                setValid({...valid, isInValidTotalAreaParking: true})
-                return false
             } else
-                return true;
+                return true
         }
         
         // Step 3
         else if (curField === 3) {
-            console.log("isInValidAddress", isInValidAddress)
-            console.log("isInValidDescription", isInValidDescription)
-            console.log("isInValidImage", isInValidImage)
             if (isInValidAddress) {
                 scroller.scrollTo("anchor-3", {offset: -80})
                 setValid({...valid, isInValidAddress: true})
@@ -478,44 +489,48 @@ export default function Advertise() {
                 scroller.scrollTo("anchor-3", {offset: -80})
                 setValid({...valid, isInValidImage: true})
             } else
-                return true;
+                return true
         }
         
         // Step 4
         else if (curField === 4) {
-            console.log("isInValidYear", isInValidYear)
-            console.log("isInValidCeilingHeight", isInValidCeilingHeight)
             if ((
-                    data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri)
-                    ||
+                    data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
                     data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking)
-                )
-                && isInValidYear) {
+                ) &&
+                isInValidYear
+            ) {
                 scroller.scrollTo("anchor-4", {offset: -80})
                 setValid({...valid, isInValidYear: true})
-            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidCeilingHeight) {
+            } else if (
+                data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+                isInValidCeilingHeight
+            ) {
                 scroller.scrollTo("anchor-4", {offset: -80})
                 setValid({...valid, isInValidCeilingHeight: true})
+            } else if (
+                data?.estateName.toLowerCase().includes('паркинг') &&
+                isInValidParking
+            ) {
+                scroller.scrollTo("anchor-4", {offset: -80})
+                setValid({...valid, isInValidParking: true})
             } else
-                return true;
+                return true
         }
         
         // Step 5
         else if (curField === 5) {
-            console.log("isInValidPrice", isInValidPrice)
-            console.log("isInValidCommission", isInValidCommission)
-            console.log("isInValidCadastralNumber", isInValidCadastralNumber)
             if (isInValidPrice) {
-                scroller.scrollTo("anchor-5")
+                scroller.scrollTo("anchor-5", {offset: -80})
                 setValid({...valid, isInValidPrice: true})
             } else if (isInValidCommission) {
-                scroller.scrollTo("anchor-5")
+                scroller.scrollTo("anchor-5", {offset: -80})
                 setValid({...valid, isInValidCommission: true})
             } else if (isInValidCadastralNumber) {
-                scroller.scrollTo("anchor-5")
+                scroller.scrollTo("anchor-5", {offset: -80})
                 setValid({...valid, isInValidCadastralNumber: true})
             } else
-                return true;
+                return true
         }
 
         return false;
@@ -523,98 +538,30 @@ export default function Advertise() {
 
     const handleSub = (e) => {
         e.preventDefault()
-        const isInValidEstateId = data.estateId === undefined || data.estateId === 0
-        const isInValidTransactionType = data.transactionType === undefined
-        const isInValidAddress = data.address?.length < 5 || data.address === undefined
-        const isInValidHouseType = data.houseType === undefined
-        const isInValidRoomType = data.roomType === undefined
-        const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
-        const isInValidLivingArea = data?.livingArea < 0
-        const isInValidKitchenArea = data?.kitchenArea < 0
-        const isInValidFloor = data.floor === undefined || data.floor <= 0
-        const isInValidMaxFloor = data?.maxFloor < 0;
-        const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidImage = image === undefined
-        const isInValidPrice = data.price === undefined || data?.price < 0
-        const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
-        const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
-        const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
-        const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
-        const isInValidCadastralNumber = data?.cadastralNumber === undefined
-        const isInValidAcres = data?.acres === undefined
-        const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
-        const isInValidBuildingType = data?.buildingType === undefined
+        
+        // const isInValidEstateId = data.estateId === undefined || data.estateId === 0
+        // const isInValidTransactionType = data.transactionType === undefined
+        // const isInValidAddress = data.address?.length < 5 || data.address === undefined
+        // const isInValidHouseType = data.houseType === undefined
+        // const isInValidRoomType = data.roomType === undefined
+        // const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
+        // const isInValidLivingArea = data?.livingArea < 0
+        // const isInValidKitchenArea = data?.kitchenArea < 0
+        // const isInValidFloor = data.floor === undefined || data.floor <= 0
+        // const isInValidMaxFloor = data?.maxFloor < 0;
+        // const isInValidDescription = data.description?.length < 30 || data.description === undefined
+        // const isInValidImage = image === undefined
+        // const isInValidPrice = data.price === undefined || data?.price < 0
+        // const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
+        // const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
+        // const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
+        // const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
+        // const isInValidCadastralNumber = data?.cadastralNumber === undefined
+        // const isInValidAcres = data?.acres === undefined
+        // const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
+        // const isInValidBuildingType = data?.buildingType === undefined
 
-        if (isInValidTransactionType) {
-            scroll.scrollTo("anchor-1")
-            setValid({...valid, isInValidTransactionType: true})
-        } else if (isInValidEstateTypeId) {
-            scroll.scrollTo("anchor-1")
-            setValid({...valid, isInValidEstateTypeId: true})
-        } else if (isInValidEstateId) {
-            scroll.scrollTo("anchor-1")
-            setValid({...valid, isInValidEstateId: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidHouseType) {
-            scroller.scrollTo("anchor-2", {offset: -80})
-            setValid({...valid, isInValidHouseType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) && isInValidBuildingType) {
-            scroller.scrollTo("anchor-2", {offset: -80})
-            setValid({...valid, isInValidBuildingType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidRoomType) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidRoomType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidTotalArea) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidTotalArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidLivingArea) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidLivingArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidKitchenArea) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidKitchenArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidFloor) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidFloor: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidMaxFloor) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidMaxFloor: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && isInValidAcres) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidAcres: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking) && isInValidTotalAreaParking) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidTotalAreaParking: true})
-        } else if (isInValidAddress) {
-            scroller.scrollTo("anchor-3", {offset: -80})
-            setValid({...valid, isInValidAddress: true})
-        } else if (isInValidDescription) {
-            scroller.scrollTo("anchor-3", {offset: -80})
-            setValid({...valid, isInValidDescription: true})
-        } else if (isInValidImage) {
-            scroller.scrollTo("anchor-3", {offset: -80})
-            setValid({...valid, isInValidImage: true})
-        } else if (
-            (
-                data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
-                data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking)
-            )
-            && isInValidYear) {
-            scroller.scrollTo("anchor-4", {offset: -80})
-            setValid({...valid, isInValidYear: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidCeilingHeight) {
-            scroller.scrollTo("anchor-4", {offset: -80})
-            setValid({...valid, isInValidCeilingHeight: true})
-        } else if (isInValidPrice) {
-            scroller.scrollTo("anchor-5")
-            setValid({...valid, isInValidPrice: true})
-        } else if (isInValidCommission) {
-            scroller.scrollTo("anchor-5")
-            setValid({...valid, isInValidCommission: true})
-        } else if (isInValidCadastralNumber) {
-            scroller.scrollTo("anchor-5")
-            setValid({...valid, isInValidCadastralNumber: true})
-        } else {
-
+        if (isValid(1) && isValid(2) && isValid(3) && isValid(4) && isValid(5)) {
             const userId = currentUser?.id;
             const formData = new FormData();
             let req ;
@@ -662,93 +609,29 @@ export default function Advertise() {
 
     const onSubmitUpdateAd = (e) => {
         e.preventDefault()
-        const isInValidEstateId = data.estateId === undefined || data.estateId === 0
-        const isInValidTransactionType = data.transactionType === undefined
-        const isInValidAddress = data.address?.length < 5 || data.address === undefined
-        const isInValidHouseType = data.houseType === undefined
-        const isInValidRoomType = data.roomType === undefined
-        const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
-        const isInValidLivingArea = data?.livingArea < 0;
-        const isInValidKitchenArea = data?.kitchenArea < 0;
-        const isInValidFloor = data?.floor === undefined || data.floor <= 0
-        const isInValidMaxFloor = data?.maxFloor < 0;
-        const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        const isInValidPrice = data.price === undefined || data?.price < 0
-        const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
-        const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
-        const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
-        const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
-        const isInValidCadastralNumber = data?.cadastralNumber === undefined
-        const isInValidAcres = data?.acres === undefined
-        const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
-        const isInValidBuildingType = data?.buildingType === undefined
 
-        if (isInValidTransactionType) {
-            scroll.scrollTo("anchor-1")
-            setValid({...valid, isInValidTransactionType: true})
-        } else if (isInValidEstateTypeId) {
-            scroll.scrollTo("anchor-1")
-            setValid({...valid, isInValidEstateTypeId: true})
-        } else if (isInValidEstateId) {
-            scroll.scrollTo("anchor-1")
-            setValid({...valid, isInValidEstateId: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidHouseType) {
-            scroller.scrollTo("anchor-2", {offset: -80})
-            setValid({...valid, isInValidHouseType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) && isInValidBuildingType) {
-            scroller.scrollTo("anchor-2", {offset: -80})
-            setValid({...valid, isInValidBuildingType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidRoomType) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidRoomType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidTotalArea) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidTotalArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidLivingArea) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidLivingArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidKitchenArea) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidKitchenArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidFloor) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidFloor: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidMaxFloor) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidMaxFloor: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && isInValidAcres) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidAcres: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking) && isInValidTotalAreaParking) {
-            scroller.scrollTo("anchor-2")
-            setValid({...valid, isInValidTotalAreaParking: true})
-        } else if (isInValidAddress) {
-            scroller.scrollTo("anchor-3", {offset: -80})
-            setValid({...valid, isInValidAddress: true})
-        } else if (isInValidDescription) {
-            scroller.scrollTo("anchor-3", {offset: -80})
-            setValid({...valid, isInValidDescription: true})
-        } else if (
-            (
-                data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
-                data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking)
-            )
-            && isInValidYear) {
-            scroller.scrollTo("anchor-4", {offset: -80})
-            setValid({...valid, isInValidYear: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidCeilingHeight) {
-            scroller.scrollTo("anchor-4", {offset: -80})
-            setValid({...valid, isInValidCeilingHeight: true})
-        } else if (isInValidPrice) {
-            scroller.scrollTo("anchor-5")
-            setValid({...valid, isInValidPrice: true})
-        } else if (isInValidCommission) {
-            scroller.scrollTo("anchor-5")
-            setValid({...valid, isInValidCommission: true})
-        } else if (isInValidCadastralNumber) {
-            scroller.scrollTo("anchor-5")
-            setValid({...valid, isInValidCadastralNumber: true})
-        } else {
+        // const isInValidEstateId = data.estateId === undefined || data.estateId === 0
+        // const isInValidTransactionType = data.transactionType === undefined
+        // const isInValidAddress = data.address?.length < 5 || data.address === undefined
+        // const isInValidHouseType = data.houseType === undefined
+        // const isInValidRoomType = data.roomType === undefined
+        // const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
+        // const isInValidLivingArea = data?.livingArea < 0;
+        // const isInValidKitchenArea = data?.kitchenArea < 0;
+        // const isInValidFloor = data?.floor === undefined || data.floor <= 0
+        // const isInValidMaxFloor = data?.maxFloor < 0;
+        // const isInValidDescription = data.description?.length < 30 || data.description === undefined
+        // const isInValidPrice = data.price === undefined || data?.price < 0
+        // const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
+        // const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
+        // const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
+        // const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
+        // const isInValidCadastralNumber = data?.cadastralNumber === undefined
+        // const isInValidAcres = data?.acres === undefined
+        // const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
+        // const isInValidBuildingType = data?.buildingType === undefined
+
+        if (isValid(1) && isValid(2) && isValid(3) && isValid(4) && isValid(5)) {
             const userId = currentUser?.id;
             const formData = new FormData();
             let req;
