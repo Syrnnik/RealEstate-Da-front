@@ -1447,7 +1447,7 @@ export default function Advertise() {
                             />
                         }
                         {
-                            data?.estateTypeName?.includes(localEstates.commer) &&
+                            data?.estateTypeName?.toLowerCase().includes(localEstates.commer) &&
                             <AboutBuildingCommercial
                                 activeField={activeField}
                                 seterActiveField={seterActiveField}
