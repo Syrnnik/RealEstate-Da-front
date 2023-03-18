@@ -1,7 +1,7 @@
 export const localEstates = {
-    kvartiri: 'квартиры комнаты',
+    kvartiri: 'квартира комната',
     parking: 'паркинг гараж',
-    zemelia: 'земельные участки',
+    zemelia: 'земельный участок',
     commer: 'коммерческая недвижимость',
     dom: 'дом дача',
 }
