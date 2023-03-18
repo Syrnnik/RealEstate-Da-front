@@ -20,7 +20,8 @@ export const fields = {
     isInValidCommission: false,
     isInValidCadastralNumber: false,
     isInValidAcres: false,
-    isInValidTotalAreaParking: false,
+    // isInValidTotalAreaParking: false,
     isInValidLocationType: false,
     isInValidBuildingType: false,
+    isInValidParkingType: false,
 }
