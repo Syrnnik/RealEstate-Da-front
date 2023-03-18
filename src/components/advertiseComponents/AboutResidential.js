@@ -1,8 +1,10 @@
 import React from 'react';
+import { localEstates } from '../../helpers/localEstates';
 
 const AboutResidential = (
     {
         onChange,
+        estateTypeName,
         estateName,
         activeField,
         seterActiveField,
@@ -32,51 +34,55 @@ const AboutResidential = (
                     />
                 </div>
             </div>
-            <hr className="d-none d-md-block my-4"/>
-            <div className="row">
-                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                    <span
-                        data-for="housing-type"
-                        data-status={false}
-                        style={{color: valid?.isInValidHouseType ? '#DA1E2A' : ''}}
-                    >
-                        Тип жилья*:
-                    </span>
-                </div>
-                <div className="col-md-9">
-                    <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4">
-                        <div>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="houseType"
-                                    value={0}
-                                    checked={info?.houseType === 0}
-                                    onClick={e => seterRadio(e)}
-                                    onChange={(e) => {
-                                        onChange(e)
-                                        resetValid(e, 'isInValidHouseType')
-                                    }}
-                                />
-                                <span className="fs-11 ms-2">Квартира</span>
-                            </label>
+            {estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+                <>
+                    <hr className="d-none d-md-block my-4"/>
+                    <div className="row">
+                        <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                            <span
+                                data-for="housing-type"
+                                data-status={false}
+                                style={{color: valid?.isInValidHouseType ? '#DA1E2A' : ''}}
+                            >
+                                Тип жилья*:
+                            </span>
                         </div>
-                        <div>
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="houseType"
-                                    value={1}
-                                    checked={info?.houseType === 1}
-                                    onClick={e => seterRadio(e)}
-                                    onChange={(e) => onChange(e)}
-                                />
-                                <span className="fs-11 ms-2">Апартаменты</span>
-                            </label>
+                        <div className="col-md-9">
+                            <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4">
+                                <div>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="houseType"
+                                            value={0}
+                                            checked={info?.houseType === 0}
+                                            onClick={e => seterRadio(e)}
+                                            onChange={(e) => {
+                                                onChange(e)
+                                                resetValid(e, 'isInValidHouseType')
+                                            }}
+                                        />
+                                        <span className="fs-11 ms-2">Квартира</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="houseType"
+                                            value={1}
+                                            checked={info?.houseType === 1}
+                                            onClick={e => seterRadio(e)}
+                                            onChange={(e) => onChange(e)}
+                                        />
+                                        <span className="fs-11 ms-2">Апартаменты</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </>
+            }
             <hr className="d-none d-md-block my-4"/>
             <div className="row align-items-center">
                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
@@ -725,10 +731,7 @@ const AboutResidential = (
                         </div>
                     </div>
                 </div>
-                {
-                    (estateName?.toLowerCase() === 'дом' ||
-                    estateName?.toLowerCase() === 'дача' ||
-                    estateName?.toLowerCase() === 'коттедж') &&
+                {estateTypeName?.toLowerCase().includes(localEstates.dom) &&
                     <>
                         <hr className="d-none d-md-block my-4"/>
                         <div className="row mt-4 mt-sm-5 mt-md-0">

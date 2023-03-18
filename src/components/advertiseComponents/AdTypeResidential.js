@@ -1,15 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
+import { localEstates } from '../../helpers/localEstates';
 
-const AdTypeResidential = ({estateName, onChange, info, seterRadio}) => {
+const AdTypeResidential = ({estateTypeName, onChange, info, seterRadio}) => {
     return (
         <>
-            {(
-                estateName?.toLowerCase() === 'квартира' ||
-                estateName?.toLowerCase() === "дом" ||
-                estateName?.toLowerCase() === "дача" ||
-                estateName?.toLowerCase() === "коттедж" ||
-                estateName?.toLowerCase() === "таунхаус"
-            ) && (
+            {estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
                 <>
                     <hr className="d-none d-md-block my-4"/>
                     <div className="row">
@@ -48,13 +43,8 @@ const AdTypeResidential = ({estateName, onChange, info, seterRadio}) => {
                         </div>
                     </div>
                 </>
-            )}
-            {(
-                estateName?.toLowerCase() === "дом" ||
-                estateName?.toLowerCase() === "дача" ||
-                estateName?.toLowerCase() === "коттедж" ||
-                estateName?.toLowerCase() === "таунхаус"
-            ) && (
+            }
+            {estateTypeName?.toLowerCase().includes(localEstates.dom) &&
                 <>
                     <hr className="d-none d-md-block my-4"/>
                     <div className="row">
@@ -65,8 +55,9 @@ const AdTypeResidential = ({estateName, onChange, info, seterRadio}) => {
                             <div>
                                 <label>
                                     <input
-                                        type='text'
+                                        type='number'
                                         name='landArea'
+                                        className="area fs-11"
                                         value={info?.landArea || ''}
                                         onChange={(e) => onChange(e)}
                                     />
@@ -124,7 +115,7 @@ const AdTypeResidential = ({estateName, onChange, info, seterRadio}) => {
                         </div>
                     </div>
                 </>
-            )}
+            }
         </>
     )
 };

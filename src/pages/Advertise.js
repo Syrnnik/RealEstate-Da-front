@@ -28,7 +28,8 @@ import {getAdsPage} from "../API/adspage";
 import {dadataReAddress} from "../API/dadataReAddress";
 import {updateAd} from "../API/users";
 import {deleteImage} from "../API/deleteImage";
-import AdTypeLandPlot from "../components/advertiseComponents/AdTypeLandPlot";
+import { localEstates } from '../helpers/localEstates';
+// import AdTypeLandPlot from "../components/advertiseComponents/AdTypeLandPlot";
 
 export default function Advertise() {
 
@@ -408,52 +409,52 @@ export default function Advertise() {
         
         // Step 2
         else if (curField === 2) {
-            if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidHouseType) {
+            if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidHouseType) {
                 console.log("isInValidHouseType", isInValidHouseType)
                 scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidHouseType: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('коммерческая недвижимость') && isInValidBuildingType) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) && isInValidBuildingType) {
                 console.log("isInValidBuildingType", isInValidBuildingType)
                 scroller.scrollTo("anchor-2", {offset: -80})
                 setValid({...valid, isInValidBuildingType: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidRoomType) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidRoomType) {
                 console.log("isInValidRoomType", isInValidRoomType)
                 scroller.scrollTo("anchor-2")
                 setValid({...valid, isInValidRoomType: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidTotalArea) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidTotalArea) {
                 console.log("isInValidTotalArea", isInValidTotalArea)
                 scroller.scrollTo("anchor-2")
                 setValid({...valid, isInValidTotalArea: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidLivingArea) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidLivingArea) {
                 console.log("isInValidLivingArea", isInValidLivingArea)
                 scroller.scrollTo("anchor-2")
                 setValid({...valid, isInValidLivingArea: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidKitchenArea) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidKitchenArea) {
                 console.log("isInValidKitchenArea", isInValidKitchenArea)
                 scroller.scrollTo("anchor-2")
                 setValid({...valid, isInValidKitchenArea: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidFloor) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidFloor) {
                 console.log("isInValidFloor", isInValidFloor)
                 scroller.scrollTo("anchor-2")
                 setValid({...valid, isInValidFloor: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidMaxFloor) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidMaxFloor) {
                 console.log("isInValidMaxFloor", isInValidMaxFloor)
                 scroller.scrollTo("anchor-2")
                 setValid({...valid, isInValidMaxFloor: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('земельные участки') && isInValidAcres) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && isInValidAcres) {
                 console.log("isInValidAcres", isInValidAcres)
                 scroller.scrollTo("anchor-2")
                 setValid({...valid, isInValidAcres: true})
                 return false
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж') && isInValidTotalAreaParking) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking) && isInValidTotalAreaParking) {
                 console.log("isInValidTotalAreaParking", isInValidTotalAreaParking)
                 scroller.scrollTo("anchor-2")
                 setValid({...valid, isInValidTotalAreaParking: true})
@@ -485,14 +486,14 @@ export default function Advertise() {
             console.log("isInValidYear", isInValidYear)
             console.log("isInValidCeilingHeight", isInValidCeilingHeight)
             if ((
-                    data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты')
+                    data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri)
                     ||
-                    data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж')
+                    data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking)
                 )
                 && isInValidYear) {
                 scroller.scrollTo("anchor-4", {offset: -80})
                 setValid({...valid, isInValidYear: true})
-            } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidCeilingHeight) {
+            } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidCeilingHeight) {
                 scroller.scrollTo("anchor-4", {offset: -80})
                 setValid({...valid, isInValidCeilingHeight: true})
             } else
@@ -553,34 +554,34 @@ export default function Advertise() {
         } else if (isInValidEstateId) {
             scroll.scrollTo("anchor-1")
             setValid({...valid, isInValidEstateId: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidHouseType) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidHouseType) {
             scroller.scrollTo("anchor-2", {offset: -80})
             setValid({...valid, isInValidHouseType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('коммерческая недвижимость') && isInValidBuildingType) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) && isInValidBuildingType) {
             scroller.scrollTo("anchor-2", {offset: -80})
             setValid({...valid, isInValidBuildingType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidRoomType) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidRoomType) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidRoomType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidTotalArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidTotalArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidTotalArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidLivingArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidLivingArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidLivingArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidKitchenArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidKitchenArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidKitchenArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidFloor) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidFloor) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidFloor: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidMaxFloor) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidMaxFloor) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidMaxFloor: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('земельные участки') && isInValidAcres) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && isInValidAcres) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidAcres: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж') && isInValidTotalAreaParking) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking) && isInValidTotalAreaParking) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidTotalAreaParking: true})
         } else if (isInValidAddress) {
@@ -594,13 +595,13 @@ export default function Advertise() {
             setValid({...valid, isInValidImage: true})
         } else if (
             (
-                data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') ||
-                data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж')
+                data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
+                data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking)
             )
             && isInValidYear) {
             scroller.scrollTo("anchor-4", {offset: -80})
             setValid({...valid, isInValidYear: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidCeilingHeight) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidCeilingHeight) {
             scroller.scrollTo("anchor-4", {offset: -80})
             setValid({...valid, isInValidCeilingHeight: true})
         } else if (isInValidPrice) {
@@ -691,34 +692,34 @@ export default function Advertise() {
         } else if (isInValidEstateId) {
             scroll.scrollTo("anchor-1")
             setValid({...valid, isInValidEstateId: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidHouseType) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidHouseType) {
             scroller.scrollTo("anchor-2", {offset: -80})
             setValid({...valid, isInValidHouseType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('коммерческая недвижимость') && isInValidBuildingType) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) && isInValidBuildingType) {
             scroller.scrollTo("anchor-2", {offset: -80})
             setValid({...valid, isInValidBuildingType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidRoomType) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidRoomType) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidRoomType: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidTotalArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidTotalArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidTotalArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidLivingArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidLivingArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidLivingArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidKitchenArea) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidKitchenArea) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidKitchenArea: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidFloor) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidFloor) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidFloor: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidMaxFloor) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidMaxFloor) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidMaxFloor: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('земельные участки') && isInValidAcres) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && isInValidAcres) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidAcres: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж') && isInValidTotalAreaParking) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking) && isInValidTotalAreaParking) {
             scroller.scrollTo("anchor-2")
             setValid({...valid, isInValidTotalAreaParking: true})
         } else if (isInValidAddress) {
@@ -729,13 +730,13 @@ export default function Advertise() {
             setValid({...valid, isInValidDescription: true})
         } else if (
             (
-                data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') ||
-                data?.estateTypeName?.toLowerCase()?.includes('паркинг гараж')
+                data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
+                data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking)
             )
             && isInValidYear) {
             scroller.scrollTo("anchor-4", {offset: -80})
             setValid({...valid, isInValidYear: true})
-        } else if (data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') && isInValidCeilingHeight) {
+        } else if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidCeilingHeight) {
             scroller.scrollTo("anchor-4", {offset: -80})
             setValid({...valid, isInValidCeilingHeight: true})
         } else if (isInValidPrice) {
@@ -871,20 +872,18 @@ export default function Advertise() {
                 >
                     <div className="mob-indicator">
                         {advertiseSteps?.map(( { title }, index ) => {
-                            if (data?.estateTypeName?.toLowerCase() === 'земельные участки' && index === 3) {
+                            if (data?.estateTypeName?.toLowerCase() === localEstates.zemelia &&
+                                index === 3) {
                                 advertiseSteps.pop(index)
                             }
                             return (
                                 <div
                                     className={
-                                        (activeField === index + 1)
-                                        ||
+                                        (activeField === index + 1) ||
                                         (
-                                            index === 3
-                                            &&
-                                            activeField === 5
-                                            &&
-                                            data?.estateTypeName?.toLowerCase() === 'земельные участки'
+                                            index === 3 &&
+                                            activeField === 5 &&
+                                            data?.estateTypeName?.toLowerCase() === localEstates.zemelia
                                         )
                                         ? 'active'
                                         : ''
@@ -1131,13 +1130,12 @@ export default function Advertise() {
                                     </div>
                                 </>
                             }
-                            {
-                                (
-                                    data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты')
-                                    && (data?.estateName?.toLowerCase()?.includes('дом') || data?.estateName?.toLowerCase()?.includes('квартира'))
-                                ) &&
+                            {(
+                                data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
+                                data?.estateTypeName?.toLowerCase()?.includes(localEstates.dom)
+                            ) &&
                                 <AdTypeResidential
-                                    estateName={data?.estateName}
+                                    estateTypeName={data?.estateTypeName}
                                     onChange={seterDataInComponent}
                                     info={{
                                         estateType: btnRadio?.estateType,
@@ -1165,7 +1163,7 @@ export default function Advertise() {
                                     onChange={seterDataInComponent}
                                 />
                             }
-                            {/*{(data?.estateTypeName?.toLowerCase()?.includes('земельные участки') && data?.estateName?.toLowerCase()?.includes('земельный участок')) &&
+                            {/*{(data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && data?.estateName?.toLowerCase()?.includes('земельный участок')) &&
                                 <AdTypeLandPlot
                                     seterRadio={seterRadioBtns}
                                     onChange={seterDataInComponent}
@@ -1203,7 +1201,10 @@ export default function Advertise() {
                         </fieldset>
 
                         {
-                            data?.estateTypeName?.toLowerCase()?.includes('квартиры комнаты') &&
+                            (
+                                data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
+                                data?.estateTypeName?.toLowerCase()?.includes(localEstates.dom)
+                            ) &&
                             <AboutResidential
                                 transactionType={data?.transactionType}
                                 valid={valid}
@@ -1242,13 +1243,14 @@ export default function Advertise() {
                                 }}
                                 seterRadio={seterRadioBtns}
                                 estateName={data?.estateName}
+                                estateTypeName={data?.estateTypeName}
                                 onChange={seterDataInComponent}
                                 seterActiveField={seterActiveField}
                                 isValid={isValid}
                             />
                         }
                         {
-                            data?.estateTypeName?.toLowerCase()?.includes('коммерческая') &&
+                            data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) &&
                             <AboutCommercial
                                 valid={valid}
                                 resetValid={resetValid}
@@ -1263,7 +1265,7 @@ export default function Advertise() {
                             />
                         }
                         {
-                            data?.estateTypeName?.toLowerCase().includes('паркинг гараж') &&
+                            data?.estateTypeName?.toLowerCase().includes(localEstates.parking) &&
                             <AboutParking
                                 estateName={data?.estateName}
                                 valid={valid}
@@ -1282,7 +1284,7 @@ export default function Advertise() {
                             />
                         }
                         {
-                            data?.estateTypeName?.toLowerCase()?.includes('земельные участки') &&
+                            data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) &&
                             <AboutStead
                                 valid={valid}
                                 resetValid={resetValid}
@@ -1514,7 +1516,7 @@ export default function Advertise() {
                                         onClick={() => {
                                             if (isValid(activeField))
                                                 setActiveField(
-                                                    (data?.estateTypeName?.toLowerCase() === 'земельные участки')
+                                                    (data?.estateTypeName?.toLowerCase() === localEstates.zemelia)
                                                     ? 5
                                                     : 4
                                                 )
@@ -1527,7 +1529,7 @@ export default function Advertise() {
                         </fieldset>
 
                         {
-                            data?.estateTypeName?.includes('Квартиры Комнаты') &&
+                            data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
                             <AboutBuildingResidential
                                 resetValid={resetValid}
                                 valid={valid}
@@ -1552,7 +1554,7 @@ export default function Advertise() {
                             />
                         }
                         {
-                            data?.estateTypeName?.includes('Коммерческая недвижимость') &&
+                            data?.estateTypeName?.includes(localEstates.commer) &&
                             <AboutBuildingCommercial
                                 activeField={activeField}
                                 seterActiveField={seterActiveField}
@@ -1575,7 +1577,7 @@ export default function Advertise() {
                             />
                         }
                         {
-                            data?.estateTypeName?.includes('Паркинг Гараж') &&
+                            data?.estateTypeName?.toLowerCase().includes(localEstates.parking) &&
                             <AboutBuildingParking
                                 estateName={data?.estateName}
                                 valid={valid}
@@ -2193,7 +2195,7 @@ export default function Advertise() {
                                         type="button"
                                         className="btn btn-2 w-100"
                                         onClick={() => setActiveField(
-                                            (data?.estateTypeName?.toLowerCase() === 'земельные участки')
+                                            (data?.estateTypeName?.toLowerCase() === localEstates.zemelia)
                                             ? activeField - 2
                                             : activeField - 1
                                         )}
@@ -2258,7 +2260,7 @@ export default function Advertise() {
                             <nav className="contents mb-4 mb-lg-5">
                                 <ol>
                                     {advertiseSteps?.map(( { title }, index ) => {
-                                        if (data?.estateTypeName?.toLowerCase() === 'земельные участки' && index === 3) return;
+                                        if (data?.estateTypeName?.toLowerCase() === localEstates.zemelia && index === 3) return;
                                         return (
                                             <li data-target={`anchor-${index+1}`}>
                                                 <Link
