@@ -723,11 +723,11 @@ export default function Advertise() {
     })
 
     const advertiseSteps = [
-        { index: 0, title: "Тип объявления" },
-        { index: 1, title: "Об объекте" },
-        { index: 2, title: "Описание и фото" },
-        { index: 3, title: "О здании" },
-        { index: 4, title: "Условия сделки" },
+        { title: "Тип объявления" },
+        { title: "Об объекте" },
+        { title: "Описание и фото" },
+        { title: "О здании" },
+        { title: "Условия сделки" },
     ]
 
     return (
@@ -754,12 +754,11 @@ export default function Advertise() {
                     noValidate
                 >
                     <div className="mob-indicator">
-                        {advertiseSteps?.map(( { index, title } ) => {
-                            if (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
-                                index === 3) {
-                                advertiseSteps.pop(index)
-                                // return
-                            }
+                        {advertiseSteps?.map(( { title }, index ) => {
+                            if (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) && 
+                                title === advertiseSteps[3].title)
+                                advertiseSteps.splice(index, 1)
+
                             return (
                                 <div
                                     className={
@@ -2154,7 +2153,9 @@ export default function Advertise() {
                             <nav className="contents mb-4 mb-lg-5">
                                 <ol>
                                     {advertiseSteps?.map(( { title }, index ) => {
-                                        if (data?.estateTypeName?.toLowerCase() === localEstates.zemelia && index === 3) return;
+                                        if (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia))
+                                            index++;
+                                        
                                         return (
                                             <li data-target={`anchor-${index+1}`}>
                                                 <Link
