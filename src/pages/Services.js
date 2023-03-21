@@ -308,7 +308,7 @@ export default function Services() {
                                     </fieldset>
                                     : null
                                 }
-                                {filterAttributes?.data?.length > 0
+                                {/* {filterAttributes?.data?.length > 0
                                     ?
                                     <fieldset className="mb-4">
                                         <legend className="title-font text-left fs-12 fw-6 mb-3">Специализация:</legend>
@@ -327,7 +327,7 @@ export default function Services() {
                                         ))}
                                     </fieldset>
                                     : null
-                                }
+                                } */}
                                 <button
                                     type='reset'
                                     className='btn btn-3 btn-rad2 w-100'
@@ -450,7 +450,7 @@ export default function Services() {
                                 :
                                 null
                             }
-                            {filterAttributes?.data?.length > 0
+                            {/* {filterAttributes?.data?.length > 0
                                 ?
                                 <fieldset className="mb-4">
                                     <legend className="title-font text-left fs-12 fw-6 mb-3">Специализация:</legend>
@@ -470,7 +470,7 @@ export default function Services() {
                                 </fieldset>
                                 :
                                 null
-                            }
+                            } */}
                         </div>
                     </div>
                 </div>
