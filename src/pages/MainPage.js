@@ -140,7 +140,7 @@ export default function MainPage() {
                     ))}
                 <TileServices
                     img="/img/icons/hypothec.svg"
-                    name="Ипотека"
+                    name="Ипотека / Страхование"
                     dynamic={false}
                 />
                 {servicesTypes && servicesTypes.isLoading ? (
