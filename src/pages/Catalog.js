@@ -133,7 +133,7 @@ const Catalog = ({ routeName }) => {
             <Breadcrumbs currentRouteName={routeName} />
             <section className="sec-6 container pb-5">
                 <h1 className="catalog__title">Каталог недвижимости</h1>
-                <form className="form-search mb-4 mb-sm-3">
+                <form className="form-search mb-3 mb-sm-3">
                     <div className="map-search">
                         <button
                             type="button"
@@ -224,7 +224,7 @@ const Catalog = ({ routeName }) => {
                     </button>
                     {/*<PopularQueries initialFilters={initialFilters} setFilters={setFilters}/>*/}
                 </form>
-                <div className="d-flex justify-content-between align-items-center mb-4">
+                <div className="d-flex flex-column justify-content-between align-items-start gap-2 mb-4">
                     <div className="d-lg-none">
                         Найдено {catalogData.foundCount} объявлений
                     </div>
@@ -241,20 +241,22 @@ const Catalog = ({ routeName }) => {
                             <img src="/img/icons/filter.svg" alt="filter" />
                             <span className="ms-2 fs-11 fw-5 color-1">Фильтры</span>
                         </button>
-                        <span className="gray-2">Сортировать: </span>
-                        <CustomSelect
-                            modificator="orderby"
-                            btnClass="fs-11"
-                            checkedOptions={[filters.orderBy]}
-                            options={[
-                                { title: "Сначала новые", value: "desc" },
-                                { title: "Сначала старые", value: "asc" }
-                            ]}
-                            mode="values"
-                            callback={({ value }) =>
-                                onSelectHandler(value, "orderBy", setFilters)
-                            }
-                        />
+                        <div className="d-flex gap-2">
+                            <span className="gray-2">Сортировать:</span>
+                            <CustomSelect
+                                modificator="orderby"
+                                btnClass="fs-11"
+                                checkedOptions={[filters.orderBy]}
+                                options={[
+                                    { title: "Сначала новые", value: "desc" },
+                                    { title: "Сначала старые", value: "asc" }
+                                ]}
+                                mode="values"
+                                callback={({ value }) =>
+                                    onSelectHandler(value, "orderBy", setFilters)
+                                }
+                            />
+                        </div>
                     </div>
                     {view === "tiled" ? (
                         <button
@@ -1281,14 +1283,17 @@ const Catalog = ({ routeName }) => {
                         <div
                             className={
                                 view === "tiled"
-                                    ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4"
+                                    ? "row row-cols-sm-2 row-cols-lg-3 g-4 g-md-3 g-lg-4"
                                     : "row g-2 g-md-3 g-lg-4"
                             }
                         >
                             {catalogData?.isLoaded ? (
                                 catalogData?.catalog?.length ? (
                                     catalogData?.catalog?.map((catalogItem) => (
-                                        <div key={catalogItem.id}>
+                                        <div
+                                            key={catalogItem.id}
+                                            className="d-grid col-6"
+                                        >
                                             <Card
                                                 type={view}
                                                 pictures={[
