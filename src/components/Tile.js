@@ -24,7 +24,11 @@ export default function Tile(props) {
 
     if (mob) {
         return (
-            <div className="tile" onClick={() => setVisibility(true)}>
+            <div
+                className="tile"
+                onMouseEnter={() => setVisibility(true)}
+                onMouseLeave={() => setVisibility(false)}
+            >
                 <img src={props.img} alt="иконка" />
                 <div className="links">
                     {props.simpleLink && (
