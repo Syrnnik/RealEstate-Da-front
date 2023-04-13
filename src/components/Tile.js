@@ -29,7 +29,7 @@ export default function Tile(props) {
 
     if (mob) {
         return (
-            <div className="tile" onClick={props.onClick}>
+            <div className="tile" onClick={() => props.setActiveTile(titles[0])}>
                 <img src={props.img} alt="иконка" />
                 <div className="links">
                     {props.simpleLink && (

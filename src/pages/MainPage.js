@@ -124,7 +124,7 @@ export default function MainPage() {
                         <Tile
                             key={type.id}
                             activeTile={activeTile}
-                            onClick={() => setActiveTile(type.name)}
+                            setActiveTile={setActiveTile}
                             img={`/img/icons/${type?.slug}.svg`}
                             titles={[type.name]}
                             hoverLinks={[
@@ -143,7 +143,7 @@ export default function MainPage() {
                     ))}
                 <Tile
                     activeTile={activeTile}
-                    onClick={() => setActiveTile("Ипотека / Страхование")}
+                    setActiveTile={setActiveTile}
                     img="/img/icons/hypothec.svg"
                     titles={["Ипотека / Страхование"]}
                     hoverLinks={[
