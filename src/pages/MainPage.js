@@ -34,6 +34,7 @@ export default function MainPage() {
         error: null
     });
     const city = useSelector((state) => state?.selectedCity);
+    const [activeTile, setActiveTile] = useState("");
 
     // ymaps data
     const [mapData, setMapData] = useState([]);
@@ -122,6 +123,8 @@ export default function MainPage() {
                     typesEstate.map((type) => (
                         <Tile
                             key={type.id}
+                            activeTile={activeTile}
+                            onClick={() => setActiveTile(type.name)}
                             img={`/img/icons/${type?.slug}.svg`}
                             titles={[type.name]}
                             hoverLinks={[
@@ -139,18 +142,12 @@ export default function MainPage() {
                         />
                     ))}
                 <Tile
+                    activeTile={activeTile}
+                    onClick={() => setActiveTile("Ипотека / Страхование")}
                     img="/img/icons/hypothec.svg"
                     titles={["Ипотека / Страхование"]}
                     hoverLinks={[
-                        { name: "Ипотека", link: "/advertise" },
-                        { name: "Страхование", link: "/insurance" }
-                    ]}
-                />
-                <Tile
-                    img="/img/icons/hypothec.svg"
-                    titles={["Ипотека / Страхование"]}
-                    hoverLinks={[
-                        { name: "Ипотека", link: "/advertise" },
+                        { name: "Ипотека", link: "/hypothec" },
                         { name: "Страхование", link: "/insurance" }
                     ]}
                 />

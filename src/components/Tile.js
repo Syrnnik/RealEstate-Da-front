@@ -6,6 +6,11 @@ export default function Tile(props) {
     const [visibility, setVisibility] = useState(false);
 
     useEffect(() => {
+        if (props.activeTile === props.titles[0]) setVisibility(true);
+        else setVisibility(false);
+    });
+
+    useEffect(() => {
         function changeTile() {
             if (window.matchMedia("(max-width: 991px)").matches) {
                 setMob(true);
@@ -24,11 +29,7 @@ export default function Tile(props) {
 
     if (mob) {
         return (
-            <div
-                className="tile"
-                onTouchStart={() => setVisibility(true)}
-                onTouchEnd={() => setVisibility(false)}
-            >
+            <div className="tile" onClick={props.onClick}>
                 <img src={props.img} alt="иконка" />
                 <div className="links">
                     {props.simpleLink && (
