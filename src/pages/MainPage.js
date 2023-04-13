@@ -138,10 +138,21 @@ export default function MainPage() {
                             ]}
                         />
                     ))}
-                <TileServices
+                <Tile
                     img="/img/icons/hypothec.svg"
-                    name="Ипотека / Страхование"
-                    dynamic={false}
+                    titles={["Ипотека / Страхование"]}
+                    hoverLinks={[
+                        { name: "Ипотека", link: "/advertise" },
+                        { name: "Страхование", link: "/insurance" }
+                    ]}
+                />
+                <Tile
+                    img="/img/icons/hypothec.svg"
+                    titles={["Ипотека / Страхование"]}
+                    hoverLinks={[
+                        { name: "Ипотека", link: "/advertise" },
+                        { name: "Страхование", link: "/insurance" }
+                    ]}
                 />
                 {servicesTypes && servicesTypes.isLoading ? (
                     servicesTypes?.data?.map((service) => (

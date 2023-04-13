@@ -26,8 +26,8 @@ export default function Tile(props) {
         return (
             <div
                 className="tile"
-                onMouseEnter={() => setVisibility(true)}
-                onMouseLeave={() => setVisibility(false)}
+                onTouchStart={() => setVisibility(true)}
+                onTouchEnd={() => setVisibility(false)}
             >
                 <img src={props.img} alt="иконка" />
                 <div className="links">

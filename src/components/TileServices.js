@@ -7,13 +7,7 @@ const TileServices = (props) => {
             <NavLink to={`service/${props.slug}`}>
                 <img src={props.img} />
                 <div className="links">
-                    {props.dynamic ? (
-                        <div className="title services-links">{props.name}</div>
-                    ) : (
-                        <NavLink to={`hypothec`} className="title services-links">
-                            {props.name}
-                        </NavLink>
-                    )}
+                    <div className="title services-links">{props.name}</div>
                 </div>
             </NavLink>
         </div>
