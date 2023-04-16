@@ -19,6 +19,7 @@ export const fields = {
     isInValidPrepayment: false,
     isInValidCommission: false,
     isInValidCadastralNumber: false,
+    isInValidLandCadastralNumber: false,
     isInValidAcres: false,
     isInValidLocationType: false,
     isInValidBuildingType: false,

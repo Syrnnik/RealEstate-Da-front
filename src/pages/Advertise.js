@@ -3,7 +3,7 @@ import { AddressSuggestions } from "react-dadata";
 import ImageUploading from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import Scroll, { animateScroll as scroll, Link } from "react-scroll";
+import Scroll, { Link, animateScroll as scroll } from "react-scroll";
 import { bindActionCreators } from "redux";
 import { getAdsPage } from "../API/adspage";
 import { addAdvertise } from "../API/config/advertise";
@@ -12,6 +12,8 @@ import { dadataReAddress } from "../API/dadataReAddress";
 import { deleteImage } from "../API/deleteImage";
 import { getTypesEstate } from "../API/typesEstate";
 import { updateAd } from "../API/users";
+import CustomModal from "../components/CustomModal";
+import CustomSelect from "../components/CustomSelect";
 import AboutBuildingCommercial from "../components/advertiseComponents/AboutBuildingCommercial";
 import AboutBuildingParking from "../components/advertiseComponents/AboutBuildingParking";
 import AboutBuildingResidential from "../components/advertiseComponents/AboutBuildingResidential";
@@ -22,8 +24,6 @@ import AboutStead from "../components/advertiseComponents/AboutStead";
 import AdTypeCommercial from "../components/advertiseComponents/AdTypeCommercial";
 import AdTypeResidential from "../components/advertiseComponents/AdTypeResidential";
 import { fields } from "../components/advertiseComponents/fields";
-import CustomModal from "../components/CustomModal";
-import CustomSelect from "../components/CustomSelect";
 import env from "../config/env";
 import { localEstates } from "../helpers/localEstates";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -400,6 +400,7 @@ export default function Advertise() {
             data?.commission > 100 ||
             data?.commission === undefined;
         const isInValidCadastralNumber = data?.cadastralNumber === undefined;
+        const isInValidLandCadastralNumber = data?.landcadastralNumber === undefined;
         const isInValidAcres = data?.acres === undefined || data?.acres <= 0;
         const isInValidBuildingType = data?.buildingType === undefined;
         const isInValidParking =
@@ -543,6 +544,9 @@ export default function Advertise() {
             } else if (isInValidCadastralNumber) {
                 scroller.scrollTo("anchor-5", { offset: -80 });
                 setValid({ ...valid, isInValidCadastralNumber: true });
+            } else if (isInValidLandCadastralNumber) {
+                scroller.scrollTo("anchor-5", { offset: -80 });
+                setValid({ ...valid, isInValidLandCadastralNumber: true });
             } else return true;
         }
 
@@ -551,28 +555,6 @@ export default function Advertise() {
 
     const handleSub = (e) => {
         e.preventDefault();
-
-        // const isInValidEstateId = data.estateId === undefined || data.estateId === 0
-        // const isInValidTransactionType = data.transactionType === undefined
-        // const isInValidAddress = data.address?.length < 5 || data.address === undefined
-        // const isInValidHouseType = data.houseType === undefined
-        // const isInValidRoomType = data.roomType === undefined
-        // const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
-        // const isInValidLivingArea = data?.livingArea < 0
-        // const isInValidKitchenArea = data?.kitchenArea < 0
-        // const isInValidFloor = data.floor === undefined || data.floor <= 0
-        // const isInValidMaxFloor = data?.maxFloor < 0;
-        // const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        // const isInValidImage = image === undefined
-        // const isInValidPrice = data.price === undefined || data?.price < 0
-        // const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
-        // const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
-        // const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
-        // const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
-        // const isInValidCadastralNumber = data?.cadastralNumber === undefined
-        // const isInValidAcres = data?.acres === undefined
-        // const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
-        // const isInValidBuildingType = data?.buildingType === undefined
 
         if (isValid(1) && isValid(2) && isValid(3) && isValid(4) && isValid(5)) {
             const userId = currentUser?.id;
@@ -627,27 +609,6 @@ export default function Advertise() {
 
     const onSubmitUpdateAd = (e) => {
         e.preventDefault();
-
-        // const isInValidEstateId = data.estateId === undefined || data.estateId === 0
-        // const isInValidTransactionType = data.transactionType === undefined
-        // const isInValidAddress = data.address?.length < 5 || data.address === undefined
-        // const isInValidHouseType = data.houseType === undefined
-        // const isInValidRoomType = data.roomType === undefined
-        // const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0
-        // const isInValidLivingArea = data?.livingArea < 0;
-        // const isInValidKitchenArea = data?.kitchenArea < 0;
-        // const isInValidFloor = data?.floor === undefined || data.floor <= 0
-        // const isInValidMaxFloor = data?.maxFloor < 0;
-        // const isInValidDescription = data.description?.length < 30 || data.description === undefined
-        // const isInValidPrice = data.price === undefined || data?.price < 0
-        // const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0
-        // const isInValidYear = data?.yearOfConstruction?.length > 4 || data?.yearOfConstruction?.length <= 3 || yearsForValidation() === undefined
-        // const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100
-        // const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined
-        // const isInValidCadastralNumber = data?.cadastralNumber === undefined
-        // const isInValidAcres = data?.acres === undefined
-        // const isInValidTotalAreaParking = data?.totalArea === undefined || data?.totalArea < 0
-        // const isInValidBuildingType = data?.buildingType === undefined
 
         if (isValid(1) && isValid(2) && isValid(3) && isValid(4) && isValid(5)) {
             const userId = currentUser?.id;
@@ -2114,7 +2075,7 @@ export default function Advertise() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row">
+                                        <div className="row align-items-start mt-4 mt-sm-5 mb-4">
                                             <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                                                 <span
                                                     style={{
@@ -2123,7 +2084,13 @@ export default function Advertise() {
                                                             : ""
                                                     }}
                                                 >
-                                                    Кадастровый номер*:
+                                                    Кадастровый номер
+                                                    {data?.estateTypeName
+                                                        ?.toLowerCase()
+                                                        .includes(localEstates.dom)
+                                                        ? " дома"
+                                                        : ""}
+                                                    *:
                                                 </span>
                                             </div>
                                             <div className="col-md-9">
@@ -2144,10 +2111,11 @@ export default function Advertise() {
                                                             onChange={(e) => {
                                                                 setData((prevState) => ({
                                                                     ...prevState,
-                                                                    cadastralNumber: e
-                                                                        .target.value
-                                                                        ? e.target.value
-                                                                        : undefined
+                                                                    isInValidCadastralNumber:
+                                                                        e.target.value
+                                                                            ? e.target
+                                                                                  .value
+                                                                            : undefined
                                                                 }));
                                                                 resetFieldVal(
                                                                     e,
@@ -2159,6 +2127,60 @@ export default function Advertise() {
                                                 </div>
                                             </div>
                                         </div>
+                                        {data?.estateTypeName
+                                            ?.toLowerCase()
+                                            .includes(localEstates.dom) && (
+                                            <div className="row align-items-start mt-4 mt-sm-5 mb-4">
+                                                <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                                                    <span
+                                                        style={{
+                                                            color: valid?.isInValidLandCadastralNumber
+                                                                ? "#DA1E2A"
+                                                                : ""
+                                                        }}
+                                                    >
+                                                        Кадастровый номер земли*:
+                                                    </span>
+                                                </div>
+                                                <div className="col-md-9">
+                                                    <div>
+                                                        <label>
+                                                            <input
+                                                                type="text"
+                                                                style={{
+                                                                    borderColor:
+                                                                        valid?.isInValidLandCadastralNumber
+                                                                            ? "#DA1E2A"
+                                                                            : ""
+                                                                }}
+                                                                value={
+                                                                    data?.landcadastralNumber ||
+                                                                    ""
+                                                                }
+                                                                onChange={(e) => {
+                                                                    setData(
+                                                                        (prevState) => ({
+                                                                            ...prevState,
+                                                                            landcadastralNumber:
+                                                                                e.target
+                                                                                    .value
+                                                                                    ? e
+                                                                                          .target
+                                                                                          .value
+                                                                                    : undefined
+                                                                        })
+                                                                    );
+                                                                    resetFieldVal(
+                                                                        e,
+                                                                        "isInValidLandCadastralNumber"
+                                                                    );
+                                                                }}
+                                                            />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                         <div className="row align-items-center mt-4 mt-sm-5 mb-4">
                                             <div className="col-md-3 fs-11 title mb-3 m-md-0">
                                                 Условия сделки:
