@@ -261,13 +261,12 @@ const AboutBuildingResidential = ({
                                 }}
                                 name="ceilingHeight"
                                 value={info?.ceilingHeight || ""}
-                                className="fs-11"
+                                className="ceilingHeight fs-11"
                                 onChange={(e) => {
                                     onChange(e);
                                     resetValid(e, "isInValidCeilingHeight");
                                 }}
                             />
-                            <span className="ms-2">м</span>
                         </div>
                     </div>
                     <hr className="d-none d-md-block my-4" />
