@@ -1,22 +1,38 @@
-import React from 'react';
-import {NavLink, useLocation} from 'react-router-dom';
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
-const Breadcrumbs = ({currentRouteName}) => {
-
-    const location = useLocation()
-    const state = location.state
+const Breadcrumbs = ({ currentRouteName }) => {
+    const location = useLocation();
+    const state = location.state;
 
     return (
         <nav aria-label="breadcrumb">
             <div className="container py-3 py-sm-4 py-lg-5">
-                <NavLink to="/" className="d-block d-md-none gray-3">&#10094; Назад</NavLink>
-                <ol className="d-none d-md-flex breadcrumb">
+                {/* <NavLink
+                    to={
+                        state?.routeName
+                            ? `${state?.prevRoute}${state?.prevSearch}`
+                            : state?.prevRoute
+                    }
+                    className="d-block d-md-none gray-3 mb-4"
+                >
+                    &#10094; Назад
+                </NavLink> */}
+                <ol className="d-md-flex breadcrumb">
                     <li className="breadcrumb-item">
                         <NavLink to="/">Главная</NavLink>
                     </li>
-                    {(state?.prevRoute && state?.prevRoute?.length > 1) && (
+                    {state?.prevRoute && state?.prevRoute?.length > 1 && (
                         <li className="breadcrumb-item">
-                            <NavLink to={(state?.routeName) ? `${state?.prevRoute}${state?.prevSearch}` : state?.prevRoute}>{state?.routeName}</NavLink>
+                            <NavLink
+                                to={
+                                    state?.routeName
+                                        ? `${state?.prevRoute}${state?.prevSearch}`
+                                        : state?.prevRoute
+                                }
+                            >
+                                {state?.routeName}
+                            </NavLink>
                         </li>
                     )}
                     {currentRouteName && (
