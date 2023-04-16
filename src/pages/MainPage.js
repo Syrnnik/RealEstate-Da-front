@@ -1,232 +1,249 @@
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {Slider2} from '../components/Slider2';
-import {Slider1} from "../components/Slider1";
-import Tile from '../components/Tile';
-import {Link, NavLink, useParams} from 'react-router-dom';
-import {MainBanner} from '../components/MainBanner';
-import {getBanner, getPopular, getRecommend} from "../API/mainpagereq";
-import {useCurrentUser} from '../store/reducers';
-import {getTypesEstate} from '../API/typesEstate';
-import {useSelector} from 'react-redux';
-import {getCatalog} from "../API/catalog";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, NavLink, useParams } from "react-router-dom";
+import { getCatalog } from "../API/catalog";
+import { getBanner, getPopular, getRecommend } from "../API/mainpagereq";
+import { getServicesTypes } from "../API/services";
+import { getTypesEstate } from "../API/typesEstate";
 import getForMap from "../API/ymap";
-import {getServicesTypes} from "../API/services";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import {servicesTypesLocal} from "../helpers/services";
 import Loader from "../components/Loader";
+import { MainBanner } from "../components/MainBanner";
+import OffcanvasCards from "../components/OffcanvasCards";
+import { Slider1 } from "../components/Slider1";
+import { Slider2 } from "../components/Slider2";
+import Tile from "../components/Tile";
 import TileServices from "../components/TileServices";
 import YMap from "../components/YMap";
-import OffcanvasCards from '../components/OffcanvasCards';
+import { servicesTypesLocal } from "../helpers/services";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useCurrentUser } from "../store/reducers";
 
 export default function MainPage() {
-    const currentUser = useCurrentUser()
-    const userId = currentUser?.id
-    const {page} = useParams();
-    const axiosPrivate = useAxiosPrivate()
+    const currentUser = useCurrentUser();
+    const userId = currentUser?.id;
+    const { page } = useParams();
+    const axiosPrivate = useAxiosPrivate();
     const [recommend, setRecommend] = useState([]);
     const [banner, setBanner] = useState([]);
     const [popular, setPopular] = useState([]);
-    const [hotAds, setHotAds] = useState([])
-    const [typesEstate, setTypesEstate] = useState([])
+    const [hotAds, setHotAds] = useState([]);
+    const [typesEstate, setTypesEstate] = useState([]);
     const [servicesTypes, setServicesTypes] = useState({
         isLoading: false,
         data: [],
-        error: null,
-    })
-    const city = useSelector(state => state?.selectedCity)
+        error: null
+    });
+    const city = useSelector((state) => state?.selectedCity);
+    const [activeTile, setActiveTile] = useState("");
 
     // ymaps data
-    const [mapData, setMapData] = useState([])
-    const [ids, setIds] = useState([])
-    const [cards, setCards] = useState([])
+    const [mapData, setMapData] = useState([]);
+    const [ids, setIds] = useState([]);
+    const [cards, setCards] = useState([]);
 
     useEffect(() => {
-        getForMap('city', userId).then(items => setMapData(items))
-    }, [userId])
+        getForMap("city", userId).then((items) => setMapData(items));
+    }, [userId]);
 
     useEffect(() => {
         if (ids?.length) {
-            const result = []
+            const result = [];
 
-            mapData.forEach(item => {
-                ids.forEach(id => {
+            mapData.forEach((item) => {
+                ids.forEach((id) => {
                     if (id === item.id) {
-                        result.push(item)
+                        result.push(item);
                     }
-                })
-            })
+                });
+            });
 
-            setCards(result)
+            setCards(result);
         }
-    }, [ids])
+    }, [ids]);
 
     useEffect(() => {
-        getBanner()
-            .then(data => setBanner(data))
-    }, [])
-
-    useEffect(() => {
-        if (userId && city) {
-            getRecommend(userId, 6, city)
-                .then(data => setRecommend(data))
-        }
-    }, [userId, city])
+        getBanner().then((data) => setBanner(data));
+    }, []);
 
     useEffect(() => {
         if (userId && city) {
-            getPopular(page, 6, userId, city)
-                .then(data => setPopular(data))
+            getRecommend(userId, 6, city).then((data) => setRecommend(data));
         }
-    }, [page, userId, city])
+    }, [userId, city]);
+
+    useEffect(() => {
+        if (userId && city) {
+            getPopular(page, 6, userId, city).then((data) => setPopular(data));
+        }
+    }, [page, userId, city]);
 
     useEffect(() => {
         if (userId && city && typesEstate) {
-            getCatalog(1, 6, '', city, {isHot: true, estateId: typesEstate[0]?.estates[0]?.id})
-                .then(data => setHotAds(data?.body?.data))
+            getCatalog(1, 6, "", city, {
+                isHot: true,
+                estateId: typesEstate[0]?.estates[0]?.id
+            }).then((data) => setHotAds(data?.body?.data));
         }
-    }, [city,typesEstate])
+    }, [city, typesEstate]);
 
     useEffect(() => {
-        getTypesEstate().then(result => setTypesEstate(result))
-    }, [])
+        getTypesEstate().then((result) => setTypesEstate(result));
+    }, []);
 
     useEffect(() => {
         getServicesTypes(axiosPrivate)
-            .then(res => {
-                setServicesTypes({isLoading: true, data: res})
+            .then((res) => {
+                setServicesTypes({ isLoading: true, data: res });
             })
-            .catch(error => setServicesTypes({isLoading: true, error: error}))
-    }, [])
+            .catch((error) => setServicesTypes({ isLoading: true, error: error }));
+    }, []);
 
     useLayoutEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+        window.scrollTo(0, 0);
+    }, []);
 
     const findPhoto = (name) => {
-        let photo
-        servicesTypesLocal.find(i => {
+        let photo;
+        servicesTypesLocal.find((i) => {
             if (i.name === name) {
-                return photo = i.imageLocal
+                return (photo = i.imageLocal);
             }
-        })
-        return photo
-    }
+        });
+        return photo;
+    };
 
     return (
         <main>
-
             <section id="sec-1">
-                <MainBanner banners={banner}/>
+                <MainBanner banners={banner} />
             </section>
 
             <section id="sec-2" className="container tiles px-xxl-5 mb-6">
-                {
-                    typesEstate &&
-                    typesEstate.map(type => (
+                {typesEstate &&
+                    typesEstate.map((type) => (
                         <Tile
                             key={type.id}
+                            activeTile={activeTile}
+                            setActiveTile={setActiveTile}
                             img={`/img/icons/${type?.slug}.svg`}
                             titles={[type.name]}
                             hoverLinks={[
-                                {name: 'Продать', link: '/advertise'},
-                                {name: 'Сдать', link: '/advertise'},
-                                {name: 'Купить', link: `/catalog/?transactionType=1&typesEstate=${type.id}`},
-                                {name: 'Снять', link: `/catalog/?transactionType=0&typesEstate=${type.id}`}]}
+                                { name: "Продать", link: "/advertise" },
+                                { name: "Сдать", link: "/advertise" },
+                                {
+                                    name: "Купить",
+                                    link: `/catalog/?transactionType=1&typesEstate=${type.id}`
+                                },
+                                {
+                                    name: "Снять",
+                                    link: `/catalog/?transactionType=0&typesEstate=${type.id}`
+                                }
+                            ]}
+                        />
+                    ))}
+                <Tile
+                    activeTile={activeTile}
+                    setActiveTile={setActiveTile}
+                    img="/img/icons/hypothec.svg"
+                    titles={["Ипотека / Страхование"]}
+                    hoverLinks={[
+                        { name: "Ипотека", link: "/hypothec" },
+                        { name: "Страхование", link: "/insurance" }
+                    ]}
+                />
+                {servicesTypes && servicesTypes.isLoading ? (
+                    servicesTypes?.data?.map((service) => (
+                        <TileServices
+                            key={service.id}
+                            img={findPhoto(service.name)}
+                            name={service.name}
+                            slug={service.slug}
+                            dynamic={true}
                         />
                     ))
-                }
-                <TileServices
-                    img='/img/icons/hypothec.svg'
-                    name='Ипотека'
-                    dynamic={false}
-                />
-                {
-                    servicesTypes &&
-                    servicesTypes.isLoading
-                        ? servicesTypes?.data?.map(service => (
-                            <TileServices
-                                key={service.id}
-                                img={findPhoto(service.name)}
-                                name={service.name}
-                                slug={service.slug}
-                                dynamic={true}
-                            />
-                        ))
-                        : <div className='p-5 w-100 d-flex justify-content-center'><Loader color='#146492'/></div>
-                }
+                ) : (
+                    <div className="p-5 w-100 d-flex justify-content-center">
+                        <Loader color="#146492" />
+                    </div>
+                )}
             </section>
 
             <section id="sec-3" className="container mb-6">
                 <div className="main-page__ymaps-container">
                     <h3>Найти на карте</h3>
-                    {mapData &&
+                    {mapData && (
                         <YMap
                             items={mapData}
-                            className='main-page__ymaps'
-                            callback={ids => setIds(ids)}
+                            className="main-page__ymaps"
+                            callback={(ids) => setIds(ids)}
                         />
-                    }
+                    )}
                     <OffcanvasCards
                         className="main-page__offcanvas-cards"
                         cards={cards}
                         hideOffcanvas={() => {
-                            setCards([])
-                            setIds([])
+                            setCards([]);
+                            setIds([]);
                         }}
                     />
                 </div>
             </section>
 
-            {!(hotAds === undefined || hotAds?.length === 0) &&
+            {!(hotAds === undefined || hotAds?.length === 0) && (
                 <section className="sec-4 container mb-6">
                     <h3>Срочная продажа</h3>
                     <div className="position-relative">
-                        <Slider1 hotAds={hotAds}/>
+                        <Slider1 hotAds={hotAds} />
                     </div>
                 </section>
-            }
+            )}
 
-            {!(popular === undefined || popular?.length === 0) &&
+            {!(popular === undefined || popular?.length === 0) && (
                 <section className="sec-4 container mb-6">
                     <h3>Часто просматриваемые</h3>
                     <div className="position-relative">
-                        <Slider1 popular={popular}/>
+                        <Slider1 popular={popular} />
                     </div>
                 </section>
-            }
+            )}
 
-            {!(recommend === undefined || recommend?.length === 0) &&
+            {!(recommend === undefined || recommend?.length === 0) && (
                 <section className="sec-4 container mb-6">
                     <h3>Рекомендованные Вам</h3>
                     <div className="position-relative">
-                        <Slider1 recommend={recommend}/>
+                        <Slider1 recommend={recommend} />
                     </div>
                 </section>
-            }
+            )}
 
             <section id="sec-5">
                 <div className="container pb-5">
                     <div className="row gx-xxl-5 mb-6">
                         <div className="col-lg-7 col-xl-8">
-                            <img src="/img/img4.jpg" alt="" className="w-100"/>
+                            <img src="/img/img4.jpg" alt="" className="w-100" />
                         </div>
                         <div className="info col-lg-5 col-xl-4 pt-xxl-5 mt-4 mt-lg-0">
                             <h2>Продаете или покупаете недвижимость?</h2>
                             <div className="d-flex align-items-baseline mt-2 mt-sm-4">
-                                <img src="/img/icons/mark.svg" alt=""/>
-                                <div className="color-2 fs-15 ms-2 ms-sm-3">Юридическая консультация</div>
+                                <img src="/img/icons/mark.svg" alt="" />
+                                <div className="color-2 fs-15 ms-2 ms-sm-3">
+                                    Юридическая консультация
+                                </div>
                             </div>
                             <div className="d-flex align-items-baseline mt-2 mt-sm-4">
-                                <img src="/img/icons/mark.svg" alt=""/>
-                                <div className="color-2 fs-15 ms-2 ms-sm-3">Сопровождение сделок</div>
+                                <img src="/img/icons/mark.svg" alt="" />
+                                <div className="color-2 fs-15 ms-2 ms-sm-3">
+                                    Сопровождение сделок
+                                </div>
                             </div>
                             <div className="d-flex align-items-baseline mt-2 mt-sm-4">
-                                <img src="/img/icons/mark.svg" alt=""/>
-                                <div className="color-2 fs-15 ms-2 ms-sm-3">Оформление ипотеки на выгодных условиях
+                                <img src="/img/icons/mark.svg" alt="" />
+                                <div className="color-2 fs-15 ms-2 ms-sm-3">
+                                    Оформление ипотеки на выгодных условиях
                                 </div>
                             </div>
                             <NavLink
-                                to='/service/uslugiRieltora'
+                                to="/service/uslugiRieltora"
                                 className="btn btn-1 fs-15 mx-auto mt-4 mt-lg-5"
                             >
                                 Услуги риелтора
@@ -235,15 +252,15 @@ export default function MainPage() {
                     </div>
                     <h3>Статьи</h3>
                     <div className="position-relative">
-                        <Slider2/>
+                        <Slider2 />
                     </div>
                     <div className="text-center mt-4">
-                        <Link to="/articles" className="fs-12 color-1 bb-1">Смотреть
-                            все статьи</Link>
+                        <Link to="/articles" className="fs-12 color-1 bb-1">
+                            Смотреть все статьи
+                        </Link>
                     </div>
                 </div>
             </section>
         </main>
-
     );
 }

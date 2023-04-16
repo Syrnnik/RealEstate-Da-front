@@ -131,6 +131,12 @@ input[type=number].area {
   background-image: url(bg-imgs/м2.svg);
   padding: 0.5em 1.5em 0.5em 0.5em;
 }
+input[type=number].area.landArea {
+  /* background-image: url(bg-imgs/сот.svg); */
+}
+input[type=number].ceilingHeight {
+  background-image: url(bg-imgs/м.svg);
+}
 input[type=number].length {
   background-image: url(bg-imgs/м.svg);
   padding: 0.5em 1.5em 0.5em 0.5em;
