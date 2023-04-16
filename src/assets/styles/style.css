@@ -132,7 +132,7 @@ input[type=number].area {
   padding: 0.5em 1.5em 0.5em 0.5em;
 }
 input[type=number].area.landArea {
-  background-image: url(bg-imgs/сот.svg);
+  /* background-image: url(bg-imgs/сот.svg); */
 }
 input[type=number].ceilingHeight {
   background-image: url(bg-imgs/м.svg);
