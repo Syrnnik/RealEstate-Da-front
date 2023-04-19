@@ -11,17 +11,6 @@ export const getServicesTypes = async (axiosPrivate) => {
     }
 };
 
-export const getServiceType = async (axiosPrivate, id) => {
-    try {
-        const response = await axiosPrivate.post(
-            `${process.env.REACT_APP_BASE_URL}${apiRoutes.GET_SERVICE_TYPE}/${id}`
-        );
-        return response.data.body;
-    } catch (error) {
-        console.log(error);
-    }
-};
-
 export const getSubServicesTypes = async (axiosPrivate, serviceId) => {
     try {
         const response = await axiosPrivate.post(

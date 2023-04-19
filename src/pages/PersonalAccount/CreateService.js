@@ -75,7 +75,7 @@ export default function CreateService() {
         e.preventDefault();
 
         const isInValidServicesTypesSubServiceId =
-            payloads?.servicesTypesSubServiceId === undefined;
+            subServiceSelect === undefined || subServiceSelect?.length < 1;
         const isInValidDescription =
             payloads.description === undefined || payloads.description.length < 5;
         const isInValidAddress = address?.address === undefined;
@@ -93,6 +93,9 @@ export default function CreateService() {
             formData.append("district[][name]", district["name"]);
             for (let key in payloads) {
                 formData.append(key, payloads[key]);
+            }
+            for (let key in subServiceSelect) {
+                formData.append("subServices[]", subServiceSelect[key]["value"]);
             }
             createService(axiosPrivate, formData)
                 .then(() => {
@@ -123,6 +126,9 @@ export default function CreateService() {
         for (let key in payloads) {
             formData.append(key, payloads[key]);
         }
+        for (let key in subServiceSelect) {
+            formData.append("subServices[]", subServiceSelect[key]);
+        }
         updateService(axiosPrivate, formData, id)
             .then(() => {
                 setAlert("success", true, "Услуга успешно создана, переход в мои услуги");
@@ -146,7 +152,6 @@ export default function CreateService() {
         if (id) {
             setPayloads((prevState) => ({
                 ...prevState,
-                servicesTypesSubServiceId: loadService.servicesTypesSubServiceId,
                 description: loadService.description,
                 experienceTypeForUser: loadService.experienceTypeForUser
             }));
@@ -158,20 +163,18 @@ export default function CreateService() {
     }, [loadService, id]);
 
     useEffect(() => {
-        setServiceSelect(
-            servicesType?.find(
-                (i) => i?.value === loadService?.subService?.servicesTypeId
-            )
-        );
+        setServiceSelect(servicesType?.find((i) => i?.value === loadService?.id));
     }, [servicesType, loadService]);
 
-    // useEffect(() => {
-    //     setSubServiceSelect(
-    //         subServiceType?.find(
-    //             (i) => i?.value === loadService?.servicesTypesSubServiceId
-    //         )
-    //     );
-    // }, [subServiceType, loadService]);
+    useEffect(() => {
+        setSubServiceSelect(
+            subServiceType?.filter((type) =>
+                loadService?.subServices?.find(
+                    (subService) => type?.value === subService?.serviceTypeSubServiceId
+                )
+            )
+        );
+    }, [subServiceType, loadService]);
 
     useEffect(() => {
         if (address?.address && id) {
@@ -255,23 +258,20 @@ export default function CreateService() {
                                 callback={({ title, value, e }) => {
                                     if (
                                         subServiceSelect.find(
-                                            (subService) => subService.title === title
+                                            (subService) => subService.value === value
                                         )
-                                    )
+                                    ) {
                                         setSubServiceSelect((prevSubServiceSelect) =>
                                             prevSubServiceSelect.filter(
-                                                (subService) => subService.title !== title
+                                                (subService) => subService.value !== value
                                             )
                                         );
-                                    else
+                                    } else {
                                         setSubServiceSelect((prevSubServiceSelect) => [
                                             ...prevSubServiceSelect,
                                             { title, value }
                                         ]);
-                                    setPayloads((prevState) => ({
-                                        ...prevState,
-                                        servicesTypesSubServiceId: value
-                                    }));
+                                    }
                                     resetFieldVal(
                                         e,
                                         "isInValidServicesTypesSubServiceId"

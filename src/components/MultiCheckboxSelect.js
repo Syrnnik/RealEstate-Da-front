@@ -4,7 +4,7 @@ import useCustomSelect from "../hooks/useCustomSelect";
 const MultiCheckboxSelect = ({
     mode = "titles",
     options = [],
-    checkedOptions,
+    checkedOptions = [],
     btnClass,
     className,
     title,
@@ -22,24 +22,17 @@ const MultiCheckboxSelect = ({
     };
 
     useEffect(() => {
-        options.length
-            ? setDropdownItems(
-                  options.map((option, index) =>
-                      option.value
-                          ? option
-                          : {
-                                title: option,
-                                value: index,
-                                isChecked:
-                                    checkedOptions.length &&
-                                    (mode === "titles"
-                                        ? checkedOptions.includes(option.title)
-                                        : checkedOptions.includes(option.value))
-                            }
-                  )
-              )
-            : setDropdownItems([]);
-    }, [options, checkedOptions, mode]);
+        setDropdownItems(
+            options.map((option) => ({
+                ...option,
+                isChecked:
+                    checkedOptions.length &&
+                    checkedOptions?.find(
+                        (checkedOption) => checkedOption.value === option.value
+                    )
+            }))
+        );
+    }, [options, checkedOptions]);
 
     useEffect(() => {
         setCheckedCount(checkedOptions.length);
