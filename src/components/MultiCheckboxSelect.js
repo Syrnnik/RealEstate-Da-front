@@ -84,16 +84,16 @@ const MultiCheckboxSelect = ({
                 } options`}
                 data-alignment={align}
             >
-                <div className="dropdown-list__inner">
+                <div className="dropdown-list__inner px-3 py-1 g-2">
                     {dropdownItems?.length ? (
                         dropdownItems.map((item) => (
-                            <label className="checkbox-line" key={item.value}>
+                            <label className="my-2 checkbox-line" key={item.value}>
                                 <input
                                     type="checkbox"
                                     onChange={() => onSelectItem(item.title, item.value)}
                                     checked={item.isChecked}
                                 />
-                                <div>{item.title}</div>
+                                <span className="fs-11 ms-2">{item.title}</span>
                             </label>
                         ))
                     ) : (
