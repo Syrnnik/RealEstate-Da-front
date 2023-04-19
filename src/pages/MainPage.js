@@ -14,7 +14,6 @@ import { Slider2 } from "../components/Slider2";
 import Tile from "../components/Tile";
 import TileServices from "../components/TileServices";
 import YMap from "../components/YMap";
-import { servicesTypesLocal } from "../helpers/services";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useCurrentUser } from "../store/reducers";
 
@@ -102,15 +101,15 @@ export default function MainPage() {
         window.scrollTo(0, 0);
     }, []);
 
-    const findPhoto = (name) => {
-        let photo;
-        servicesTypesLocal.find((i) => {
-            if (i.name === name) {
-                return (photo = i.imageLocal);
-            }
-        });
-        return photo;
-    };
+    // const findPhoto = (name) => {
+    //     let photo;
+    //     servicesTypesLocal.find((i) => {
+    //         if (i.name === name) {
+    //             return (photo = i.imageLocal);
+    //         }
+    //     });
+    //     return photo;
+    // };
 
     return (
         <main>
@@ -145,7 +144,7 @@ export default function MainPage() {
                     activeTile={activeTile}
                     setActiveTile={setActiveTile}
                     img="/img/icons/hypothec.svg"
-                    titles={["Ипотека / Страхование"]}
+                    titles={["Ипотека Страхование"]}
                     hoverLinks={[
                         { name: "Ипотека", link: "/hypothec" },
                         { name: "Страхование", link: "/insurance" }
@@ -155,7 +154,8 @@ export default function MainPage() {
                     servicesTypes?.data?.map((service) => (
                         <TileServices
                             key={service.id}
-                            img={findPhoto(service.name)}
+                            // img={findPhoto(service.name)}
+                            img={`/img/icons/${service?.slug}.svg`}
                             name={service.name}
                             slug={service.slug}
                             dynamic={true}

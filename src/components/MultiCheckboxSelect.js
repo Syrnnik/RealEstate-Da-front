@@ -4,7 +4,7 @@ import useCustomSelect from "../hooks/useCustomSelect";
 const MultiCheckboxSelect = ({
     mode = "titles",
     options = [],
-    checkedOptions,
+    checkedOptions = [],
     btnClass,
     className,
     title,
@@ -22,24 +22,17 @@ const MultiCheckboxSelect = ({
     };
 
     useEffect(() => {
-        options.length
-            ? setDropdownItems(
-                  options.map((option, index) =>
-                      option.value
-                          ? option
-                          : {
-                                title: option,
-                                value: index,
-                                isChecked:
-                                    checkedOptions.length &&
-                                    (mode === "titles"
-                                        ? checkedOptions.includes(option.title)
-                                        : checkedOptions.includes(option.value))
-                            }
-                  )
-              )
-            : setDropdownItems([]);
-    }, [options, checkedOptions, mode]);
+        setDropdownItems(
+            options.map((option) => ({
+                ...option,
+                isChecked:
+                    checkedOptions.length &&
+                    checkedOptions?.find(
+                        (checkedOption) => checkedOption.value === option.value
+                    )
+            }))
+        );
+    }, [options, checkedOptions]);
 
     useEffect(() => {
         setCheckedCount(checkedOptions.length);
@@ -84,16 +77,16 @@ const MultiCheckboxSelect = ({
                 } options`}
                 data-alignment={align}
             >
-                <div className="dropdown-list__inner">
+                <div className="dropdown-list__inner px-3 py-1 g-2">
                     {dropdownItems?.length ? (
                         dropdownItems.map((item) => (
-                            <label className="checkbox-line" key={item.value}>
+                            <label className="my-2 checkbox-line" key={item.value}>
                                 <input
                                     type="checkbox"
                                     onChange={() => onSelectItem(item.title, item.value)}
                                     checked={item.isChecked}
                                 />
-                                <div>{item.title}</div>
+                                <span className="fs-11 ms-2">{item.title}</span>
                             </label>
                         ))
                     ) : (
