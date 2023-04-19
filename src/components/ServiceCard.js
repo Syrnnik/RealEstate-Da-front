@@ -41,21 +41,21 @@ const ServiceCard = (props) => {
                     <p>{props.description}</p>
                 </div>
             </div>
-            <div className="serv-list mt-2 mt-md-3 mt-xxl-0">
+            <div className="serv-list my-2 mt-md-3 mt-xxl-0">
                 {props.labels.map((label) => (
                     <div className="serv" key={label.id}>
                         {label.name}
                     </div>
                 ))}
             </div>
-            <div className="serv-list mt-3 mb-3 mt-md-3 mt-xxl-0">
+            <div className="serv-list my-2 mt-md-3 mt-xxl-0">
                 {subServices?.map((subService) => (
                     <div className="serv" key={subService.id}>
                         {subService.name}
                     </div>
                 ))}
             </div>
-            <div className="row justify-content-end">
+            <div className="row justify-content-end mt-3">
                 <div className="col-sm-8">
                     <div className="row row-cols-2 align-items-center g-2 g-sm-4">
                         <div>
