@@ -1027,66 +1027,6 @@ const AboutResidential = ({
                                     <span className="fs-11 ms-2">Восток</span>
                                 </label>
                             </div>
-                            <div>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="windRoseDirectionType"
-                                        value={"4"}
-                                        checked={info?.windRoseDirectionType?.includes(
-                                            "4"
-                                        )}
-                                        onClick={(e) => seterRadio(e)}
-                                        onChange={(e) => onWindRoseDirectionTypeChange(e)}
-                                    />
-                                    <span className="fs-11 ms-2">Северо-восток</span>
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="windRoseDirectionType"
-                                        value={"5"}
-                                        checked={info?.windRoseDirectionType?.includes(
-                                            "5"
-                                        )}
-                                        onClick={(e) => seterRadio(e)}
-                                        onChange={(e) => onWindRoseDirectionTypeChange(e)}
-                                    />
-                                    <span className="fs-11 ms-2">Юго-восток</span>
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="windRoseDirectionType"
-                                        value={"6"}
-                                        checked={info?.windRoseDirectionType?.includes(
-                                            "6"
-                                        )}
-                                        onClick={(e) => seterRadio(e)}
-                                        onChange={(e) => onWindRoseDirectionTypeChange(e)}
-                                    />
-                                    <span className="fs-11 ms-2">Северо-запад</span>
-                                </label>
-                            </div>
-                            <div>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        name="windRoseDirectionType"
-                                        value={"7"}
-                                        checked={info?.windRoseDirectionType?.includes(
-                                            "7"
-                                        )}
-                                        onClick={(e) => seterRadio(e)}
-                                        onChange={(e) => onWindRoseDirectionTypeChange(e)}
-                                    />
-                                    <span className="fs-11 ms-2">Юго-запад</span>
-                                </label>
-                            </div>
                         </div>
                     </div>
                 </div>
