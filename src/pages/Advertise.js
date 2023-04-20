@@ -102,6 +102,7 @@ export default function Advertise() {
     });
     const [ad, setAd] = useState({});
     const [outBuildingTypes, setOutBuildingTypes] = useState([]);
+    const [windRoseDirectionType, setWindRoseDirectionType] = useState([]);
 
     useEffect(() => {
         setLoadData({
@@ -174,13 +175,15 @@ export default function Advertise() {
             window: Number(ad?.window),
             windowType: Number(ad?.windowType),
             hasBasement: Number(ad?.hasBasement),
-            windRoseDirectionType: Number(ad?.windRoseDirectionType),
             buildingType: Number(ad?.buildingType),
             locationType: Number(ad?.locationType),
             hasSecurity: Number(ad?.hasSecurity),
             sellerType: Number(ad?.sellerType),
             saleType: Number(ad?.saleType)
         });
+        // setWindRoseDirectionType(ad?.windRoseDirectionType.);
+        //! add same for outBuildingType
+        // setWindRoseDirectionType(ad?.windRoseDirectionType.);
         setDeal(ad?.transactionType);
         setMainImage([
             { data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${ad.image}` }
@@ -544,7 +547,10 @@ export default function Advertise() {
             } else if (isInValidCadastralNumber) {
                 scroller.scrollTo("anchor-5", { offset: -80 });
                 setValid({ ...valid, isInValidCadastralNumber: true });
-            } else if (isInValidLandCadastralNumber) {
+            } else if (
+                data?.estateTypeName?.toLowerCase().includes(localEstates.dom) &&
+                isInValidLandCadastralNumber
+            ) {
                 scroller.scrollTo("anchor-5", { offset: -80 });
                 setValid({ ...valid, isInValidLandCadastralNumber: true });
             } else return true;
@@ -572,6 +578,10 @@ export default function Advertise() {
                     formData.append(key, req[key]);
                 }
                 formData.append("outBuildingType", outBuildingTypes.toString());
+                formData.append(
+                    "windRoseDirectionType",
+                    windRoseDirectionType.toString()
+                );
             }
 
             formData.append("district[][city]", district["city"]);
@@ -1246,7 +1256,7 @@ export default function Advertise() {
                                     layoutType: btnRadio?.layoutType,
                                     repairType: btnRadio?.repairType,
                                     window: btnRadio?.window,
-                                    windowType: btnRadio?.windowType,
+                                    windowType: windRoseDirectionType,
                                     outBuildingType: outBuildingTypes,
                                     hasBasement: btnRadio?.hasBasement,
                                     hasKitchenFurniture: data?.hasKitchenFurniture,
@@ -1260,8 +1270,7 @@ export default function Advertise() {
                                     hasBathroom: data?.hasBathroom,
                                     hasShowerCabin: data?.hasShowerCabin,
                                     withKids: data?.withKids,
-                                    withPets: data?.withPets,
-                                    windRoseDirectionType: btnRadio?.windRoseDirectionType
+                                    withPets: data?.withPets
                                 }}
                                 seterRadio={seterRadioBtns}
                                 estateTypeName={data?.estateTypeName}
@@ -1279,6 +1288,25 @@ export default function Advertise() {
                                             ...prevBuildingTypes,
                                             value
                                         ]);
+                                    }
+                                }}
+                                onWindRoseDirectionTypeChange={(e) => {
+                                    const value = e.target.value;
+                                    if (windRoseDirectionType.includes(value)) {
+                                        setWindRoseDirectionType(
+                                            (prevWindDirectionType) =>
+                                                prevWindDirectionType.filter(
+                                                    (directionType) =>
+                                                        directionType !== value
+                                                )
+                                        );
+                                    } else {
+                                        setWindRoseDirectionType(
+                                            (prevWindDirectionTypes) => [
+                                                ...prevWindDirectionTypes,
+                                                value
+                                            ]
+                                        );
                                     }
                                 }}
                                 seterActiveField={seterActiveField}
