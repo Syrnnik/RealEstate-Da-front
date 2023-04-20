@@ -258,6 +258,8 @@ export default function CardPage() {
         }
     };
 
+    // console.log(ads?.estate);
+
     return (
         <main>
             <div
@@ -288,26 +290,17 @@ export default function CardPage() {
                 <Breadcrumbs currentRouteName={title() || "Объявление"} cardPage={true} />
             </div>
             <section id="sec-7" className="container pb-5">
-                {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
-                    localEstates.kvartiri && (
-                    <h1>
-                        {ads?.estate?.name} {ads?.totalArea} м<sup>2</sup>
-                    </h1>
-                )}
-                {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
-                    localEstates.zemelia && (
-                    <h1>
-                        {ads?.estate?.name} {ads?.acres} м<sup>2</sup>
-                    </h1>
-                )}
-                {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
-                    localEstates.commer && <h1>{ads?.buildingTypeForUser}</h1>}
-                {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
-                    localEstates.parking && (
-                    <h1>
-                        {ads?.estate?.name} {ads?.totalArea} м<sup>2</sup>
-                    </h1>
-                )}
+                <div>
+                    {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
+                    localEstates.commer ? (
+                        <h1>{ads?.buildingTypeForUser}</h1>
+                    ) : (
+                        <h1>
+                            {`${ads?.estate?.name}, ${ads?.title} м`}
+                            <sup>2</sup>
+                        </h1>
+                    )}
+                </div>
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/img/icons/pin.svg" alt="адрес" />
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
@@ -345,9 +338,8 @@ export default function CardPage() {
                             <div className="d-flex color-2 ms-4">
                                 <img src="/img/icons/eye-fill.svg" alt="Просмотры" />
                                 <span className="d-none d-md-block ms-2">Просмотры:</span>
-                                <span className="ms-1">{ads?.viewsCount}</span>
-                                <span className="d-none d-md-block ms-1">
-                                    ({ads?.todayViewsCount} за сегодня)
+                                <span className="w-100 ms-1">
+                                    {ads?.viewsCount} ({ads?.todayViewsCount} за сегодня)
                                 </span>
                             </div>
                         </div>
@@ -543,76 +535,75 @@ export default function CardPage() {
                     </div>
                     <div className="col-lg-4 mb-4 mb-sm-5">
                         <div className="row row-cols-md-2 row-cols-lg-1">
-                            <div>
-                                {ads?.transactionType ? (
-                                    <div className="frame text-md-end p-3 p-sm-4 p-xxl-5 mb-4">
-                                        <div className="title-font black fw-7 fs-20 mb-2 mb-sm-3">
-                                            {ads?.price} ₽
-                                        </div>
+                            {ads?.transactionType ? (
+                                <div className="frame text-md-end p-3 p-sm-4 p-xxl-5 mb-4">
+                                    <div className="title-font black fw-7 fs-20 mb-2 mb-sm-3">
+                                        {ads?.price} ₽
                                     </div>
-                                ) : (
-                                    <div className="frame text-md-end p-3 p-sm-4 p-xxl-5 mb-4">
-                                        <div className="title-font black fw-7 fs-20 mb-2 mb-sm-3">
-                                            {ads?.price} ₽/мес
-                                        </div>
-                                        <div className="fs-11 gray-3">
-                                            {ads?.communalPrice
-                                                ? `Коммунальные платежи: ${ads?.communalPrice} ₽`
-                                                : "Не включая коммунальные платежи"}
-                                            <br />
-                                            Залог {ads?.pledge} ₽, коммисия:{" "}
-                                            {ads?.commissionForUser}
-                                            <br />
-                                            Предоплата: {ads?.prepaymentTypeForUser},
-                                            аренда: {ads?.rentalPeriodTypeForUser}
-                                        </div>
+                                </div>
+                            ) : (
+                                <div className="frame text-md-end p-3 p-sm-4 p-xxl-5 mb-4">
+                                    <div className="title-font black fw-7 fs-20 mb-2 mb-sm-3">
+                                        {ads?.price} ₽/мес
                                     </div>
-                                )}
-                            </div>
-                            <div>
-                                <div className="frame author p-3 px-sm-4 pt-sm-4 pb-sm-3 px-xxl-5 pt-xxl-5 pb-xxl-4">
-                                    <div className="d-flex justify-content-between">
-                                        <div>
-                                            <h4>{ads?.user?.fullName}</h4>
-                                            <div className="gray-3 fs-11 mb-2">
-                                                На сайте с {ads?.user?.createdAtForUser}
-                                            </div>
+                                    <div className="fs-11 gray-3">
+                                        {ads?.communalPrice
+                                            ? `Коммунальные платежи: ${ads?.communalPrice} ₽`
+                                            : "Не включая коммунальные платежи"}
+                                        <br />
+                                        {`Залог ${ads?.pledge} ₽, коммисия: ${ads?.commissionForUser}`}
+                                        <br />
+                                        Предоплата: {ads?.prepaymentTypeForUser}, аренда:{" "}
+                                        {ads?.rentalPeriodTypeForUser}
+                                    </div>
+                                </div>
+                            )}
+                            <div className="frame author p-3 px-sm-4 pt-sm-4 pb-sm-3 px-xxl-5 pt-xxl-5 pb-xxl-4">
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <h4>{ads?.user?.fullName}</h4>
+                                        <div className="gray-3 fs-11 mb-2">
+                                            На сайте с {ads?.user?.createdAtForUser}
+                                        </div>
+                                        {ads?.user?.realEstatesCount - 1 > 0 && (
                                             <div className="color-1 fs-11">
                                                 <NavLink
                                                     to={`/user/${ads?.user?.id}`}
                                                     state={{ fromAd: true }}
                                                 >
-                                                    Еще {ads?.user?.realEstatesCount}{" "}
+                                                    {`Еще ${
+                                                        ads?.user?.realEstatesCount - 1
+                                                    }`}
                                                     <Words />
                                                 </NavLink>
                                             </div>
-                                        </div>
-                                        <img
-                                            src={checkPhotoPath(ads?.user?.avatar)}
-                                            alt={ads?.user?.fullName}
-                                        />
+                                        )}
                                     </div>
-                                    <ShowPhone
-                                        className="mt-4 fs-15"
-                                        phone={ads?.user?.phoneForUser}
+                                    <img
+                                        src={checkPhotoPath(ads?.user?.avatar)}
+                                        alt={ads?.user?.fullName}
                                     />
-                                    <button
-                                        type="button"
-                                        className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3"
-                                        onClick={() => setIsShowWriteMessageModal(true)}
-                                    >
-                                        Написать сообщение
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-2 w-100 fs-15 px-3 mt-2 mt-xl-3"
-                                        onClick={() => {
-                                            setIsShowResponseModal(true);
-                                        }}
-                                    >
-                                        Откликнуться
-                                    </button>
                                 </div>
+                                <ShowPhone
+                                    className="mt-4 fs-15"
+                                    phone={ads?.user?.phoneForUser}
+                                />
+                                <button
+                                    type="button"
+                                    className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3"
+                                    onClick={() => setIsShowWriteMessageModal(true)}
+                                >
+                                    Написать сообщение
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-2 w-100 fs-15 px-3 mt-2 mt-xl-3"
+                                    onClick={() => {
+                                        setIsShowResponseModal(true);
+                                    }}
+                                >
+                                    Откликнуться
+                                </button>
                             </div>
                         </div>
                     </div>
