@@ -23,6 +23,7 @@ import ForAboutBuildingParkingAd from "../components/cardPageComponents/forAbout
 import ForCommercialAd from "../components/cardPageComponents/forCommercialAd";
 import ForLivingAd from "../components/cardPageComponents/forLivingAd";
 import ForParkingAd from "../components/cardPageComponents/forParkingAd";
+import ForResidentialAd from "../components/cardPageComponents/forResidentialAd";
 import ForSteadAd from "../components/cardPageComponents/forSteadAd";
 import { localEstates } from "../helpers/localEstates";
 import { checkPhotoPath } from "../helpers/photo";
@@ -104,7 +105,7 @@ export default function CardPage() {
             getResponsesAd(ads?.id, token).then((res) => {
                 setResponsesAd(res);
             });
-    }, [ads?.id]);
+    }, []);
 
     const sait = `${process.env.REACT_APP_PHOTO_URL}/uploads/`;
 
@@ -257,8 +258,6 @@ export default function CardPage() {
                 });
         }
     };
-
-    // console.log(ads?.estate);
 
     return (
         <main>
@@ -733,6 +732,33 @@ export default function CardPage() {
                             <ForSteadAd
                                 acres={ads?.acres}
                                 cityDistance={ads?.cityDistance}
+                            />
+                        )}
+                        {ads?.estate?.realEstateTypeForUser
+                            ?.toLowerCase()
+                            ?.includes(localEstates.dom) && (
+                            <ForResidentialAd
+                                rooms={ads?.roomsForUser}
+                                totalArea={ads?.totalArea}
+                                livingArea={ads?.livingArea}
+                                livingAreaForUser={ads?.livingAreaForUser}
+                                kitchenArea={ads?.kitchenArea}
+                                kitchenAreaForUser={ads?.kitchenAreaForUser}
+                                maxFloorForUser={ads?.maxFloorForUser}
+                                floor={ads?.floor}
+                                layoutForUser={ads?.layoutForUser}
+                                repairTypeForUser={ads?.repairTypeForUser}
+                                WCTypeForUser={ads?.WCTypeForUser}
+                                balconyTypeForUser={ads?.balconyTypeForUser}
+                                elevatorTypeForUser={ads?.elevatorTypeForUser}
+                                windRoseDirectionType={ads?.windRoseDirectionTypeForUser}
+                                window={ads?.windowForUser}
+                                windowType={ads?.windowTypeForUser}
+                                estateType={ads?.estate?.name}
+                                outBuildingType={ads?.outBuildingTypeForUser}
+                                landArea={ads?.landArea}
+                                estateTypeForUser={ads?.estateTypeForUser}
+                                areaTypeForUser={ads?.areaTypeForUser}
                             />
                         )}
 

@@ -32,7 +32,9 @@ const Card = (props) => {
         );
 
         return result.map((item) =>
-            item ? `${process.env.REACT_APP_PHOTO_URL}/uploads/${item}` : "/img/nophoto.jpg"
+            item
+                ? `${process.env.REACT_APP_PHOTO_URL}/uploads/${item}`
+                : "/img/nophoto.jpg"
         );
     };
 
@@ -65,7 +67,7 @@ const Card = (props) => {
                                             prevSearch: search
                                         }}
                                     >
-                                        {props.realEstateTypeForUser?.toLowerCase() ===
+                                        {/* {props.realEstateTypeForUser?.toLowerCase() ===
                                             localEstates.kvartiri && (
                                             <>
                                                 {props?.estateName} {props?.totalArea} м
@@ -87,6 +89,15 @@ const Card = (props) => {
                                             localEstates.parking && (
                                             <>
                                                 {props?.estateName} {props?.totalArea} м
+                                                <sup>2</sup>
+                                            </>
+                                        )} */}
+                                        {props?.estate?.realEstateTypeForUser?.toLowerCase() ===
+                                        localEstates.commer ? (
+                                            <>{props?.buildingTypeForUser}</>
+                                        ) : (
+                                            <>
+                                                {`${props?.estateName}, ${props?.title} м`}
                                                 <sup>2</sup>
                                             </>
                                         )}
