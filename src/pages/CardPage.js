@@ -106,7 +106,7 @@ export default function CardPage() {
             });
     }, [ads?.id]);
 
-    const sait = "https://api.antontig.beget.tech/uploads/";
+    const sait = `${process.env.REACT_APP_PHOTO_URL}/uploads/`;
 
     const imagesAd = []
         .concat(

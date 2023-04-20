@@ -183,13 +183,13 @@ export default function Advertise() {
         });
         setDeal(ad?.transactionType);
         setMainImage([
-            { data_url: `https://api.antontig.beget.tech/uploads/${ad.image}` }
+            { data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${ad.image}` }
         ]);
         setImages(
             ad?.images?.map((i) => {
                 return {
                     id: i.id,
-                    data_url: `https://api.antontig.beget.tech/uploads/${i.image}`
+                    data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${i.image}`
                 };
             })
         );
@@ -400,7 +400,7 @@ export default function Advertise() {
             data?.commission > 100 ||
             data?.commission === undefined;
         const isInValidCadastralNumber = data?.cadastralNumber === undefined;
-        const isInValidLandCadastralNumber = data?.landcadastralNumber === undefined;
+        const isInValidLandCadastralNumber = data?.landСadastralNumber === undefined;
         const isInValidAcres = data?.acres === undefined || data?.acres <= 0;
         const isInValidBuildingType = data?.buildingType === undefined;
         const isInValidParking =
@@ -2111,11 +2111,10 @@ export default function Advertise() {
                                                             onChange={(e) => {
                                                                 setData((prevState) => ({
                                                                     ...prevState,
-                                                                    isInValidCadastralNumber:
-                                                                        e.target.value
-                                                                            ? e.target
-                                                                                  .value
-                                                                            : undefined
+                                                                    cadastralNumber: e
+                                                                        .target.value
+                                                                        ? e.target.value
+                                                                        : undefined
                                                                 }));
                                                                 resetFieldVal(
                                                                     e,
@@ -2154,14 +2153,14 @@ export default function Advertise() {
                                                                             : ""
                                                                 }}
                                                                 value={
-                                                                    data?.landcadastralNumber ||
+                                                                    data?.landСadastralNumber ||
                                                                     ""
                                                                 }
                                                                 onChange={(e) => {
                                                                     setData(
                                                                         (prevState) => ({
                                                                             ...prevState,
-                                                                            landcadastralNumber:
+                                                                            landСadastralNumber:
                                                                                 e.target
                                                                                     .value
                                                                                     ? e

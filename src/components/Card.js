@@ -32,10 +32,9 @@ const Card = (props) => {
         );
 
         return result.map((item) =>
-            item ? `https://api.antontig.beget.tech/uploads/${item}` : "/img/nophoto.jpg"
+            item ? `${process.env.REACT_APP_PHOTO_URL}/uploads/${item}` : "/img/nophoto.jpg"
         );
     };
-    console.log(props);
 
     if (type === "as-a-list") {
         return (

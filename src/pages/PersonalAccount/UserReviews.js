@@ -15,7 +15,7 @@ export default function UserReviews() {
     const userId = user?.id
     const reviewsPag = usePagination(6)
     const [reviews, setReviews] = useState({isLoaded: false, data:[]})
-    const url = 'https://api.antontig.beget.tech/uploads/'
+    const url = `${process.env.REACT_APP_PHOTO_URL}/uploads/`
 
     useEffect(() => {
         const reviews = async () => {
