@@ -101,6 +101,7 @@ export default function Advertise() {
         saleType: 2
     });
     const [ad, setAd] = useState({});
+    const [outBuildingTypes, setOutBuildingTypes] = useState([]);
 
     useEffect(() => {
         setLoadData({
@@ -172,7 +173,6 @@ export default function Advertise() {
             gradeType: Number(ad?.gradeType),
             window: Number(ad?.window),
             windowType: Number(ad?.windowType),
-            outBuildingType: Number(ad?.outBuildingType),
             hasBasement: Number(ad?.hasBasement),
             windRoseDirectionType: Number(ad?.windRoseDirectionType),
             buildingType: Number(ad?.buildingType),
@@ -193,7 +193,7 @@ export default function Advertise() {
                 };
             })
         );
-    }, [ad]);
+    }, []);
 
     useEffect(() => {
         if (uuid === undefined) {
@@ -236,7 +236,7 @@ export default function Advertise() {
             setMainImage([]);
             setImages([]);
         }
-    }, [uuid]);
+    }, []);
 
     useEffect(() => {
         const adsget = async () => {
@@ -253,7 +253,7 @@ export default function Advertise() {
             }
         };
         adsget();
-    }, [currentUser?.id, uuid]);
+    }, []);
 
     useEffect(() => {
         function updateState() {
@@ -289,7 +289,7 @@ export default function Advertise() {
     }, []);
 
     useEffect(() => {
-        const ids = types.map((i) => i.id);
+        const ids = types?.map((i) => i.id);
         setRes(ids.find((t) => t === +proptype));
     }, [types, proptype]);
 
@@ -301,22 +301,22 @@ export default function Advertise() {
                     name: res?.suggestions[0]?.data?.city_district
                 })
             );
-    }, [data?.address]);
+    }, []);
 
     useEffect(() => {
         setPrepTypeText(ad?.prepaymentTypeForUser);
-    }, [ad]);
+    }, []);
 
     useEffect(() => {
         loadData.address && setData({ ...loadData, ...btnRadio });
-    }, [loadData]);
+    }, []);
 
     useEffect(() => {
         if (loadData) {
             setProptype(btnRadio?.estateTypeId);
             types.forEach((i) => i.id === btnRadio?.estateTypeId && setEs(i.estates));
         }
-    }, [btnRadio.estateTypeId, types, loadData]);
+    }, []);
 
     useEffect(() => {
         if (data?.address) {
@@ -331,13 +331,13 @@ export default function Advertise() {
                 }));
             });
         }
-    }, [data?.address]);
+    }, []);
 
     useEffect(() => {
         if (data?.residentalComplex === null || data?.residentalComplex === undefined) {
             delete data?.residentalComplex;
         }
-    }, [data?.residentalComplex]);
+    }, []);
 
     const onChangeForOtherImages = (imageList) => {
         setImages(imageList);
@@ -571,6 +571,7 @@ export default function Advertise() {
                 for (const key in req) {
                     formData.append(key, req[key]);
                 }
+                formData.append("outBuildingType", outBuildingTypes.toString());
             }
 
             formData.append("district[][city]", district["city"]);
@@ -1246,7 +1247,7 @@ export default function Advertise() {
                                     repairType: btnRadio?.repairType,
                                     window: btnRadio?.window,
                                     windowType: btnRadio?.windowType,
-                                    outBuildingType: btnRadio?.outBuildingType,
+                                    outBuildingType: outBuildingTypes,
                                     hasBasement: btnRadio?.hasBasement,
                                     hasKitchenFurniture: data?.hasKitchenFurniture,
                                     hasFurniture: data?.hasFurniture,
@@ -1263,9 +1264,23 @@ export default function Advertise() {
                                     windRoseDirectionType: btnRadio?.windRoseDirectionType
                                 }}
                                 seterRadio={seterRadioBtns}
-                                estateName={data?.estateName}
                                 estateTypeName={data?.estateTypeName}
                                 onChange={seterDataInComponent}
+                                onBuldingTypeChange={(e) => {
+                                    const value = e.target.value;
+                                    if (outBuildingTypes.includes(value)) {
+                                        setOutBuildingTypes((prevBuildingTypes) =>
+                                            prevBuildingTypes.filter(
+                                                (buildingType) => buildingType !== value
+                                            )
+                                        );
+                                    } else {
+                                        setOutBuildingTypes((prevBuildingTypes) => [
+                                            ...prevBuildingTypes,
+                                            value
+                                        ]);
+                                    }
+                                }}
                                 seterActiveField={seterActiveField}
                                 isValid={isValid}
                             />
