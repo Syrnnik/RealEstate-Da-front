@@ -319,7 +319,7 @@ export default function CreateService() {
                     </div>
                     <div className="col-sm-8">
                         <AddressSuggestions
-                            delay={1000}
+                            delay={500}
                             httpCache={true}
                             minChars={3}
                             defaultQuery={address?.address}

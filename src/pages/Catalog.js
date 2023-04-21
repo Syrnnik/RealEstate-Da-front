@@ -210,7 +210,7 @@ const Catalog = ({ routeName }) => {
                                 setSearch(sugData.current.textInput.value);
                             }
                         }}
-                        delay={300}
+                        delay={500}
                         ref={sugData}
                     />
                     <button

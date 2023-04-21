@@ -1390,7 +1390,7 @@ export default function Advertise() {
                                 </div>
                                 <div className="col-md-9">
                                     <AddressSuggestions
-                                        delay={1000}
+                                        delay={500}
                                         httpCache={true}
                                         minChars={3}
                                         defaultQuery={data?.address}
