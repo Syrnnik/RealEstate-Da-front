@@ -949,7 +949,7 @@ export default function CardPage() {
             <section className="sec-4 container mb-6">
                 <h3>Отклики исполнителей</h3>
                 <div className="position-relative">
-                    {responsesAd?.meta?.total !== 0 ? (
+                    {responsesAd?.meta?.total > 0 ? (
                         <Slider3 responses={responsesAd} />
                     ) : (
                         <p>Откликов нет</p>
