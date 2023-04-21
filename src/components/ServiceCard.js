@@ -16,7 +16,6 @@ const ServiceCard = (props) => {
 
     useEffect(() => {
         getSubServicesTypes(axiosPrivate, props.id).then((servicesTypes) => {
-            console.log(servicesTypes);
             setSubServices(
                 servicesTypes?.filter((type) =>
                     props.subServices?.find(
@@ -26,9 +25,6 @@ const ServiceCard = (props) => {
             );
         });
     }, []);
-
-    console.log(props.subServices);
-    console.log(subServices);
 
     return (
         <div className="service-card">

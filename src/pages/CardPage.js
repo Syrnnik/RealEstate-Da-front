@@ -41,7 +41,7 @@ export default function CardPage() {
     const user = useCurrentUser();
     const userId = user?.id;
     const [isShowResponseModal, setIsShowResponseModal] = useState(false);
-    const [images, setImages] = React.useState([]);
+    const [images, setImages] = useState([]);
     const maxNumber = 5;
     const [responseData, setResponseData] = useState({
         userId,
