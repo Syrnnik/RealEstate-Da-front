@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ImageUploading from "react-images-uploading";
+import Rating from "react-rating";
 import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import ImageViewer from "react-simple-image-viewer";
@@ -23,6 +24,7 @@ import ForAboutBuildingParkingAd from "../components/cardPageComponents/forAbout
 import ForCommercialAd from "../components/cardPageComponents/forCommercialAd";
 import ForLivingAd from "../components/cardPageComponents/forLivingAd";
 import ForParkingAd from "../components/cardPageComponents/forParkingAd";
+import ForResidentialAd from "../components/cardPageComponents/forResidentialAd";
 import ForSteadAd from "../components/cardPageComponents/forSteadAd";
 import { localEstates } from "../helpers/localEstates";
 import { checkPhotoPath } from "../helpers/photo";
@@ -40,7 +42,7 @@ export default function CardPage() {
     const user = useCurrentUser();
     const userId = user?.id;
     const [isShowResponseModal, setIsShowResponseModal] = useState(false);
-    const [images, setImages] = React.useState([]);
+    const [images, setImages] = useState([]);
     const maxNumber = 5;
     const [responseData, setResponseData] = useState({
         userId,
@@ -104,9 +106,9 @@ export default function CardPage() {
             getResponsesAd(ads?.id, token).then((res) => {
                 setResponsesAd(res);
             });
-    }, [ads?.id]);
+    }, []);
 
-    const sait = "https://api.antontig.beget.tech/uploads/";
+    const sait = `${process.env.REACT_APP_PHOTO_URL}/uploads/`;
 
     const imagesAd = []
         .concat(
@@ -288,26 +290,17 @@ export default function CardPage() {
                 <Breadcrumbs currentRouteName={title() || "Объявление"} cardPage={true} />
             </div>
             <section id="sec-7" className="container pb-5">
-                {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
-                    localEstates.kvartiri && (
-                    <h1>
-                        {ads?.estate?.name} {ads?.totalArea} м<sup>2</sup>
-                    </h1>
-                )}
-                {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
-                    localEstates.zemelia && (
-                    <h1>
-                        {ads?.estate?.name} {ads?.acres} м<sup>2</sup>
-                    </h1>
-                )}
-                {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
-                    localEstates.commer && <h1>{ads?.buildingTypeForUser}</h1>}
-                {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
-                    localEstates.parking && (
-                    <h1>
-                        {ads?.estate?.name} {ads?.totalArea} м<sup>2</sup>
-                    </h1>
-                )}
+                <div>
+                    {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
+                    localEstates.commer ? (
+                        <h1>{ads?.buildingTypeForUser}</h1>
+                    ) : (
+                        <h1>
+                            {`${ads?.estate?.name}, ${ads?.title} м`}
+                            <sup>2</sup>
+                        </h1>
+                    )}
+                </div>
                 <div className="d-flex align-items-center mb-2 mb-xxl-3">
                     <img src="/img/icons/pin.svg" alt="адрес" />
                     <div className="fs-11 fw-6 ms-2 ms-sm-4">
@@ -345,9 +338,8 @@ export default function CardPage() {
                             <div className="d-flex color-2 ms-4">
                                 <img src="/img/icons/eye-fill.svg" alt="Просмотры" />
                                 <span className="d-none d-md-block ms-2">Просмотры:</span>
-                                <span className="ms-1">{ads?.viewsCount}</span>
-                                <span className="d-none d-md-block ms-1">
-                                    ({ads?.todayViewsCount} за сегодня)
+                                <span className="w-100 ms-1">
+                                    {ads?.viewsCount} ({ads?.todayViewsCount} за сегодня)
                                 </span>
                             </div>
                         </div>
@@ -543,76 +535,99 @@ export default function CardPage() {
                     </div>
                     <div className="col-lg-4 mb-4 mb-sm-5">
                         <div className="row row-cols-md-2 row-cols-lg-1">
-                            <div>
-                                {ads?.transactionType ? (
-                                    <div className="frame text-md-end p-3 p-sm-4 p-xxl-5 mb-4">
-                                        <div className="title-font black fw-7 fs-20 mb-2 mb-sm-3">
-                                            {ads?.price} ₽
-                                        </div>
+                            {ads?.transactionType ? (
+                                <div className="frame text-md-end p-3 p-sm-4 p-xxl-5 mb-4">
+                                    <div className="title-font black fw-7 fs-20 mb-2 mb-sm-3">
+                                        {ads?.price} ₽
                                     </div>
-                                ) : (
-                                    <div className="frame text-md-end p-3 p-sm-4 p-xxl-5 mb-4">
-                                        <div className="title-font black fw-7 fs-20 mb-2 mb-sm-3">
-                                            {ads?.price} ₽/мес
-                                        </div>
-                                        <div className="fs-11 gray-3">
-                                            {ads?.communalPrice
-                                                ? `Коммунальные платежи: ${ads?.communalPrice} ₽`
-                                                : "Не включая коммунальные платежи"}
-                                            <br />
-                                            Залог {ads?.pledge} ₽, коммисия:{" "}
-                                            {ads?.commissionForUser}
-                                            <br />
-                                            Предоплата: {ads?.prepaymentTypeForUser},
-                                            аренда: {ads?.rentalPeriodTypeForUser}
-                                        </div>
+                                </div>
+                            ) : (
+                                <div className="frame text-md-end p-3 p-sm-4 p-xxl-5 mb-4">
+                                    <div className="title-font black fw-7 fs-20 mb-2 mb-sm-3">
+                                        {ads?.price} ₽/мес
                                     </div>
-                                )}
-                            </div>
-                            <div>
-                                <div className="frame author p-3 px-sm-4 pt-sm-4 pb-sm-3 px-xxl-5 pt-xxl-5 pb-xxl-4">
-                                    <div className="d-flex justify-content-between">
-                                        <div>
-                                            <h4>{ads?.user?.fullName}</h4>
-                                            <div className="gray-3 fs-11 mb-2">
-                                                На сайте с {ads?.user?.createdAtForUser}
-                                            </div>
+                                    <div className="fs-11 gray-3">
+                                        {ads?.communalPrice
+                                            ? `Коммунальные платежи: ${ads?.communalPrice} ₽`
+                                            : "Не включая коммунальные платежи"}
+                                        <br />
+                                        {`Залог ${ads?.pledge} ₽, коммисия: ${ads?.commissionForUser}`}
+                                        <br />
+                                        Предоплата: {ads?.prepaymentTypeForUser}, аренда:{" "}
+                                        {ads?.rentalPeriodTypeForUser}
+                                    </div>
+                                </div>
+                            )}
+                            <div className="frame author p-3 px-sm-4 pt-sm-4 pb-sm-3 px-xxl-5 pt-xxl-5 pb-xxl-4">
+                                <div className="d-flex justify-content-between">
+                                    <div>
+                                        <h4>{ads?.user?.fullName}</h4>
+                                        <div className="gray-3 fs-11 mb-3">
+                                            На сайте с {ads?.user?.createdAtForUser}
+                                        </div>
+                                        <div className="rating">
+                                            <Rating
+                                                start="0"
+                                                stop="5"
+                                                readonly={true}
+                                                initialRating={ads?.user?.rating}
+                                                fractions={2}
+                                                emptySymbol={
+                                                    <img
+                                                        src="/img/icons/star-gray.svg"
+                                                        alt="1"
+                                                    />
+                                                }
+                                                fullSymbol={
+                                                    <img
+                                                        src="/img/icons/star-blue.svg"
+                                                        alt="1"
+                                                    />
+                                                }
+                                            />
+                                            <span className="fs-11 ms-2">
+                                                ({ads?.user?.rating})
+                                            </span>
+                                        </div>
+                                        {ads?.user?.realEstatesCount - 1 > 0 && (
                                             <div className="color-1 fs-11">
                                                 <NavLink
                                                     to={`/user/${ads?.user?.id}`}
                                                     state={{ fromAd: true }}
                                                 >
-                                                    Еще {ads?.user?.realEstatesCount}{" "}
+                                                    {`Еще ${
+                                                        ads?.user?.realEstatesCount - 1
+                                                    }`}
                                                     <Words />
                                                 </NavLink>
                                             </div>
-                                        </div>
-                                        <img
-                                            src={checkPhotoPath(ads?.user?.avatar)}
-                                            alt={ads?.user?.fullName}
-                                        />
+                                        )}
                                     </div>
-                                    <ShowPhone
-                                        className="mt-4 fs-15"
-                                        phone={ads?.user?.phoneForUser}
+                                    <img
+                                        src={checkPhotoPath(ads?.user?.avatar)}
+                                        alt={ads?.user?.fullName}
                                     />
-                                    <button
-                                        type="button"
-                                        className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3"
-                                        onClick={() => setIsShowWriteMessageModal(true)}
-                                    >
-                                        Написать сообщение
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-2 w-100 fs-15 px-3 mt-2 mt-xl-3"
-                                        onClick={() => {
-                                            setIsShowResponseModal(true);
-                                        }}
-                                    >
-                                        Откликнуться
-                                    </button>
                                 </div>
+                                <ShowPhone
+                                    className="mt-4 fs-15"
+                                    phone={ads?.user?.phoneForUser}
+                                />
+                                <button
+                                    type="button"
+                                    className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3"
+                                    onClick={() => setIsShowWriteMessageModal(true)}
+                                >
+                                    Написать сообщение
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-2 w-100 fs-15 px-3 mt-2 mt-xl-3"
+                                    onClick={() => {
+                                        setIsShowResponseModal(true);
+                                    }}
+                                >
+                                    Откликнуться
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -742,6 +757,33 @@ export default function CardPage() {
                             <ForSteadAd
                                 acres={ads?.acres}
                                 cityDistance={ads?.cityDistance}
+                            />
+                        )}
+                        {ads?.estate?.realEstateTypeForUser
+                            ?.toLowerCase()
+                            ?.includes(localEstates.dom) && (
+                            <ForResidentialAd
+                                rooms={ads?.roomsForUser}
+                                totalArea={ads?.totalArea}
+                                livingArea={ads?.livingArea}
+                                livingAreaForUser={ads?.livingAreaForUser}
+                                kitchenArea={ads?.kitchenArea}
+                                kitchenAreaForUser={ads?.kitchenAreaForUser}
+                                maxFloorForUser={ads?.maxFloorForUser}
+                                floor={ads?.floor}
+                                layoutForUser={ads?.layoutForUser}
+                                repairTypeForUser={ads?.repairTypeForUser}
+                                WCTypeForUser={ads?.WCTypeForUser}
+                                balconyTypeForUser={ads?.balconyTypeForUser}
+                                elevatorTypeForUser={ads?.elevatorTypeForUser}
+                                windRoseDirectionType={ads?.windRoseDirectionTypeForUser}
+                                window={ads?.windowForUser}
+                                windowType={ads?.windowTypeForUser}
+                                estateType={ads?.estate?.name}
+                                outBuildingType={ads?.outBuildingTypeForUser}
+                                landArea={ads?.landArea}
+                                estateTypeForUser={ads?.estateTypeForUser}
+                                areaTypeForUser={ads?.areaTypeForUser}
                             />
                         )}
 
@@ -932,7 +974,7 @@ export default function CardPage() {
             <section className="sec-4 container mb-6">
                 <h3>Отклики исполнителей</h3>
                 <div className="position-relative">
-                    {responsesAd?.meta?.total !== 0 ? (
+                    {responsesAd?.meta?.total > 0 ? (
                         <Slider3 responses={responsesAd} />
                     ) : (
                         <p>Откликов нет</p>

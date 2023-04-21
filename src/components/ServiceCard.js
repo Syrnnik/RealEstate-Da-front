@@ -16,7 +16,6 @@ const ServiceCard = (props) => {
 
     useEffect(() => {
         getSubServicesTypes(axiosPrivate, props.id).then((servicesTypes) => {
-            console.log(servicesTypes);
             setSubServices(
                 servicesTypes?.filter((type) =>
                     props.subServices?.find(
@@ -27,8 +26,7 @@ const ServiceCard = (props) => {
         });
     }, []);
 
-    console.log(props.subServices);
-    console.log(subServices);
+    const sait = `${process.env.REACT_APP_PHOTO_URL}/uploads`;
 
     return (
         <div className="service-card">
@@ -53,6 +51,11 @@ const ServiceCard = (props) => {
                     <div className="serv" key={subService.id}>
                         {subService.name}
                     </div>
+                ))}
+            </div>
+            <div className="photo my-2 mt-md-3 mt-xxl-0">
+                {props.images.map((serviceImage) => (
+                    <img className="rounded-0" src={`${sait}/${serviceImage.image}`} />
                 ))}
             </div>
             <div className="row justify-content-end mt-3">

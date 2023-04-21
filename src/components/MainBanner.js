@@ -14,7 +14,7 @@ export const MainBanner = (props) => {
         }
     }, [props.banners])
 
-    const url = 'https://api.antontig.beget.tech'
+    const url = `${process.env.REACT_APP_BASE_URL}`
 
     return (
             <Swiper

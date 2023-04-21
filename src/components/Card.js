@@ -32,10 +32,11 @@ const Card = (props) => {
         );
 
         return result.map((item) =>
-            item ? `https://api.antontig.beget.tech/uploads/${item}` : "/img/nophoto.jpg"
+            item
+                ? `${process.env.REACT_APP_PHOTO_URL}/uploads/${item}`
+                : "/img/nophoto.jpg"
         );
     };
-    console.log(props);
 
     if (type === "as-a-list") {
         return (
@@ -66,28 +67,12 @@ const Card = (props) => {
                                             prevSearch: search
                                         }}
                                     >
-                                        {props.realEstateTypeForUser?.toLowerCase() ===
-                                            localEstates.kvartiri && (
-                                            <>
-                                                {props?.estateName} {props?.totalArea} м
-                                                <sup>2</sup>
-                                            </>
-                                        )}
-                                        {props?.realEstateTypeForUser?.toLowerCase() ===
-                                            localEstates.zemelia && (
-                                            <>
-                                                {props?.estateName} {props?.acres} м
-                                                <sup>2</sup>
-                                            </>
-                                        )}
-                                        {props.realEstateTypeForUser?.toLowerCase() ===
-                                            localEstates.commer && (
+                                        {props?.estate?.realEstateTypeForUser?.toLowerCase() ===
+                                        localEstates.commer ? (
                                             <>{props?.buildingTypeForUser}</>
-                                        )}
-                                        {props.realEstateTypeForUser?.toLowerCase() ===
-                                            localEstates.parking && (
+                                        ) : (
                                             <>
-                                                {props?.estateName} {props?.totalArea} м
+                                                {`${props?.estateName}, ${props?.title} м`}
                                                 <sup>2</sup>
                                             </>
                                         )}

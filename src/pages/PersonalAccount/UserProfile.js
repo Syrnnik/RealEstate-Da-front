@@ -17,7 +17,7 @@ export default function UserProfile() {
     const axiosPrivate = useAxiosPrivate();
     const token = useAccessToken()
     const currentUser = useCurrentUser()
-    const sait = 'https://api.antontig.beget.tech/uploads/';
+    const sait = `${process.env.REACT_APP_PHOTO_URL}/uploads/`;
     const [avatars, setAvatars] = useState([{data_url: "/img/img-photo.svg"}]);
     const uuid = currentUser?.uuid;
     let startYear = new Date().getFullYear();

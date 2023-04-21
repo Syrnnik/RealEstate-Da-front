@@ -101,6 +101,8 @@ export default function Advertise() {
         saleType: 2
     });
     const [ad, setAd] = useState({});
+    const [outBuildingTypes, setOutBuildingTypes] = useState([]);
+    const [windRoseDirectionType, setWindRoseDirectionType] = useState([]);
 
     useEffect(() => {
         setLoadData({
@@ -172,28 +174,29 @@ export default function Advertise() {
             gradeType: Number(ad?.gradeType),
             window: Number(ad?.window),
             windowType: Number(ad?.windowType),
-            outBuildingType: Number(ad?.outBuildingType),
             hasBasement: Number(ad?.hasBasement),
-            windRoseDirectionType: Number(ad?.windRoseDirectionType),
             buildingType: Number(ad?.buildingType),
             locationType: Number(ad?.locationType),
             hasSecurity: Number(ad?.hasSecurity),
             sellerType: Number(ad?.sellerType),
             saleType: Number(ad?.saleType)
         });
+        // setWindRoseDirectionType(ad?.windRoseDirectionType.);
+        //! add same for outBuildingType
+        // setWindRoseDirectionType(ad?.windRoseDirectionType.);
         setDeal(ad?.transactionType);
         setMainImage([
-            { data_url: `https://api.antontig.beget.tech/uploads/${ad.image}` }
+            { data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${ad.image}` }
         ]);
         setImages(
             ad?.images?.map((i) => {
                 return {
                     id: i.id,
-                    data_url: `https://api.antontig.beget.tech/uploads/${i.image}`
+                    data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${i.image}`
                 };
             })
         );
-    }, [ad]);
+    }, []);
 
     useEffect(() => {
         if (uuid === undefined) {
@@ -236,7 +239,7 @@ export default function Advertise() {
             setMainImage([]);
             setImages([]);
         }
-    }, [uuid]);
+    }, []);
 
     useEffect(() => {
         const adsget = async () => {
@@ -253,7 +256,7 @@ export default function Advertise() {
             }
         };
         adsget();
-    }, [currentUser?.id, uuid]);
+    }, []);
 
     useEffect(() => {
         function updateState() {
@@ -289,7 +292,7 @@ export default function Advertise() {
     }, []);
 
     useEffect(() => {
-        const ids = types.map((i) => i.id);
+        const ids = types?.map((i) => i.id);
         setRes(ids.find((t) => t === +proptype));
     }, [types, proptype]);
 
@@ -301,22 +304,22 @@ export default function Advertise() {
                     name: res?.suggestions[0]?.data?.city_district
                 })
             );
-    }, [data?.address]);
+    }, []);
 
     useEffect(() => {
         setPrepTypeText(ad?.prepaymentTypeForUser);
-    }, [ad]);
+    }, []);
 
     useEffect(() => {
         loadData.address && setData({ ...loadData, ...btnRadio });
-    }, [loadData]);
+    }, []);
 
     useEffect(() => {
         if (loadData) {
             setProptype(btnRadio?.estateTypeId);
             types.forEach((i) => i.id === btnRadio?.estateTypeId && setEs(i.estates));
         }
-    }, [btnRadio.estateTypeId, types, loadData]);
+    }, []);
 
     useEffect(() => {
         if (data?.address) {
@@ -331,13 +334,13 @@ export default function Advertise() {
                 }));
             });
         }
-    }, [data?.address]);
+    }, []);
 
     useEffect(() => {
         if (data?.residentalComplex === null || data?.residentalComplex === undefined) {
             delete data?.residentalComplex;
         }
-    }, [data?.residentalComplex]);
+    }, []);
 
     const onChangeForOtherImages = (imageList) => {
         setImages(imageList);
@@ -400,7 +403,7 @@ export default function Advertise() {
             data?.commission > 100 ||
             data?.commission === undefined;
         const isInValidCadastralNumber = data?.cadastralNumber === undefined;
-        const isInValidLandCadastralNumber = data?.landcadastralNumber === undefined;
+        const isInValidLandCadastralNumber = data?.landСadastralNumber === undefined;
         const isInValidAcres = data?.acres === undefined || data?.acres <= 0;
         const isInValidBuildingType = data?.buildingType === undefined;
         const isInValidParking =
@@ -544,7 +547,10 @@ export default function Advertise() {
             } else if (isInValidCadastralNumber) {
                 scroller.scrollTo("anchor-5", { offset: -80 });
                 setValid({ ...valid, isInValidCadastralNumber: true });
-            } else if (isInValidLandCadastralNumber) {
+            } else if (
+                data?.estateTypeName?.toLowerCase().includes(localEstates.dom) &&
+                isInValidLandCadastralNumber
+            ) {
                 scroller.scrollTo("anchor-5", { offset: -80 });
                 setValid({ ...valid, isInValidLandCadastralNumber: true });
             } else return true;
@@ -571,6 +577,11 @@ export default function Advertise() {
                 for (const key in req) {
                     formData.append(key, req[key]);
                 }
+                formData.append("outBuildingType", outBuildingTypes.toString());
+                formData.append(
+                    "windRoseDirectionType",
+                    windRoseDirectionType.toString()
+                );
             }
 
             formData.append("district[][city]", district["city"]);
@@ -1245,8 +1256,8 @@ export default function Advertise() {
                                     layoutType: btnRadio?.layoutType,
                                     repairType: btnRadio?.repairType,
                                     window: btnRadio?.window,
-                                    windowType: btnRadio?.windowType,
-                                    outBuildingType: btnRadio?.outBuildingType,
+                                    windowType: windRoseDirectionType,
+                                    outBuildingType: outBuildingTypes,
                                     hasBasement: btnRadio?.hasBasement,
                                     hasKitchenFurniture: data?.hasKitchenFurniture,
                                     hasFurniture: data?.hasFurniture,
@@ -1259,13 +1270,45 @@ export default function Advertise() {
                                     hasBathroom: data?.hasBathroom,
                                     hasShowerCabin: data?.hasShowerCabin,
                                     withKids: data?.withKids,
-                                    withPets: data?.withPets,
-                                    windRoseDirectionType: btnRadio?.windRoseDirectionType
+                                    withPets: data?.withPets
                                 }}
                                 seterRadio={seterRadioBtns}
-                                estateName={data?.estateName}
                                 estateTypeName={data?.estateTypeName}
                                 onChange={seterDataInComponent}
+                                onBuldingTypeChange={(e) => {
+                                    const value = e.target.value;
+                                    if (outBuildingTypes.includes(value)) {
+                                        setOutBuildingTypes((prevBuildingTypes) =>
+                                            prevBuildingTypes.filter(
+                                                (buildingType) => buildingType !== value
+                                            )
+                                        );
+                                    } else {
+                                        setOutBuildingTypes((prevBuildingTypes) => [
+                                            ...prevBuildingTypes,
+                                            value
+                                        ]);
+                                    }
+                                }}
+                                onWindRoseDirectionTypeChange={(e) => {
+                                    const value = e.target.value;
+                                    if (windRoseDirectionType.includes(value)) {
+                                        setWindRoseDirectionType(
+                                            (prevWindDirectionType) =>
+                                                prevWindDirectionType.filter(
+                                                    (directionType) =>
+                                                        directionType !== value
+                                                )
+                                        );
+                                    } else {
+                                        setWindRoseDirectionType(
+                                            (prevWindDirectionTypes) => [
+                                                ...prevWindDirectionTypes,
+                                                value
+                                            ]
+                                        );
+                                    }
+                                }}
                                 seterActiveField={seterActiveField}
                                 isValid={isValid}
                             />
@@ -1347,7 +1390,7 @@ export default function Advertise() {
                                 </div>
                                 <div className="col-md-9">
                                     <AddressSuggestions
-                                        delay={1000}
+                                        delay={500}
                                         httpCache={true}
                                         minChars={3}
                                         defaultQuery={data?.address}
@@ -2111,11 +2154,10 @@ export default function Advertise() {
                                                             onChange={(e) => {
                                                                 setData((prevState) => ({
                                                                     ...prevState,
-                                                                    isInValidCadastralNumber:
-                                                                        e.target.value
-                                                                            ? e.target
-                                                                                  .value
-                                                                            : undefined
+                                                                    cadastralNumber: e
+                                                                        .target.value
+                                                                        ? e.target.value
+                                                                        : undefined
                                                                 }));
                                                                 resetFieldVal(
                                                                     e,
@@ -2154,14 +2196,14 @@ export default function Advertise() {
                                                                             : ""
                                                                 }}
                                                                 value={
-                                                                    data?.landcadastralNumber ||
+                                                                    data?.landСadastralNumber ||
                                                                     ""
                                                                 }
                                                                 onChange={(e) => {
                                                                     setData(
                                                                         (prevState) => ({
                                                                             ...prevState,
-                                                                            landcadastralNumber:
+                                                                            landСadastralNumber:
                                                                                 e.target
                                                                                     .value
                                                                                     ? e

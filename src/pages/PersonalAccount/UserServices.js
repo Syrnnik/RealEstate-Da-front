@@ -57,6 +57,7 @@ export default function UserServices() {
                             key={service.id}
                             id={service.id}
                             labels={service.labels}
+                            images={service.images}
                             subServices={service.subServices}
                             callback={(id) => {
                                 setServiceId(id);

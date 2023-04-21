@@ -1,7 +1,7 @@
 const checkPhotoPath = (path = '') => path?.length
     ? path.includes('http')
         ? path
-        : `https://api.antontig.beget.tech/uploads/${path}`
+        : `${process.env.REACT_APP_PHOTO_URL}/uploads/${path}`
     : '/img/nophoto.jpg'
 
 export {checkPhotoPath}
