@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { AddressSuggestions } from "react-dadata";
+import ImageUploading from "react-images-uploading";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { bindActionCreators } from "redux";
@@ -40,6 +41,10 @@ export default function CreateService() {
     const { setAlert } = bindActionCreators(alertActions, dispatch);
     const [address, setAddress] = useState({});
     const [district, setDistrict] = useState({});
+    const [imgs, setImages] = useState([]);
+    const maxNumber = 24;
+    const { uuid } = useParams();
+    const token = useAccessToken();
 
     useEffect(() => {
         setPayloads((prevState) => ({
@@ -96,6 +101,11 @@ export default function CreateService() {
             }
             for (let key in subServiceSelect) {
                 formData.append("subServices[]", subServiceSelect[key]["value"]);
+            }
+            if (imgs?.length > 0) {
+                imgs.forEach((i, index) => {
+                    formData.append("images[]", i.file);
+                });
             }
             createService(axiosPrivate, formData)
                 .then(() => {
@@ -209,6 +219,10 @@ export default function CreateService() {
         },
         [address?.address]
     );
+
+    const onChangeForOtherImages = (imageList) => {
+        setImages(imageList);
+    };
 
     return (
         <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
@@ -343,6 +357,127 @@ export default function CreateService() {
                                 resetFieldVal(e, "isInValidAddress");
                             }}
                         />
+                    </div>
+                </div>
+                <div className="row mb-3 mb-sm-4 mb-xl-5">
+                    <div className="col-sm-4">
+                        <span
+                            className="fs-11 mb-1"
+                            data-for="imgs"
+                            data-status={false}
+                            style={{
+                                color: valid.isInValidImage ? "#DA1E2A" : ""
+                            }}
+                        >
+                            Фото:
+                        </span>
+                    </div>
+                    <div className="col-md-8">
+                        <ImageUploading
+                            multiple
+                            value={imgs}
+                            onChange={onChangeForOtherImages}
+                            maxNumber={maxNumber}
+                            dataURLKey="data_url"
+                            acceptType={["JPG", "JPEG", "PNG", "WEBP"]}
+                        >
+                            {({
+                                imageList,
+                                onImageUpload,
+                                onImageRemoveAll,
+                                onImageUpdate,
+                                onImageRemove,
+                                isDragging,
+                                dragProps,
+                                errors
+                            }) => (
+                                <>
+                                    <div className="upload__image-wrapper">
+                                        <div className="imgs-box">
+                                            {imageList.map((image, index) => (
+                                                <div key={index} className="image-item">
+                                                    <img src={image.data_url} alt="" />
+                                                    <div className="image-item__btn-wrapper">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                onImageRemove(index);
+                                                                // uuid &&
+                                                                //     deleteImage(
+                                                                //         axiosPrivate,
+                                                                //         image.id,
+                                                                //         token
+                                                                //     )
+                                                                //         .then(() =>
+                                                                //             setAlert(
+                                                                //                 "success",
+                                                                //                 true,
+                                                                //                 "Картинка успешно удалена"
+                                                                //             )
+                                                                //         )
+                                                                //         .catch(() =>
+                                                                //             setAlert(
+                                                                //                 "danger",
+                                                                //                 true,
+                                                                //                 "Произошла ошибка"
+                                                                //             )
+                                                                //         );
+                                                            }}
+                                                        >
+                                                            <img
+                                                                src="/img/icons/delete.svg"
+                                                                alt="Удалить"
+                                                            />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="d-flex justify-content-center">
+                                            <button
+                                                type="button"
+                                                className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
+                                                style={
+                                                    isDragging ? { color: "red" } : null
+                                                }
+                                                onClick={onImageUpload}
+                                                {...dragProps}
+                                            >
+                                                <svg
+                                                    width="21"
+                                                    height="21"
+                                                    viewBox="0 0 21 21"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <line
+                                                        x1="10.75"
+                                                        x2="10.75"
+                                                        y2="21"
+                                                        stroke="white"
+                                                        strokeWidth="1.5"
+                                                    />
+                                                    <line
+                                                        y1="10.25"
+                                                        x2="21"
+                                                        y2="10.25"
+                                                        stroke="white"
+                                                        strokeWidth="1.5"
+                                                    />
+                                                </svg>
+                                                <span className="ms-2">
+                                                    Добавить фотографии
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <span className="text-danger">
+                                        {errors?.acceptType &&
+                                            "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
+                                    </span>
+                                </>
+                            )}
+                        </ImageUploading>
                     </div>
                 </div>
                 <div className="row justify-content-end">
