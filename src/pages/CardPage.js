@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ImageUploading from "react-images-uploading";
+import Rating from "react-rating";
 import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import ImageViewer from "react-simple-image-viewer";
@@ -561,8 +562,32 @@ export default function CardPage() {
                                 <div className="d-flex justify-content-between">
                                     <div>
                                         <h4>{ads?.user?.fullName}</h4>
-                                        <div className="gray-3 fs-11 mb-2">
+                                        <div className="gray-3 fs-11 mb-3">
                                             На сайте с {ads?.user?.createdAtForUser}
+                                        </div>
+                                        <div className="rating">
+                                            <Rating
+                                                start="0"
+                                                stop="5"
+                                                readonly={true}
+                                                initialRating={ads?.user?.rating}
+                                                fractions={2}
+                                                emptySymbol={
+                                                    <img
+                                                        src="/img/icons/star-gray.svg"
+                                                        alt="1"
+                                                    />
+                                                }
+                                                fullSymbol={
+                                                    <img
+                                                        src="/img/icons/star-blue.svg"
+                                                        alt="1"
+                                                    />
+                                                }
+                                            />
+                                            <span className="fs-11 ms-2">
+                                                ({ads?.user?.rating})
+                                            </span>
                                         </div>
                                         {ads?.user?.realEstatesCount - 1 > 0 && (
                                             <div className="color-1 fs-11">
