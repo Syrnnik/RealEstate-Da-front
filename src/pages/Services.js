@@ -502,6 +502,7 @@ export default function Services() {
                         <div className="row px-2 px-sm-0 row-cols-sm-2 row-cols-lg-3 row-cols-xl-2 row-cols-xxl-1 g-3">
                             {users?.data?.map((i) => (
                                 <div key={i.id} className="d-grid col-6">
+                                    {console.log(i)}
                                     <UserCard
                                         inAddResponse={true}
                                         userId={i?.user?.id}
@@ -512,7 +513,7 @@ export default function Services() {
                                         labels={i.labels}
                                         phone={i.user.phone}
                                         rating={i.user.rating}
-                                        service={i.subService.name}
+                                        subServices={i.subServices}
                                         serviceId={i.id}
                                         setSendMessagePayloads={setSendMessagePayloads}
                                         prevUrl={loc?.pathname}
