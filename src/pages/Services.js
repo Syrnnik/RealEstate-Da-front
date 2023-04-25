@@ -512,7 +512,7 @@ export default function Services() {
                                         labels={i.labels}
                                         phone={i.user.phone}
                                         rating={i.user.rating}
-                                        service={i.subService.name}
+                                        subServices={i.subServices}
                                         serviceId={i.id}
                                         setSendMessagePayloads={setSendMessagePayloads}
                                         prevUrl={loc?.pathname}
