@@ -1,25 +1,25 @@
-import React from 'react';
+import React from "react";
 
 const ForCommercialAd = (props) => {
-    return (
-        <div className="column-2">
-            <div className="specification fs-11">
-                <div className="left">
-                    <span>Тип здания: </span>
-                </div>
-                <div className="right">
-                    <span>{props?.buildingType}</span>
-                </div>
-            </div>
-            <div className="specification fs-11">
-                <div className="left">
-                    <span>Направление: </span>
-                </div>
-                <div className="right">
-                    <span>{props?.directionTypeForUser}</span>
-                </div>
-            </div>
-            <div className="specification fs-11">
+  return (
+    <div className="column-2">
+      <div className="specification fs-11">
+        <div className="left">
+          <span>Тип здания: </span>
+        </div>
+        <div className="right">
+          <span>{props?.buildingType}</span>
+        </div>
+      </div>
+      <div className="specification fs-11">
+        <div className="left">
+          <span>Направление: </span>
+        </div>
+        <div className="right">
+          <span>{props?.directionTypeForUser}</span>
+        </div>
+      </div>
+      {/* <div className="specification fs-11">
                 <div className="left">
                     <span>Вентиляция: </span>
                 </div>
@@ -50,9 +50,9 @@ const ForCommercialAd = (props) => {
                 <div className="right">
                     <span>{props?.gradeType}</span>
                 </div>
-            </div>
-        </div>
-    );
+            </div> */}
+    </div>
+  );
 };
 
 export default ForCommercialAd;
