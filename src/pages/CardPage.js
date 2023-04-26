@@ -21,6 +21,7 @@ import YMap from "../components/YMap";
 import ForAboutBuildingCommercialAd from "../components/cardPageComponents/forAboutBuildingCommercialAd";
 import ForAboutBuildingLivingAd from "../components/cardPageComponents/forAboutBuildingLivingAd";
 import ForAboutBuildingParkingAd from "../components/cardPageComponents/forAboutBuildingParkingAd";
+import ForAboutBuildingResidentialAd from "../components/cardPageComponents/forAboutBuildingResidentialAd";
 import ForCommercialAd from "../components/cardPageComponents/forCommercialAd";
 import ForLivingAd from "../components/cardPageComponents/forLivingAd";
 import ForParkingAd from "../components/cardPageComponents/forParkingAd";
@@ -941,6 +942,25 @@ export default function CardPage() {
                 houseBuildingTypeForUser={ads?.houseBuildingTypeForUser}
                 elevatorTypeForUser={ads?.elevatorTypeForUser}
                 yearOfConstructionForUser={ads?.yearOfConstructionForUser}
+              />
+            )}
+            {ads?.estate?.realEstateTypeForUser
+              ?.toLowerCase()
+              ?.includes(localEstates.dom) && (
+              <ForAboutBuildingResidentialAd
+                houseBuildingTypeForUser={ads?.houseBuildingTypeForUser}
+                elevatorTypeForUser={ads?.elevatorTypeForUser}
+                yearOfConstructionForUser={ads?.yearOfConstructionForUser}
+                ceilingHeightForUser={ads?.ceilingHeightForUser}
+                hasRamp={ads?.hasRamp}
+                hasGroundParking={ads?.hasGroundParking}
+                hasMoreLayerParking={ads?.hasMoreLayerParking}
+                hasUnderGroundParking={ads?.hasUnderGroundParking}
+                hasGarbage={ads?.hasGarbage}
+                hasYardParking={ads?.hasYardParking}
+                hasBarrierParking={ads?.hasBarrierParking}
+                outBuildingType={ads?.outBuildingType}
+                hasBasement={ads?.hasBasement}
               />
             )}
             {ads && (
