@@ -668,7 +668,7 @@ export default function Advertise() {
         node.setInputValue(data?.address);
       }
     },
-    [data?.address]
+    []
   );
 
   const resetFieldVal = (newState, field) => {
@@ -1259,7 +1259,7 @@ export default function Advertise() {
                 </div>
                 <div className="col-md-9">
                   <AddressSuggestions
-                    delay={500}
+                    delay={1000}
                     httpCache={true}
                     minChars={3}
                     defaultQuery={data?.address}

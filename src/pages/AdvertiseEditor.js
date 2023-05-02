@@ -773,7 +773,7 @@ export default function Advertise() {
                                 <div className="col-md-9">
                                     {data?.address &&
                                         <AddressSuggestions
-                                            delay={500}
+                                            delay={1000}
                                             containerClassName='advertise__address'
                                             defaultQuery={data?.address}
                                             ref={suggestionsRef}
