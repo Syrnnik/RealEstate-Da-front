@@ -56,7 +56,7 @@ export default function AccountMenu() {
             <NavLink to="my-services">Мои услуги</NavLink>
           </li>
           <li>
-            <img src="/img/icons/pa-4.svg" alt="Избранное" />
+            <img src="/img/icons/favorite.svg" alt="Избранное" />
             <NavLink to="favorites">Избранное</NavLink>
           </li>
           <li>
@@ -68,7 +68,7 @@ export default function AccountMenu() {
             <NavLink to="in-work">В работе</NavLink>
           </li>
           <li>
-            <img src="/img/icons/pa-5.svg" alt="Сообщения" />
+            <img src="/img/icons/email.svg" alt="Сообщения" />
             <NavLink to="my-messages">Сообщения</NavLink>
             {(conversationCount > 0) && <div className="count">{conversationCount}</div>}
           </li>
