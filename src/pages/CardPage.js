@@ -759,7 +759,7 @@ export default function CardPage() {
                   {ads?.hasKitchenFurniture ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/furniture.svg"
+                        src="/img/icons/kitchen-furniture.svg"
                         alt="Кухонная мебель"
                         className="icon-mini"
                       />
@@ -807,7 +807,7 @@ export default function CardPage() {
                   {ads?.hasDishWasher ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/washer.svg"
+                        src="/img/icons/disher.svg"
                         alt="Посудомоечная машина"
                         className="icon-mini"
                       />
@@ -863,7 +863,7 @@ export default function CardPage() {
                   {ads?.hasShowerCabin ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/bath.svg"
+                        src="/img/icons/shower.svg"
                         alt="Душевая кабина"
                         className="icon-mini"
                       />
@@ -876,7 +876,7 @@ export default function CardPage() {
                   {ads?.withPets ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/with-pets.svg"
+                        src="/img/icons/pets.svg"
                         alt="Можно с животными"
                         className="icon-mini"
                       />
@@ -888,7 +888,7 @@ export default function CardPage() {
                   {ads?.withKids ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/with-kids.svg"
+                        src="/img/icons/kids.svg"
                         alt="Можно с детьми"
                         className="icon-mini"
                       />
