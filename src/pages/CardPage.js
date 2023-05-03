@@ -122,6 +122,8 @@ export default function CardPage() {
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
+  const [showFullDesc, setShowFullDesc] = useState(false);
+
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
     setIsViewerOpen(true);
@@ -579,7 +581,12 @@ export default function CardPage() {
           </div>
           <div className="col-lg-10 col-xl-8">
             <h4>Описание</h4>
-            <p className="fs-11 text-break">{ads?.description}</p>
+            <p className="fs-11 text-break">
+              {ads?.description.length < 42 || showFullDesc
+                ? ads?.description
+                : ads?.description.slice(42) + "..."}
+              {!showFullDesc && <a onClick={() => setShowFullDesc(true)}>Читать далее</a>}
+            </p>
 
             <h4 className="mt-4 mt-sm-5 mb-3">О сделке</h4>
             {ads?.transactionType === 1 && (
