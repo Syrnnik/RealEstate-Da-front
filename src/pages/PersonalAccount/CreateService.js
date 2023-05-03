@@ -203,6 +203,8 @@ export default function CreateService() {
         setDistrict({
           city: res?.suggestions[0]?.data?.city,
           name: res?.suggestions[0]?.data?.city_district
+            ? res?.suggestions[0]?.data?.city_district
+            : "Не важно"
         })
       );
   }, [address]);
@@ -320,7 +322,7 @@ export default function CreateService() {
           </div>
           <div className="col-sm-8">
             <AddressSuggestions
-              delay={500}
+              delay={1000}
               httpCache={true}
               minChars={3}
               defaultQuery={address?.address}

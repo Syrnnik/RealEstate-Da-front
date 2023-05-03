@@ -525,7 +525,7 @@ button {
   fill: #146492;
 }
 .btn-fav:active, .btn-fav.clicked {
-  background-color: #C59C7E;
+  background-color: #E63946;
 }
 .btn-fav:active svg path, .btn-fav.clicked svg path {
   fill: #fff;

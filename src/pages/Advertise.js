@@ -140,6 +140,7 @@ export default function Advertise() {
       kitchenArea: ad?.kitchenArea || 0,
       maxFloor: ad?.maxFloor || 0,
       cadastralNumber: ad?.cadastralNumber,
+      landСadastralNumber: ad?.landСadastralNumber,
       estateName: ad?.estate?.name,
       estateTypeName: ad?.estate?.realEstateType?.name,
       landArea: ad?.landArea || 0,
@@ -196,7 +197,7 @@ export default function Advertise() {
         };
       })
     );
-  }, []);
+  }, [ad]);
 
   useEffect(() => {
     if (uuid === undefined) {
@@ -239,7 +240,7 @@ export default function Advertise() {
       setMainImage([]);
       setImages([]);
     }
-  }, []);
+  }, [uuid]);
 
   useEffect(() => {
     const adsget = async () => {
@@ -269,7 +270,7 @@ export default function Advertise() {
     }
 
     ref?.current?.addEventListener("change", updateState);
-  }, []);
+  }, [ref]);
 
   useEffect(() => {
     const typess = async () => {
@@ -300,9 +301,11 @@ export default function Advertise() {
         setDistrict({
           city: res?.suggestions[0]?.data?.city,
           name: res?.suggestions[0]?.data?.city_district
+            ? res?.suggestions[0]?.data?.city_district
+            : "Не важно"
         })
       );
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     setPrepTypeText(ad?.prepaymentTypeForUser);
@@ -310,14 +313,14 @@ export default function Advertise() {
 
   useEffect(() => {
     loadData.address && setData({ ...loadData, ...btnRadio });
-  }, []);
+  }, [loadData, btnRadio]);
 
   useEffect(() => {
     if (loadData) {
       setProptype(btnRadio?.estateTypeId);
       types.forEach((i) => i.id === btnRadio?.estateTypeId && setEs(i.estates));
     }
-  }, []);
+  }, [btnRadio, types]);
 
   useEffect(() => {
     if (data?.address) {
@@ -332,7 +335,7 @@ export default function Advertise() {
         }));
       });
     }
-  }, []);
+  }, [data?.address]);
 
   useEffect(() => {
     if (data?.residentalComplex === null || data?.residentalComplex === undefined) {
@@ -387,7 +390,7 @@ export default function Advertise() {
     const isInValidMaxFloor = data?.maxFloor < 0;
     const isInValidDescription =
       data.description?.length < 30 || data.description === undefined;
-    const isInValidImage = image === undefined;
+    const isInValidImage = f === undefined;
     const isInValidPrice = data.price === undefined || data?.price < 0;
     const isInValidEstateTypeId =
       data.estateTypeId === undefined || data.estateTypeId === 0;
@@ -661,14 +664,11 @@ export default function Advertise() {
     }
   };
 
-  const suggestionsRef = useCallback(
-    (node) => {
-      if (node !== null) {
-        node.setInputValue(data?.address);
-      }
-    },
-    [data?.address]
-  );
+  const suggestionsRef = useCallback((node) => {
+    if (node !== null) {
+      node.setInputValue(data?.address);
+    }
+  }, []);
 
   const resetFieldVal = (newState, field) => {
     setValid({ ...valid, [field]: false });
@@ -700,9 +700,12 @@ export default function Advertise() {
     setActiveField(number);
   }, []);
 
-  const resetValid = useCallback((newState, field) => {
-    setValid({ ...valid, [field]: false });
-  }, []);
+  const resetValid = useCallback(
+    (newState, field) => {
+      setValid({ ...valid, [field]: false });
+    },
+    [valid]
+  );
 
   const seterRadioBtns = useCallback((e) => {
     const name = e.target.name;
@@ -1255,7 +1258,7 @@ export default function Advertise() {
                 </div>
                 <div className="col-md-9">
                   <AddressSuggestions
-                    delay={500}
+                    delay={1000}
                     httpCache={true}
                     minChars={3}
                     defaultQuery={data?.address}
