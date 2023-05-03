@@ -301,6 +301,8 @@ export default function Advertise() {
         setDistrict({
           city: res?.suggestions[0]?.data?.city,
           name: res?.suggestions[0]?.data?.city_district
+            ? res?.suggestions[0]?.data?.city_district
+            : "Не важно"
         })
       );
   }, [data]);
@@ -662,14 +664,11 @@ export default function Advertise() {
     }
   };
 
-  const suggestionsRef = useCallback(
-    (node) => {
-      if (node !== null) {
-        node.setInputValue(data?.address);
-      }
-    },
-    []
-  );
+  const suggestionsRef = useCallback((node) => {
+    if (node !== null) {
+      node.setInputValue(data?.address);
+    }
+  }, []);
 
   const resetFieldVal = (newState, field) => {
     setValid({ ...valid, [field]: false });

@@ -203,6 +203,8 @@ export default function CreateService() {
         setDistrict({
           city: res?.suggestions[0]?.data?.city,
           name: res?.suggestions[0]?.data?.city_district
+            ? res?.suggestions[0]?.data?.city_district
+            : "Не важно"
         })
       );
   }, [address]);
