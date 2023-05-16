@@ -5,6 +5,16 @@ const ForCommercialAd = (props) => {
     <div className="column-2">
       <div className="specification fs-11">
         <div className="left">
+          <span>Общая площадь: </span>
+        </div>
+        <div className="right">
+          <span>
+            {props?.totalArea} м<sup>2</sup>
+          </span>
+        </div>
+      </div>
+      <div className="specification fs-11">
+        <div className="left">
           <span>Тип здания: </span>
         </div>
         <div className="right">
@@ -19,38 +29,6 @@ const ForCommercialAd = (props) => {
           <span>{props?.directionTypeForUser}</span>
         </div>
       </div>
-      {/* <div className="specification fs-11">
-                <div className="left">
-                    <span>Вентиляция: </span>
-                </div>
-                <div className="right">
-                    <span>{props?.hasVentilation ? 'есть' : 'нет'}</span>
-                </div>
-            </div>
-            <div className="specification fs-11">
-                <div className="left">
-                    <span>Пожарная сигнализация: </span>
-                </div>
-                <div className="right">
-                    <span>{props?.hasFireAlarm ? 'есть' : 'нет'}</span>
-                </div>
-            </div>
-            <div className="specification fs-11">
-                <div className="left">
-                    <span>Охранная сигнализация: </span>
-                </div>
-                <div className="right">
-                    <span>{props?.hasSecurityAlarm ? 'есть' : 'нет'}</span>
-                </div>
-            </div>
-            <div className="specification fs-11">
-                <div className="left">
-                    <span>Класс: </span>
-                </div>
-                <div className="right">
-                    <span>{props?.gradeType}</span>
-                </div>
-            </div> */}
     </div>
   );
 };

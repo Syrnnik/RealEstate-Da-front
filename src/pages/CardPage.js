@@ -546,7 +546,7 @@ export default function CardPage() {
                       <span className="fs-11 ms-2">({ads?.user?.rating})</span>
                     </div>
                     {ads?.user?.realEstatesCount - 1 > 0 && (
-                      <div className="color-1 fs-11">
+                      <div className="color-1 fs-11 mt-3">
                         <NavLink to={`/user/${ads?.user?.id}`} state={{ fromAd: true }}>
                           {`Еще ${ads?.user?.realEstatesCount - 1}`}
                           <Words />
@@ -700,6 +700,7 @@ export default function CardPage() {
               ?.toLowerCase()
               ?.includes(localEstates.commer) && (
               <ForCommercialAd
+                totalArea={ads?.totalArea}
                 buildingType={ads?.buildingTypeForUser}
                 directionTypeForUser={ads?.directionTypeForUser}
                 hasVentilation={ads?.hasVentilation}
