@@ -211,7 +211,9 @@ const Card = (props) => {
                 {props?.transactionType === 0 ? " ₽/мес" : " ₽"}
               </div>
               <div>
-                {`${Number(props?.price) / Number(props?.totalArea)} ₽/м`}
+                {`${
+                  Math.round((Number(props?.price) / Number(props?.totalArea)) * 10) / 10
+                } ₽/м`}
                 <sup>2</sup>
               </div>
             </div>
