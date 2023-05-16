@@ -14,9 +14,9 @@ import Pagination from "../components/Pagination";
 import YMapContainer from "../components/YMapContainer";
 import env from "../config/env";
 import {
-    onInputHandler,
-    onMultiCheckboxHandler,
-    onSelectHandler
+  onInputHandler,
+  onMultiCheckboxHandler,
+  onSelectHandler
 } from "../helpers/collectDataFromForm";
 import useDebounce from "../hooks/debounce";
 import usePagination from "../hooks/pagination";
@@ -919,7 +919,7 @@ const Catalog = ({ routeName }) => {
             <div
               className={
                 view === "tiled"
-                  ? "row row-cols-sm-2 row-cols-lg-3 g-4 g-md-3 g-lg-4"
+                  ? "row row-cols-sm-2 row-cols-lg-3 g-2 g-md-3 g-lg-4"
                   : "row g-2 g-md-3 g-lg-4"
               }
             >

@@ -195,7 +195,7 @@ const Card = (props) => {
           <HoverSlider urls={pictures} />
           <div className="p-3">
             <div className="d-flex flex-column justify-content-between mb-2 gap-1">
-              <div className="title color-1 title-font fw-7 fs-11">
+              <div className="color-1 title-font fw-7 fs-11">
                 {props?.realEstateTypeForUser
                   ?.toLowerCase()
                   .includes(localEstates.commer) ? (
@@ -213,11 +213,11 @@ const Card = (props) => {
               <div>
                 {`${
                   Math.round((Number(props?.price) / Number(props?.totalArea)) * 10) / 10
-                } ₽/м`}
+                } ₽ за м`}
                 <sup>2</sup>
               </div>
             </div>
-            <div className="rating mb-3">
+            <div className="rating small mb-2">
               <Rating
                 start="0"
                 stop="5"
@@ -230,8 +230,7 @@ const Card = (props) => {
               <span className="fs-11 ms-2">({props?.user?.rating})</span>
             </div>
             <div className="address d-flex align-items-center mb-3">
-              {/* <img src="/img/icons/pin.svg" alt="адрес" /> */}
-              <div className="d-flex fs-09 ms-1">
+              <div className="d-flex flex-column fs-09 ms-1">
                 <div className="mb-1">
                   {props?.residentalComplex
                     ? `ЖК: "${props?.residentalComplexForUser}"`
@@ -240,7 +239,6 @@ const Card = (props) => {
                 <div>{props.address}</div>
               </div>
             </div>
-            {/* <div className="text mb-4 text-break">{props.text}</div> */}
             <div className="text-start color-2 fs-09 fw-3">{props.date}</div>
           </div>
           <div className="labels">
