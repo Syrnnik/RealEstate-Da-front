@@ -155,10 +155,7 @@ input[type="number"].area {
   padding: 0.5em 1.5em 0.5em 0.5em;
 }
 input[type="number"].area.landArea {
-  background-image: url(bg-imgs/сот.svg);
-  /* Временно */
-  background-size: 50px;
-  padding: 0.5em 3.5em 0.5em 0.5em;
+  background-image: none;
 }
 input[type="number"].ceilingHeight {
   background-image: url(bg-imgs/м.svg);

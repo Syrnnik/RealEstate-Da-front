@@ -61,6 +61,7 @@ const AdTypeResidential = ({ estateTypeName, onChange, info, seterRadio }) => {
                   <input
                     type="number"
                     name="landArea"
+                    placeholder="0"
                     className="area landArea fs-11"
                     value={info?.landArea || ""}
                     onChange={(e) => onChange(e)}
