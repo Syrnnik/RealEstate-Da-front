@@ -23,7 +23,7 @@ const forResidentialAd = (props) => {
       </div>
       <div className="specification fs-11">
         <div className="left">
-          <span>Площадь участка: </span>
+          <span>Площадь, соток: </span>
         </div>
         <div className="right">
           <span>{props?.acres} соток</span>
@@ -162,12 +162,10 @@ const forResidentialAd = (props) => {
           </div>
           <div className="specification fs-11">
             <div className="left">
-              <span>Площадь участка: </span>
+              <span>Площадь, соток: </span>
             </div>
             <div className="right">
-              <span>
-                {props?.landArea} м<sup>2</sup>
-              </span>
+              <span>{props?.landArea}</span>
             </div>
           </div>
           <div className="specification fs-11">
