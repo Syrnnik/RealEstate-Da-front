@@ -582,10 +582,14 @@ export default function CardPage() {
           <div className="col-lg-10 col-xl-8">
             <h4>Описание</h4>
             <p className="fs-11 text-break">
-              {ads?.description.length < 42 || showFullDesc
+              {ads?.description.length < 100 || showFullDesc
                 ? ads?.description
-                : ads?.description.slice(42) + "..."}
-              {!showFullDesc && <a onClick={() => setShowFullDesc(true)}>Читать далее</a>}
+                : ads?.description.slice(0, 100) + "... "}
+              {ads?.description.length > 100 && !showFullDesc && (
+                <a className="highlighted" onClick={() => setShowFullDesc(true)}>
+                  Читать далее
+                </a>
+              )}
             </p>
 
             <h4 className="mt-4 mt-sm-5 mb-3">О сделке</h4>
