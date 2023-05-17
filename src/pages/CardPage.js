@@ -627,6 +627,33 @@ export default function CardPage() {
                     <span>{ads?.isEncumbrances ? "да" : "нет"}</span>
                   </div>
                 </div>
+                <div className="specification fs-11">
+                  <div className="left">
+                    <span>
+                      Кадастровый номер{" "}
+                      {ads?.estate?.realEstateTypeForUser
+                        ?.toLowerCase()
+                        .includes(localEstates.dom)
+                        ? " дома"
+                        : ""}
+                    </span>
+                  </div>
+                  <div className="right">
+                    <span>{ads?.cadastralNumber}</span>
+                  </div>
+                </div>
+                {ads?.estate?.realEstateTypeForUser
+                  ?.toLowerCase()
+                  .includes(localEstates.dom) && (
+                  <div className="specification fs-11">
+                    <div className="left">
+                      <span>Кадастровый номер земли</span>
+                    </div>
+                    <div className="right">
+                      <span>{ads?.landCadastralNumber}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
             {ads?.transactionType === 0 && (
