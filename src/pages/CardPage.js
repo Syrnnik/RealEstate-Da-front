@@ -742,9 +742,12 @@ export default function CardPage() {
               />
             )}
 
-            {ads?.estate?.realEstateTypeForUser
+            {(ads?.estate?.realEstateTypeForUser
               ?.toLowerCase()
-              ?.includes(localEstates.kvartiri) && (
+              ?.includes(localEstates.kvartiri) ||
+              ads?.estate?.realEstateTypeForUser
+                ?.toLowerCase()
+                ?.includes(localEstates.dom)) && (
               <>
                 <h4 className="mt-4 mt-sm-5 mb-3">Дополнительная информация</h4>
                 <div className="row row-cols-2 row-cols-md-3 gx-2 gx-sm-4">
