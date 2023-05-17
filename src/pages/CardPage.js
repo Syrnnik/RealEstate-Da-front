@@ -546,7 +546,7 @@ export default function CardPage() {
                       <span className="fs-11 ms-2">({ads?.user?.rating})</span>
                     </div>
                     {ads?.user?.realEstatesCount - 1 > 0 && (
-                      <div className="color-1 fs-11">
+                      <div className="color-1 fs-11 mt-3">
                         <NavLink to={`/user/${ads?.user?.id}`} state={{ fromAd: true }}>
                           {`Еще ${ads?.user?.realEstatesCount - 1}`}
                           <Words />
@@ -582,10 +582,14 @@ export default function CardPage() {
           <div className="col-lg-10 col-xl-8">
             <h4>Описание</h4>
             <p className="fs-11 text-break">
-              {ads?.description.length < 42 || showFullDesc
+              {ads?.description.length < 100 || showFullDesc
                 ? ads?.description
-                : ads?.description.slice(42) + "..."}
-              {!showFullDesc && <a onClick={() => setShowFullDesc(true)}>Читать далее</a>}
+                : ads?.description.slice(0, 100) + "... "}
+              {ads?.description.length > 100 && !showFullDesc && (
+                <a className="highlighted" onClick={() => setShowFullDesc(true)}>
+                  Читать далее
+                </a>
+              )}
             </p>
 
             <h4 className="mt-4 mt-sm-5 mb-3">О сделке</h4>
@@ -696,6 +700,7 @@ export default function CardPage() {
               ?.toLowerCase()
               ?.includes(localEstates.commer) && (
               <ForCommercialAd
+                totalArea={ads?.totalArea}
                 buildingType={ads?.buildingTypeForUser}
                 directionTypeForUser={ads?.directionTypeForUser}
                 hasVentilation={ads?.hasVentilation}
@@ -759,7 +764,7 @@ export default function CardPage() {
                   {ads?.hasKitchenFurniture ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/furniture.svg"
+                        src="/img/icons/kitchen-furniture.svg"
                         alt="Кухонная мебель"
                         className="icon-mini"
                       />
@@ -807,7 +812,7 @@ export default function CardPage() {
                   {ads?.hasDishWasher ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/washer.svg"
+                        src="/img/icons/disher.svg"
                         alt="Посудомоечная машина"
                         className="icon-mini"
                       />
@@ -863,7 +868,7 @@ export default function CardPage() {
                   {ads?.hasShowerCabin ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/bath.svg"
+                        src="/img/icons/shower.svg"
                         alt="Душевая кабина"
                         className="icon-mini"
                       />
@@ -876,7 +881,7 @@ export default function CardPage() {
                   {ads?.withPets ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/with-pets.svg"
+                        src="/img/icons/pets.svg"
                         alt="Можно с животными"
                         className="icon-mini"
                       />
@@ -888,7 +893,7 @@ export default function CardPage() {
                   {ads?.withKids ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
                       <img
-                        src="/img/icons/with-kids.svg"
+                        src="/img/icons/kids.svg"
                         alt="Можно с детьми"
                         className="icon-mini"
                       />

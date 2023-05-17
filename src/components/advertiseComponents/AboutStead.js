@@ -29,7 +29,7 @@ const AboutStead = (
                         style={{borderColor: valid.isInValidAcres ? '#DA1E2A' : ''}}
                         name="acres"
                         value={info?.acres || ''}
-                        className="area fs-11"
+                        className="area landArea fs-11"
                         placeholder='0'
                         onChange={(e) => {
                             onChange(e)

@@ -1200,6 +1200,7 @@ export default function Advertise() {
                 isValid={isValid}
                 onChange={seterDataInComponent}
                 info={{
+                  totalArea: data?.totalArea,
                   buildingType: btnRadio?.buildingType
                 }}
                 seterRadio={seterRadioBtns}
