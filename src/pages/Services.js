@@ -69,7 +69,7 @@ export default function Services() {
   const [payload, setPayload] = useState({
     page: 1,
     limit: services.pageLimit,
-    servicesTypeId: find()
+    serviceTypeId: find()
   });
 
   const delayPayload = useDebounce(payload, 500);
@@ -77,7 +77,7 @@ export default function Services() {
   useEffect(() => {
     setPayload((prevState) => ({
       ...prevState,
-      servicesTypeId: find(),
+      serviceTypeId: find(),
       page: services.currentPage
     }));
     window.scrollTo(0, 0);
@@ -96,15 +96,15 @@ export default function Services() {
   }, [delayPayload]);
 
   useEffect(() => {
-    getSubServicesTypes(axiosPrivate, payload.servicesTypeId).then((res) =>
+    getSubServicesTypes(axiosPrivate, payload.serviceTypeId).then((res) =>
       setFilterSubs({ isLoading: true, data: res })
     );
-    getAttributesTypes(axiosPrivate, payload.servicesTypeId).then((res) =>
+    getAttributesTypes(axiosPrivate, payload.serviceTypeId).then((res) =>
       setFilterAttributes({ isLoading: true, data: res })
     );
     services.setCurrentPage(1);
     services.setStartingPage(1);
-  }, [payload.servicesTypeId]);
+  }, [payload.serviceTypeId]);
 
   const acceptFilters = (e) => {
     e.preventDefault();
@@ -409,26 +409,6 @@ export default function Services() {
                     ))}
                   </fieldset>
                 ) : null}
-                {/* {filterAttributes?.data?.length > 0
-                    ?
-                    <fieldset className="mb-4">
-                        <legend className="title-font text-left fs-12 fw-6 mb-3">Специализация:</legend>
-                        {filterAttributes?.data?.map(attribute => (
-                            <label className="mb-3" key={attribute.id}>
-                                <input
-                                    type="checkbox"
-                                    name="realization"
-                                    value={attribute.id}
-                                    onChange={(e) => {
-                                        onMultiCheckboxHandler('attributesTypes', e.target.value, setPayload)
-                                    }}
-                                />
-                                <span className="fs-11 ms-3">{attribute.name}</span>
-                            </label>
-                        ))}
-                    </fieldset>
-                    : null
-                } */}
                 <button
                   type="reset"
                   className="btn btn-3 btn-rad2 w-100"
@@ -436,7 +416,7 @@ export default function Services() {
                     setPayload({
                       page: 1,
                       limit: 6,
-                      servicesTypeId: find()
+                      serviceTypeId: find()
                     })
                   }
                 >
@@ -558,7 +538,7 @@ export default function Services() {
                           onMultiCheckboxHandler(
                             "subServicesTypes",
                             e.target.value,
-                            setSecondBlockFilters
+                            setFirstBlockFilters
                           );
                         }}
                       />
@@ -576,7 +556,7 @@ export default function Services() {
               type="button"
               onClick={() => {
                 document.getElementById("offcanvasServiceFilter").reset();
-                setPayload({ page: 1, limit: 6, servicesTypeId: find() });
+                setPayload({ page: 1, limit: 6, serviceTypeId: find() });
                 setSelectMiniFilter({});
                 setSearchFIO({});
               }}
