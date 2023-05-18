@@ -140,7 +140,7 @@ export default function Advertise() {
       kitchenArea: ad?.kitchenArea || 0,
       maxFloor: ad?.maxFloor || 0,
       cadastralNumber: ad?.cadastralNumber,
-      landСadastralNumber: ad?.landСadastralNumber,
+      landCadastralNumber: ad?.landCadastralNumber,
       estateName: ad?.estate?.name,
       estateTypeName: ad?.estate?.realEstateType?.name,
       landArea: ad?.landArea || 0,
@@ -402,7 +402,7 @@ export default function Advertise() {
     const isInValidCommission =
       data?.commission < 0 || data?.commission > 100 || data?.commission === undefined;
     const isInValidCadastralNumber = data?.cadastralNumber === undefined;
-    const isInValidLandCadastralNumber = data?.landСadastralNumber === undefined;
+    const isInValidLandCadastralNumber = data?.landCadastralNumber === undefined;
     const isInValidAcres = data?.acres === undefined || data?.acres <= 0;
     const isInValidBuildingType = data?.buildingType === undefined;
     const isInValidParking =
@@ -1940,11 +1940,11 @@ export default function Advertise() {
                                     ? "#DA1E2A"
                                     : ""
                                 }}
-                                value={data?.landСadastralNumber || ""}
+                                value={data?.landCadastralNumber || ""}
                                 onChange={(e) => {
                                   setData((prevState) => ({
                                     ...prevState,
-                                    landСadastralNumber: e.target.value
+                                    landCadastralNumber: e.target.value
                                       ? e.target.value
                                       : undefined
                                   }));
@@ -2389,11 +2389,11 @@ export default function Advertise() {
                                       ? "#DA1E2A"
                                       : ""
                                   }}
-                                  value={data?.landСadastralNumber || ""}
+                                  value={data?.landCadastralNumber || ""}
                                   onChange={(e) => {
                                     setData((prevState) => ({
                                       ...prevState,
-                                      landСadastralNumber: e.target.value
+                                      landCadastralNumber: e.target.value
                                         ? e.target.value
                                         : undefined
                                     }));
