@@ -99,6 +99,7 @@ export default function CreateService() {
       for (let key in payloads) {
         formData.append(key, payloads[key]);
       }
+      formData.append("serviceTypeId", serviceSelect["value"]);
       for (let key in subServiceSelect) {
         formData.append("subServices[]", subServiceSelect[key]["value"]);
       }
