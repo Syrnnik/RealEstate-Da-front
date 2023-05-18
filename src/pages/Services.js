@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import {
-    getAttributesTypes,
-    getServicesUsers,
-    getSubServicesTypes
+  getAttributesTypes,
+  getServicesUsers,
+  getSubServicesTypes
 } from "../API/services";
 import { emitCreateWithServiceTopicMessage } from "../API/socketConversations";
 import CustomModal from "../components/CustomModal";
@@ -410,25 +410,25 @@ export default function Services() {
                   </fieldset>
                 ) : null}
                 {/* {filterAttributes?.data?.length > 0
-                                    ?
-                                    <fieldset className="mb-4">
-                                        <legend className="title-font text-left fs-12 fw-6 mb-3">Специализация:</legend>
-                                        {filterAttributes?.data?.map(attribute => (
-                                            <label className="mb-3" key={attribute.id}>
-                                                <input
-                                                    type="checkbox"
-                                                    name="realization"
-                                                    value={attribute.id}
-                                                    onChange={(e) => {
-                                                        onMultiCheckboxHandler('attributesTypes', e.target.value, setPayload)
-                                                    }}
-                                                />
-                                                <span className="fs-11 ms-3">{attribute.name}</span>
-                                            </label>
-                                        ))}
-                                    </fieldset>
-                                    : null
-                                } */}
+                    ?
+                    <fieldset className="mb-4">
+                        <legend className="title-font text-left fs-12 fw-6 mb-3">Специализация:</legend>
+                        {filterAttributes?.data?.map(attribute => (
+                            <label className="mb-3" key={attribute.id}>
+                                <input
+                                    type="checkbox"
+                                    name="realization"
+                                    value={attribute.id}
+                                    onChange={(e) => {
+                                        onMultiCheckboxHandler('attributesTypes', e.target.value, setPayload)
+                                    }}
+                                />
+                                <span className="fs-11 ms-3">{attribute.name}</span>
+                            </label>
+                        ))}
+                    </fieldset>
+                    : null
+                } */}
                 <button
                   type="reset"
                   className="btn btn-3 btn-rad2 w-100"
