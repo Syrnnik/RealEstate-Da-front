@@ -1850,6 +1850,31 @@ export default function Advertise() {
                                 });
                               }}
                             />
+                            <span className="fs-11 ms-2 text-nowrap">
+                              Частный риелтор
+                            </span>
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="sellerType"
+                              value={4}
+                              checked={btnRadio?.sellerType === 4}
+                              onClick={() =>
+                                setBtnRadio((prevState) => ({
+                                  ...prevState,
+                                  sellerType: 4
+                                }))
+                              }
+                              onChange={(e) => {
+                                setData((prevData) => {
+                                  return {
+                                    ...prevData,
+                                    sellerType: e.target.value
+                                  };
+                                });
+                              }}
+                            />
                             <span className="fs-11 ms-2 text-nowrap">Не важно</span>
                           </label>
                         </div>
