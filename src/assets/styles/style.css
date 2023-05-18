@@ -1996,6 +1996,12 @@ article .text {
   object-fit: cover;
   border-radius: 50%;
 }
+.photo.small img {
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: cover;
+  border-radius: 50%;
+}
 .photo .indicator {
   position: absolute;
   bottom: 0.25em;
