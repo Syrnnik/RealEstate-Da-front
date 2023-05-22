@@ -140,7 +140,7 @@ export default function Advertise() {
       kitchenArea: ad?.kitchenArea || 0,
       maxFloor: ad?.maxFloor || 0,
       cadastralNumber: ad?.cadastralNumber,
-      landСadastralNumber: ad?.landСadastralNumber,
+      landCadastralNumber: ad?.landCadastralNumber,
       estateName: ad?.estate?.name,
       estateTypeName: ad?.estate?.realEstateType?.name,
       landArea: ad?.landArea || 0,
@@ -402,7 +402,7 @@ export default function Advertise() {
     const isInValidCommission =
       data?.commission < 0 || data?.commission > 100 || data?.commission === undefined;
     const isInValidCadastralNumber = data?.cadastralNumber === undefined;
-    const isInValidLandCadastralNumber = data?.landСadastralNumber === undefined;
+    const isInValidLandCadastralNumber = data?.landCadastralNumber === undefined;
     const isInValidAcres = data?.acres === undefined || data?.acres <= 0;
     const isInValidBuildingType = data?.buildingType === undefined;
     const isInValidParking =
@@ -1850,6 +1850,31 @@ export default function Advertise() {
                                 });
                               }}
                             />
+                            <span className="fs-11 ms-2 text-nowrap">
+                              Частный риелтор
+                            </span>
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="sellerType"
+                              value={4}
+                              checked={btnRadio?.sellerType === 4}
+                              onClick={() =>
+                                setBtnRadio((prevState) => ({
+                                  ...prevState,
+                                  sellerType: 4
+                                }))
+                              }
+                              onChange={(e) => {
+                                setData((prevData) => {
+                                  return {
+                                    ...prevData,
+                                    sellerType: e.target.value
+                                  };
+                                });
+                              }}
+                            />
                             <span className="fs-11 ms-2 text-nowrap">Не важно</span>
                           </label>
                         </div>
@@ -1915,11 +1940,11 @@ export default function Advertise() {
                                     ? "#DA1E2A"
                                     : ""
                                 }}
-                                value={data?.landСadastralNumber || ""}
+                                value={data?.landCadastralNumber || ""}
                                 onChange={(e) => {
                                   setData((prevState) => ({
                                     ...prevState,
-                                    landСadastralNumber: e.target.value
+                                    landCadastralNumber: e.target.value
                                       ? e.target.value
                                       : undefined
                                   }));
@@ -2300,39 +2325,86 @@ export default function Advertise() {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
-                        <span
-                          style={{
-                            color: valid?.isInValidCadastralNumber ? "#DA1E2A" : ""
-                          }}
-                        >
-                          Кадастровый номер*:
-                        </span>
+                      <div className="row align-items-start mt-4 mt-sm-5 mb-4">
+                        <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                          <span
+                            style={{
+                              color: valid?.isInValidCadastralNumber ? "#DA1E2A" : ""
+                            }}
+                          >
+                            Кадастровый номер
+                            {data?.estateTypeName
+                              ?.toLowerCase()
+                              .includes(localEstates.dom)
+                              ? " дома"
+                              : ""}
+                            *:
+                          </span>
+                        </div>
+                        <div className="col-md-9">
+                          <div>
+                            <label>
+                              <input
+                                type="text"
+                                style={{
+                                  borderColor: valid?.isInValidCadastralNumber
+                                    ? "#DA1E2A"
+                                    : ""
+                                }}
+                                value={data?.cadastralNumber || ""}
+                                onChange={(e) => {
+                                  setData((prevState) => ({
+                                    ...prevState,
+                                    cadastralNumber: e.target.value
+                                      ? e.target.value
+                                      : undefined
+                                  }));
+                                  resetFieldVal(e, "isInValidCadastralNumber");
+                                }}
+                              />
+                            </label>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-md-9">
-                        <div>
-                          <label>
-                            <input
-                              type="text"
+                      {data?.estateTypeName?.toLowerCase().includes(localEstates.dom) && (
+                        <div className="row align-items-start mt-4 mt-sm-5 mb-4">
+                          <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
+                            <span
                               style={{
-                                borderColor: valid?.isInValidCadastralNumber
+                                color: valid?.isInValidLandCadastralNumber
                                   ? "#DA1E2A"
                                   : ""
                               }}
-                              value={data?.cadastralNumber || ""}
-                              onChange={(e) => {
-                                setData((prevState) => ({
-                                  ...prevState,
-                                  cadastralNumber: e.target.value
-                                    ? e.target.value
-                                    : undefined
-                                }));
-                                resetFieldVal(e, "isInValidCadastralNumber");
-                              }}
-                            />
-                          </label>
+                            >
+                              Кадастровый номер земли*:
+                            </span>
+                          </div>
+                          <div className="col-md-9">
+                            <div>
+                              <label>
+                                <input
+                                  type="text"
+                                  style={{
+                                    borderColor: valid?.isInValidLandCadastralNumber
+                                      ? "#DA1E2A"
+                                      : ""
+                                  }}
+                                  value={data?.landCadastralNumber || ""}
+                                  onChange={(e) => {
+                                    setData((prevState) => ({
+                                      ...prevState,
+                                      landCadastralNumber: e.target.value
+                                        ? e.target.value
+                                        : undefined
+                                    }));
+                                    resetFieldVal(e, "isInValidLandCadastralNumber");
+                                  }}
+                                />
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                     <div className="row align-items-center mt-4 mt-sm-5 mb-4">
                       <div className="col-md-3 fs-11 title mb-3 m-md-0">

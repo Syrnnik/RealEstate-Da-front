@@ -244,7 +244,7 @@ const Catalog = ({ routeName }) => {
               />
             </div>
           </div>
-          {view === "tiled" ? (
+          {/* {view === "tiled" ? (
             <button
               type="button"
               onClick={() => {
@@ -292,7 +292,7 @@ const Catalog = ({ routeName }) => {
                 <rect x="20" y="16" width="8" height="6" rx="1" />
               </svg>
             </button>
-          )}
+          )} */}
         </div>
         <div className="row">
           <div className="d-none d-xxl-block col-xxl-3">
