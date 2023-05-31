@@ -595,7 +595,7 @@ export default function CardPage() {
             <h4 className="mt-4 mt-sm-5 mb-3">О сделке</h4>
             {ads?.transactionType === 1 && (
               <div className="column-2">
-                {info?.sellerTypeForUser !==
+                {ads?.sellerTypeForUser !==
                   null(
                     <div className="specification fs-11">
                       <div className="left">
@@ -606,7 +606,7 @@ export default function CardPage() {
                       </div>
                     </div>
                   )}
-                {info?.saleTypeForUser !==
+                {ads?.saleTypeForUser !==
                   null(
                     <div className="specification fs-11">
                       <div className="left">
@@ -617,7 +617,7 @@ export default function CardPage() {
                       </div>
                     </div>
                   )}
-                {info?.isMortgage !==
+                {ads?.isMortgage !==
                   null(
                     <div className="specification fs-11">
                       <div className="left">
@@ -628,7 +628,7 @@ export default function CardPage() {
                       </div>
                     </div>
                   )}
-                {info?.isEncumbrances !==
+                {ads?.isEncumbrances !==
                   null(
                     <div className="specification fs-11">
                       <div className="left">
@@ -639,7 +639,7 @@ export default function CardPage() {
                       </div>
                     </div>
                   )}
-                {info?.cadastralNumber !==
+                {ads?.cadastralNumber !==
                   null(
                     <div className="specification fs-11">
                       <div className="left">
@@ -657,7 +657,7 @@ export default function CardPage() {
                       </div>
                     </div>
                   )}
-                {info?.landCadastralNumber !==
+                {ads?.landCadastralNumber !==
                   null(
                     <>
                       {ads?.estate?.realEstateTypeForUser
@@ -678,7 +678,7 @@ export default function CardPage() {
             )}
             {ads?.transactionType === 0 && (
               <div className="column-2">
-                {info?.rentalPeriodTypeForUser !==
+                {ads?.rentalPeriodTypeForUser !==
                   null(
                     <div className="specification fs-11">
                       <div className="left">
@@ -689,7 +689,7 @@ export default function CardPage() {
                       </div>
                     </div>
                   )}
-                {info?.sellerTypeForUser !==
+                {ads?.sellerTypeForUser !==
                   null(
                     <div className="specification fs-11">
                       <div className="left">
@@ -700,7 +700,7 @@ export default function CardPage() {
                       </div>
                     </div>
                   )}
-                {info?.saleTypeForUser !==
+                {ads?.saleTypeForUser !==
                   null(
                     <div className="specification fs-11">
                       <div className="left">
