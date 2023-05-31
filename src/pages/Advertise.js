@@ -1833,12 +1833,12 @@ export default function Advertise() {
                             <input
                               type="radio"
                               name="sellerType"
-                              value={3}
-                              checked={btnRadio?.sellerType === 3}
+                              value={4}
+                              checked={btnRadio?.sellerType === 4}
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  sellerType: 3
+                                  sellerType: 4
                                 }))
                               }
                               onChange={(e) => {
@@ -1858,12 +1858,12 @@ export default function Advertise() {
                             <input
                               type="radio"
                               name="sellerType"
-                              value={4}
-                              checked={btnRadio?.sellerType === 4}
+                              value={3}
+                              checked={btnRadio?.sellerType === 3}
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  sellerType: 4
+                                  sellerType: 3
                                 }))
                               }
                               onChange={(e) => {
@@ -2298,6 +2298,29 @@ export default function Advertise() {
                             }}
                           />
                           <span className="fs-11 ms-2 text-nowrap">Агенства</span>
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="sellerType"
+                            value={4}
+                            checked={btnRadio?.sellerType === 4}
+                            onClick={() =>
+                              setBtnRadio((prevState) => ({
+                                ...prevState,
+                                sellerType: 4
+                              }))
+                            }
+                            onChange={(e) => {
+                              setData((prevData) => {
+                                return {
+                                  ...prevData,
+                                  sellerType: e.target.value
+                                };
+                              });
+                            }}
+                          />
+                          <span className="fs-11 ms-2 text-nowrap">Частный риелтор</span>
                         </label>
                         <label>
                           <input
