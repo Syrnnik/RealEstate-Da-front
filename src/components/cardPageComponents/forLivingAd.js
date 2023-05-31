@@ -3,7 +3,7 @@ import React from "react";
 const ForLivingAd = (props) => {
   return (
     <div className="column-2">
-      {props?.saleTypeForUser !== null && (
+      {props?.saleTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Комнат: </span>
@@ -13,7 +13,7 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.saleTypeForUser !== null && (
+      {props?.saleTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Общая площадь: </span>
@@ -25,12 +25,12 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {(props?.livingArea !== null || props?.livingAreaForUser !== null) && (
+      {(props?.livingArea || props?.livingAreaForUser) && (
         <div className="specification fs-11">
           <div className="left">
             <span>Жилая площадь: </span>
           </div>
-          {props?.livingArea !== null ? (
+          {props?.livingArea ? (
             <div className="right">
               <span>
                 {props?.livingArea} м<sup>2</sup>
@@ -43,12 +43,12 @@ const ForLivingAd = (props) => {
           )}
         </div>
       )}
-      {(props?.kitchenArea !== null || props?.kitchenAreaForUser !== null) && (
+      {(props?.kitchenArea || props?.kitchenAreaForUser) && (
         <div className="specification fs-11">
           <div className="left">
             <span>Площадь кухни: </span>
           </div>
-          {props?.kitchenArea !== null ? (
+          {props?.kitchenArea ? (
             <div className="right">
               <span>
                 {props?.kitchenArea} м<sup>2</sup>
@@ -61,7 +61,7 @@ const ForLivingAd = (props) => {
           )}
         </div>
       )}
-      {props?.floor !== null && (
+      {props?.floor && (
         <div className="specification fs-11">
           <div className="left">
             <span>Этаж: </span>
@@ -73,7 +73,7 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.layoutForUser !== null && (
+      {props?.layoutForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Планировка: </span>
@@ -83,7 +83,7 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.repairTypeForUser !== null && (
+      {props?.repairTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Ремонт: </span>
@@ -93,7 +93,7 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.WCTypeForUser !== null && (
+      {props?.WCTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Санузел: </span>
@@ -103,7 +103,7 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.balconyTypeForUser !== null && (
+      {props?.balconyTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Балкон/Лоджия: </span>
@@ -113,7 +113,7 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.window !== null && (
+      {props?.window && (
         <div className="specification fs-11">
           <div className="left">
             <span>Окно: </span>
@@ -123,7 +123,7 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.windowType !== null && (
+      {props?.windowType && (
         <div className="specification fs-11">
           <div className="left">
             <span>Тип окна: </span>
@@ -133,7 +133,7 @@ const ForLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.windRoseDirectionType !== null && (
+      {props?.windRoseDirectionType && (
         <div className="specification fs-11">
           <div className="left">
             <span>Направление по розе ветров: </span>
@@ -147,7 +147,7 @@ const ForLivingAd = (props) => {
         props?.estateType?.toLowerCase()?.includes("дом") ||
         props?.estateType?.toLowerCase()?.includes("дача") ||
         props?.estateType?.toLowerCase()?.includes("коттедж")) &&
-        props?.estateTypeForUser !== null && (
+        props?.estateTypeForUser && (
           <div className="specification fs-11">
             <div className="left">
               <span>Тип объекта: </span>
@@ -161,7 +161,7 @@ const ForLivingAd = (props) => {
         props?.estateType?.toLowerCase()?.includes("дача") ||
         props?.estateType?.toLowerCase()?.includes("коттедж")) && (
         <>
-          {props?.outBuildingType !== null && (
+          {props?.outBuildingType && (
             <div className="specification fs-11">
               <div className="left">
                 <span>Хозпостройки: </span>
@@ -171,7 +171,7 @@ const ForLivingAd = (props) => {
               </div>
             </div>
           )}
-          {props?.hasBasement !== null && (
+          {props?.hasBasement && (
             <div className="specification fs-11">
               <div className="left">
                 <span>Подвал: </span>
@@ -181,7 +181,7 @@ const ForLivingAd = (props) => {
               </div>
             </div>
           )}
-          {props?.landArea !== null && (
+          {props?.landArea && (
             <div className="specification fs-11">
               <div className="left">
                 <span>Площадь, соток: </span>
@@ -191,7 +191,7 @@ const ForLivingAd = (props) => {
               </div>
             </div>
           )}
-          {props?.areaTypeForUser !== null && (
+          {props?.areaTypeForUser && (
             <div className="specification fs-11">
               <div className="left">
                 <span>Тип участка: </span>

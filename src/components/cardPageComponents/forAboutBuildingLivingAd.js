@@ -3,7 +3,7 @@ import React from "react";
 const ForAboutBuildingLivingAd = (props) => {
   return (
     <div className="column-2">
-      {props?.houseBuildingTypeForUser !== null && (
+      {props?.houseBuildingTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Тип дома: </span>
@@ -13,7 +13,7 @@ const ForAboutBuildingLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.elevatorTypeForUser !== null && (
+      {props?.elevatorTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Лифт: </span>
@@ -23,7 +23,7 @@ const ForAboutBuildingLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.yearOfConstructionForUser !== null && (
+      {props?.yearOfConstructionForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Год постройки: </span>
@@ -33,7 +33,7 @@ const ForAboutBuildingLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.ceilingHeightForUser !== null && (
+      {props?.ceilingHeightForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Высота потолков: </span>
@@ -43,7 +43,7 @@ const ForAboutBuildingLivingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.hasRamp !== null && (
+      {props?.hasRamp && (
         <div className="specification fs-11">
           <div className="left">
             <span>Пандус: </span>
@@ -59,7 +59,7 @@ const ForAboutBuildingLivingAd = (props) => {
           )}
         </div>
       )}
-      {props?.hasGarbage !== null && (
+      {props?.hasGarbage && (
         <div className="specification fs-11">
           <div className="left">
             <span>Мусоропровод: </span>
@@ -69,11 +69,11 @@ const ForAboutBuildingLivingAd = (props) => {
           </div>
         </div>
       )}
-      {(props?.hasGroundParking !== null ||
-        props?.hasMoreLayerParking !== null ||
-        props?.hasUnderGroundParking !== null ||
-        props?.hasYardParking !== null ||
-        props?.hasBarrierParking !== null) && (
+      {(props?.hasGroundParking ||
+        props?.hasMoreLayerParking ||
+        props?.hasUnderGroundParking ||
+        props?.hasYardParking ||
+        props?.hasBarrierParking) && (
         <div className="fs-11 mt-3 d-flex flex-row justify-content-between flex-wrap">
           <div className="left">
             <span>Парковка: </span>

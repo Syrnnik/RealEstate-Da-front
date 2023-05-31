@@ -3,7 +3,7 @@ import React from "react";
 const ForAboutBuildingParkingAd = (props) => {
   return (
     <div className="column-2">
-      {props?.yearOfConstructionForUser !== null && (
+      {props?.yearOfConstructionForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Год постройки: </span>
@@ -15,11 +15,11 @@ const ForAboutBuildingParkingAd = (props) => {
       )}
       {props?.estateType?.toLowerCase()?.includes("паркинг") && (
         <>
-          {(props?.hasGroundParking !== null ||
-            props?.hasMoreLayerParking !== null ||
-            props?.hasUnderGroundParking !== null ||
-            props?.hasYardParking !== null ||
-            props?.hasBarrierParking !== null) && (
+          {(props?.hasGroundParking ||
+            props?.hasMoreLayerParking ||
+            props?.hasUnderGroundParking ||
+            props?.hasYardParking ||
+            props?.hasBarrierParking) && (
             <div className="fs-11 mt-3 d-flex flex-row justify-content-between flex-wrap">
               <div className="left">
                 <span>Парковка: </span>
