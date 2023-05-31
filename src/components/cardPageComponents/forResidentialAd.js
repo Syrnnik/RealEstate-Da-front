@@ -3,7 +3,7 @@ import React from "react";
 const forResidentialAd = (props) => {
   return (
     <div className="column-2">
-      {props?.rooms !== null && (
+      {props?.rooms && (
         <div className="specification fs-11">
           <div className="left">
             <span>Комнат: </span>
@@ -13,7 +13,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.totalArea !== null && (
+      {props?.totalArea && (
         <div className="specification fs-11">
           <div className="left">
             <span>Общая площадь: </span>
@@ -25,7 +25,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.acres !== null && (
+      {props?.acres && (
         <div className="specification fs-11">
           <div className="left">
             <span>Площадь, соток: </span>
@@ -35,12 +35,12 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {(props?.livingArea !== null || props?.livingAreaForUser !== null) && (
+      {(props?.livingArea || props?.livingAreaForUser) && (
         <div className="specification fs-11">
           <div className="left">
             <span>Жилая площадь: </span>
           </div>
-          {props?.livingArea !== null ? (
+          {props?.livingArea ? (
             <div className="right">
               <span>
                 {props?.livingArea} м<sup>2</sup>
@@ -53,12 +53,12 @@ const forResidentialAd = (props) => {
           )}
         </div>
       )}
-      {(props?.kitchenArea !== null || props?.kitchenAreaForUser !== null) && (
+      {(props?.kitchenArea || props?.kitchenAreaForUser) && (
         <div className="specification fs-11">
           <div className="left">
             <span>Площадь кухни: </span>
           </div>
-          {props?.kitchenArea !== null ? (
+          {props?.kitchenArea ? (
             <div className="right">
               <span>
                 {props?.kitchenArea} м<sup>2</sup>
@@ -71,7 +71,7 @@ const forResidentialAd = (props) => {
           )}
         </div>
       )}
-      {props?.floor !== null && (
+      {props?.floor && (
         <div className="specification fs-11">
           <div className="left">
             <span>Этаж: </span>
@@ -83,7 +83,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.layoutForUser !== null && (
+      {props?.layoutForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Планировка: </span>
@@ -93,7 +93,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.repairTypeForUser !== null && (
+      {props?.repairTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Ремонт: </span>
@@ -103,7 +103,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.WCTypeForUser !== null && (
+      {props?.WCTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Санузел: </span>
@@ -113,7 +113,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.balconyTypeForUser !== null && (
+      {props?.balconyTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Балкон/Лоджия: </span>
@@ -123,7 +123,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.window !== null && (
+      {props?.window && (
         <div className="specification fs-11">
           <div className="left">
             <span>Окно: </span>
@@ -133,7 +133,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.windowType !== null && (
+      {props?.windowType && (
         <div className="specification fs-11">
           <div className="left">
             <span>Тип окна: </span>
@@ -143,7 +143,7 @@ const forResidentialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.windRoseDirectionType !== null && (
+      {props?.windRoseDirectionType && (
         <div className="specification fs-11">
           <div className="left">
             <span>Направление по розе ветров: </span>
@@ -157,7 +157,7 @@ const forResidentialAd = (props) => {
         props?.estateType?.toLowerCase().includes("дом") ||
         props?.estateType?.toLowerCase().includes("дача") ||
         props?.estateType?.toLowerCase().includes("коттедж")) &&
-        props?.estateTypeForUser !== null && (
+        props?.estateTypeForUser && (
           <div className="specification fs-11">
             <div className="left">
               <span>Тип объекта: </span>
@@ -171,7 +171,7 @@ const forResidentialAd = (props) => {
         props?.estateType?.toLowerCase().includes("дача") ||
         props?.estateType?.toLowerCase()?.includes("коттедж")) && (
         <>
-          {props?.outBuildingType !== null && (
+          {props?.outBuildingType && (
             <div className="specification fs-11">
               <div className="left">
                 <span>Хозпостройки: </span>
@@ -181,7 +181,7 @@ const forResidentialAd = (props) => {
               </div>
             </div>
           )}
-          {props?.hasBasement !== null && (
+          {props?.hasBasement && (
             <div className="specification fs-11">
               <div className="left">
                 <span>Подвал: </span>
@@ -191,7 +191,7 @@ const forResidentialAd = (props) => {
               </div>
             </div>
           )}
-          {props?.landArea !== null && (
+          {props?.landArea && (
             <div className="specification fs-11">
               <div className="left">
                 <span>Площадь, соток: </span>
@@ -201,7 +201,7 @@ const forResidentialAd = (props) => {
               </div>
             </div>
           )}
-          {props?.areaTypeForUser !== null && (
+          {props?.areaTypeForUser && (
             <div className="specification fs-11">
               <div className="left">
                 <span>Тип участка: </span>

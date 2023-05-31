@@ -3,7 +3,7 @@ import React from "react";
 const ForCommercialAd = (props) => {
   return (
     <div className="column-2">
-      {props?.totalArea !== null && (
+      {props?.totalArea && (
         <div className="specification fs-11">
           <div className="left">
             <span>Общая площадь: </span>
@@ -15,7 +15,7 @@ const ForCommercialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.buildingType !== null && (
+      {props?.buildingType && (
         <div className="specification fs-11">
           <div className="left">
             <span>Тип здания: </span>
@@ -25,7 +25,7 @@ const ForCommercialAd = (props) => {
           </div>
         </div>
       )}
-      {props?.directionTypeForUser !== null && (
+      {props?.directionTypeForUser && (
         <div className="specification fs-11">
           <div className="left">
             <span>Направление: </span>

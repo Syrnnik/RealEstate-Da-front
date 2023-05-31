@@ -4,7 +4,7 @@ const ForParkingAd = (props) => {
   return (
     <div className="column-2">
       {props?.estateType?.toLowerCase() === "гараж" &&
-        props?.locationTypeForUser !== null && (
+        props?.locationTypeForUser && (
           <div className="specification fs-11">
             <div className="left">
               <span>Расположение: </span>
@@ -14,7 +14,7 @@ const ForParkingAd = (props) => {
             </div>
           </div>
         )}
-      {props?.totalArea !== null && (
+      {props?.totalArea && (
         <div className="specification fs-11">
           <div className="left">
             <span>Общая площадь: </span>
@@ -26,7 +26,7 @@ const ForParkingAd = (props) => {
           </div>
         </div>
       )}
-      {props?.hasSecurity !== null && (
+      {props?.hasSecurity && (
         <div className="specification fs-11">
           <div className="left">
             <span>Охрана</span>

@@ -3,7 +3,7 @@ import React from "react";
 const ForSteadAd = (props) => {
   return (
     <div className="column-2">
-      {props?.acres !== null && (
+      {props?.acres && (
         <div className="specification fs-11">
           <div className="left">
             <span>Площадь, соток: </span>
@@ -13,7 +13,7 @@ const ForSteadAd = (props) => {
           </div>
         </div>
       )}
-      {props?.cityDistance !== null && (
+      {props?.cityDistance && (
         <div className="specification fs-11">
           <div className="left">
             <span>Расстояние до города: </span>
