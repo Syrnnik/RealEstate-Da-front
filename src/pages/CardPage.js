@@ -595,93 +595,122 @@ export default function CardPage() {
             <h4 className="mt-4 mt-sm-5 mb-3">О сделке</h4>
             {ads?.transactionType === 1 && (
               <div className="column-2">
-                <div className="specification fs-11">
-                  <div className="left">
-                    <span>Продавец</span>
-                  </div>
-                  <div className="right">
-                    <span>{ads?.sellerTypeForUser}</span>
-                  </div>
-                </div>
-                <div className="specification fs-11">
-                  <div className="left">
-                    <span>Условия сделки</span>
-                  </div>
-                  <div className="right">
-                    <span>{ads?.saleTypeForUser}</span>
-                  </div>
-                </div>
-                <div className="specification fs-11">
-                  <div className="left">
-                    <span>Ипотека</span>
-                  </div>
-                  <div className="right">
-                    <span>{ads?.isMortgage ? "да" : "нет"}</span>
-                  </div>
-                </div>
-                <div className="specification fs-11">
-                  <div className="left">
-                    <span>Обременения</span>
-                  </div>
-                  <div className="right">
-                    <span>{ads?.isEncumbrances ? "да" : "нет"}</span>
-                  </div>
-                </div>
-                <div className="specification fs-11">
-                  <div className="left">
-                    <span>
-                      Кадастровый номер{" "}
+                {info?.sellerTypeForUser !==
+                  null(
+                    <div className="specification fs-11">
+                      <div className="left">
+                        <span>Продавец</span>
+                      </div>
+                      <div className="right">
+                        <span>{ads?.sellerTypeForUser}</span>
+                      </div>
+                    </div>
+                  )}
+                {info?.saleTypeForUser !==
+                  null(
+                    <div className="specification fs-11">
+                      <div className="left">
+                        <span>Условия сделки</span>
+                      </div>
+                      <div className="right">
+                        <span>{ads?.saleTypeForUser}</span>
+                      </div>
+                    </div>
+                  )}
+                {info?.isMortgage !==
+                  null(
+                    <div className="specification fs-11">
+                      <div className="left">
+                        <span>Ипотека</span>
+                      </div>
+                      <div className="right">
+                        <span>{ads?.isMortgage ? "да" : "нет"}</span>
+                      </div>
+                    </div>
+                  )}
+                {info?.isEncumbrances !==
+                  null(
+                    <div className="specification fs-11">
+                      <div className="left">
+                        <span>Обременения</span>
+                      </div>
+                      <div className="right">
+                        <span>{ads?.isEncumbrances ? "да" : "нет"}</span>
+                      </div>
+                    </div>
+                  )}
+                {info?.cadastralNumber !==
+                  null(
+                    <div className="specification fs-11">
+                      <div className="left">
+                        <span>
+                          Кадастровый номер{" "}
+                          {ads?.estate?.realEstateTypeForUser
+                            ?.toLowerCase()
+                            .includes(localEstates.dom)
+                            ? " дома"
+                            : ""}
+                        </span>
+                      </div>
+                      <div className="right">
+                        <span>{ads?.cadastralNumber}</span>
+                      </div>
+                    </div>
+                  )}
+                {info?.landCadastralNumber !==
+                  null(
+                    <>
                       {ads?.estate?.realEstateTypeForUser
                         ?.toLowerCase()
-                        .includes(localEstates.dom)
-                        ? " дома"
-                        : ""}
-                    </span>
-                  </div>
-                  <div className="right">
-                    <span>{ads?.cadastralNumber}</span>
-                  </div>
-                </div>
-                {ads?.estate?.realEstateTypeForUser
-                  ?.toLowerCase()
-                  .includes(localEstates.dom) && (
-                  <div className="specification fs-11">
-                    <div className="left">
-                      <span>Кадастровый номер земли</span>
-                    </div>
-                    <div className="right">
-                      <span>{ads?.landCadastralNumber}</span>
-                    </div>
-                  </div>
-                )}
+                        .includes(localEstates.dom) && (
+                        <div className="specification fs-11">
+                          <div className="left">
+                            <span>Кадастровый номер земли</span>
+                          </div>
+                          <div className="right">
+                            <span>{ads?.landCadastralNumber}</span>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
               </div>
             )}
             {ads?.transactionType === 0 && (
               <div className="column-2">
-                <div className="specification fs-11">
-                  <div className="left">
-                    <span>Тип аренды</span>
-                  </div>
-                  <div className="right">
-                    <span>{ads?.rentalPeriodTypeForUser}</span>
-                  </div>
-                </div>
-                <div className="specification fs-11">
-                  <div className="left">
-                    <span>Продавец</span>
-                  </div>
-                  <div className="right">
-                    <span>{ads?.sellerTypeForUser}</span>
-                  </div>
-                </div>
-                <div className="specification fs-11">
-                  <div className="left">
-                    <span>Условия сделки</span>
-                  </div>
-                  <div className="right">
-                    <span>{ads?.saleTypeForUser}</span>
-                  </div>
-                </div>
+                {info?.rentalPeriodTypeForUser !==
+                  null(
+                    <div className="specification fs-11">
+                      <div className="left">
+                        <span>Тип аренды</span>
+                      </div>
+                      <div className="right">
+                        <span>{ads?.rentalPeriodTypeForUser}</span>
+                      </div>
+                    </div>
+                  )}
+                {info?.sellerTypeForUser !==
+                  null(
+                    <div className="specification fs-11">
+                      <div className="left">
+                        <span>Продавец</span>
+                      </div>
+                      <div className="right">
+                        <span>{ads?.sellerTypeForUser}</span>
+                      </div>
+                    </div>
+                  )}
+                {info?.saleTypeForUser !==
+                  null(
+                    <div className="specification fs-11">
+                      <div className="left">
+                        <span>Условия сделки</span>
+                      </div>
+                      <div className="right">
+                        <span>{ads?.saleTypeForUser}</span>
+                      </div>
+                    </div>
+                  )}
               </div>
             )}
 
