@@ -244,55 +244,6 @@ const Catalog = ({ routeName }) => {
               />
             </div>
           </div>
-          {/* {view === "tiled" ? (
-            <button
-              type="button"
-              onClick={() => {
-                setView("as-a-list");
-              }}
-              className="btn-view fs-11 d-none d-lg-flex"
-            >
-              <span className="me-3">Показать списком</span>
-              <svg
-                width="28"
-                height="22"
-                viewBox="0 0 28 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="28" height="6" rx="1" />
-                <rect y="8" width="28" height="6" rx="1" />
-                <rect y="16" width="28" height="6" rx="1" />
-              </svg>
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setView("tiled");
-              }}
-              className="btn-view fs-11 d-none d-lg-flex"
-            >
-              <span className="me-3">Показать плиткой</span>
-              <svg
-                width="28"
-                height="22"
-                viewBox="0 0 28 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="8" height="6" rx="1" />
-                <rect x="10" width="8" height="6" rx="1" />
-                <rect x="20" width="8" height="6" rx="1" />
-                <rect y="8" width="8" height="6" rx="1" />
-                <rect x="10" y="8" width="8" height="6" rx="1" />
-                <rect x="20" y="8" width="8" height="6" rx="1" />
-                <rect y="16" width="8" height="6" rx="1" />
-                <rect x="10" y="16" width="8" height="6" rx="1" />
-                <rect x="20" y="16" width="8" height="6" rx="1" />
-              </svg>
-            </button>
-          )} */}
         </div>
         <div className="row">
           <div className="d-none d-xxl-block col-xxl-3">
