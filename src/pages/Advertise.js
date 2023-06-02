@@ -765,7 +765,11 @@ export default function Advertise() {
                       : ""
                   }
                   onClick={() => {
-                    if ((index <= activeField) && (isValid(activeField))) {                      
+                    if (index < activeField) {
+                      setActiveField(index + 1);
+                      return;
+                    }
+                    if ((index === activeField) && (isValid(activeField))) {                      
                       if (
                         data?.estateTypeName
                           ?.toLowerCase()
