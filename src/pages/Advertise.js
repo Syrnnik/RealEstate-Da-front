@@ -760,21 +760,24 @@ export default function Advertise() {
                   className={
                     activeField === index + 1 ||
                     (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
-                      activeField === 5 &&
-                      index === 3)
+                      activeField === 5 && index === 3)
                       ? "active"
                       : ""
                   }
                   onClick={() => {
-                    if (index + 1 < activeField || isValid(activeField))
+                    if ((index <= activeField) && (isValid(activeField))) {                      
                       if (
                         data?.estateTypeName
                           ?.toLowerCase()
                           .includes(localEstates.zemelia) &&
                         index === 3
-                      )
+                      ) {
                         setActiveField(index + 2);
-                      else setActiveField(index + 1);
+                      } else {
+                        setActiveField(index + 1);
+                      }
+                    }
+                    
                   }}
                 >
                   {index + 1}
