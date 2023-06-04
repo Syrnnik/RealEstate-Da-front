@@ -1,37 +1,37 @@
 export const insurances = [
   {
-    image: "",
-    title: "ВСК “Страховой дом”",
-    link: ""
+    image: "vsk",
+    title: "ВСК",
+    link: "https://shop.vsk.ru/mortgage",
   },
   {
-    image: "",
-    title: "Страховая компания “Макс”",
-    link: ""
+    image: "maks",
+    title: "Макс",
+    link: "https://makc.ru/calculator/gorodskie-ogni.php",
   },
   {
-    image: "",
+    image: "ingos",
     title: "Ингосстрах",
-    link: ""
+    link: "https://www.ingos.ru/mortgage",
   },
   {
-    image: "",
+    image: "sogaz",
     title: "Согаз",
-    link: ""
+    link: "https://www.sogaz.ru/corporate/property/",
   },
   {
-    image: "",
-    title: "АльфаСтрахование",
-    link: ""
+    image: "alpha",
+    title: "Альфа",
+    link: "https://www.alfastrah.ru/individuals/housing/",
   },
   {
-    image: "",
-    title: "Абсолют Страхование",
-    link: ""
+    image: "absolut",
+    title: "Абсолют",
+    link: "https://www.absolutins.ru/fizicheskie-lica/strahovanie-pri-ipoteke/ipoteka/",
   },
   {
-    image: "",
-    title: "Хоум Кредит Страхование",
-    link: ""
-  }
+    image: "homecredit",
+    title: "Хоум Кредит",
+    link: "https://www.hcinsurance.ru/",
+  },
 ];
