@@ -30,7 +30,7 @@ export default function MainPage() {
   const [servicesTypes, setServicesTypes] = useState({
     isLoading: false,
     data: [],
-    error: null
+    error: null,
   });
   const city = useSelector((state) => state?.selectedCity);
   const [activeTile, setActiveTile] = useState("");
@@ -80,7 +80,7 @@ export default function MainPage() {
     if (userId && city && typesEstate) {
       getCatalog(1, 6, "", city, {
         isHot: true,
-        estateId: typesEstate[0]?.estates[0]?.id
+        estateId: typesEstate[0]?.estates[0]?.id,
       }).then((data) => setHotAds(data?.body?.data));
     }
   }, [city, typesEstate]);
@@ -127,16 +127,22 @@ export default function MainPage() {
               img={`/img/icons/${type?.slug}.svg`}
               titles={[type.name]}
               hoverLinks={[
-                { name: "Продать", link: "/advertise" },
-                { name: "Сдать", link: "/advertise" },
+                {
+                  name: "Продать",
+                  link: `/advertise?transactionType=1&typesEstate=${type.id}`,
+                },
+                {
+                  name: "Сдать",
+                  link: `/advertise?transactionType=0&typesEstate=${type.id}`,
+                },
                 {
                   name: "Купить",
-                  link: `/catalog/?transactionType=1&typesEstate=${type.id}`
+                  link: `/catalog/?transactionType=1&typesEstate=${type.id}`,
                 },
                 {
                   name: "Снять",
-                  link: `/catalog/?transactionType=0&typesEstate=${type.id}`
-                }
+                  link: `/catalog/?transactionType=0&typesEstate=${type.id}`,
+                },
               ]}
             />
           ))}
@@ -147,7 +153,7 @@ export default function MainPage() {
           titles={["Ипотека Страхование"]}
           hoverLinks={[
             { name: "Ипотека", link: "/hypothec" },
-            { name: "Страхование", link: "/insurance" }
+            { name: "Страхование", link: "/insurance" },
           ]}
         />
         {servicesTypes && servicesTypes.isLoading ? (
@@ -226,11 +232,15 @@ export default function MainPage() {
               <h2>Продаете или покупаете недвижимость?</h2>
               <div className="d-flex align-items-baseline mt-2 mt-sm-4">
                 <img src="/img/icons/mark.svg" alt="" />
-                <div className="color-2 fs-15 ms-2 ms-sm-3">Юридическая консультация</div>
+                <div className="color-2 fs-15 ms-2 ms-sm-3">
+                  Юридическая консультация
+                </div>
               </div>
               <div className="d-flex align-items-baseline mt-2 mt-sm-4">
                 <img src="/img/icons/mark.svg" alt="" />
-                <div className="color-2 fs-15 ms-2 ms-sm-3">Сопровождение сделок</div>
+                <div className="color-2 fs-15 ms-2 ms-sm-3">
+                  Сопровождение сделок
+                </div>
               </div>
               <div className="d-flex align-items-baseline mt-2 mt-sm-4">
                 <img src="/img/icons/mark.svg" alt="" />
