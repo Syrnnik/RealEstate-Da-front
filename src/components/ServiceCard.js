@@ -15,50 +15,62 @@ const ServiceCard = (props) => {
   }, []);
 
   useEffect(() => {
-    getSubServicesTypes(axiosPrivate, props.id).then((servicesTypes) => {
-      setSubServices(
-        servicesTypes?.filter((type) =>
-          props.subServices?.find(
-            (subService) => type?.id === subService?.serviceTypeSubServiceId
+    getSubServicesTypes(axiosPrivate, props.serviceTypeId).then(
+      (servicesTypes) => {
+        setSubServices(
+          servicesTypes?.filter((type) =>
+            props.subServices?.find(
+              (subService) => type?.id === subService?.serviceTypeSubServiceId
+            )
           )
-        )
-      );
-    });
+        );
+      }
+    );
   }, []);
 
-  const sait = `${process.env.REACT_APP_PHOTO_URL}/uploads`;
+  // console.log(props);
+
+  const imgsUrl = `${process.env.REACT_APP_PHOTO_URL}/uploads`;
 
   return (
     <div className="service-card">
       <div className="title mb-3">
-        <h4 className="mb-1 mb-xl-2 mb-xxl-0">{serviceType?.name}</h4>
+        <h4 className="w-100 fs-18 text-center mb-1 mb-xl-2 mb-xxl-0">
+          {serviceType?.name}
+        </h4>
       </div>
 
-      <div className="desc mt-2 mb-1 mt-md-3 mt-xxl-0">
-        <div className="text">
-          <p>{props.description}</p>
-        </div>
-      </div>
-      <div className="serv-list my-2 mt-md-3 mt-xxl-0">
+      {/* <div className="serv-list my-2 mt-md-3 mt-xxl-0">
         {props.labels.map((label) => (
           <div className="serv" key={label.id}>
             {label.name}
           </div>
         ))}
-      </div>
-      <div className="serv-list my-2 mt-md-3 mt-xxl-0">
+      </div> */}
+
+      <h4 className="mb-3">Подуслуги:</h4>
+      <div className="serv-list ms-4 my-2 mt-md-3 mt-xxl-0 mb-5">
         {subServices?.map((subService) => (
           <div className="serv" key={subService.id}>
             {subService.name}
           </div>
         ))}
       </div>
-      <div className="photo my-2 mt-md-3 mt-xxl-0">
+
+      <h4 className="mb-3">О себе:</h4>
+      <div className="d-flex desc ms-4 my-2 mt-2 mb-1 mt-md-3 mb-5 mt-xxl-0">
+        <div className="d-flex text rounded px-4 py-3">
+          <span>{props.description}</span>
+        </div>
+      </div>
+
+      <h4 className="mb-3">Примеры:</h4>
+      <div className="d-flex photo ms-4 my-2 mt-md-3 mt-xxl-0 gap-4 flex-wrap">
         {props.images.map((serviceImage) => (
-          <img className="rounded-0" src={`${sait}/${serviceImage.image}`} />
+          <img className="rounded-0" src={`${imgsUrl}/${serviceImage.image}`} />
         ))}
       </div>
-      <div className="row justify-content-end mt-3">
+      <div className="row justify-content-end mt-5">
         <div className="col-sm-8">
           <div className="row row-cols-2 align-items-center g-2 g-sm-4">
             <div>
@@ -89,7 +101,10 @@ const ServiceCard = (props) => {
               </button>
             </div>
             <div>
-              <NavLink to={`create/${props.id}`} className="btn btn-1 fs-12 w-100">
+              <NavLink
+                to={`create/${props.id}`}
+                className="btn btn-1 fs-12 w-100"
+              >
                 Редактировать
               </NavLink>
             </div>

@@ -436,11 +436,18 @@ select {
 .upload__image-wrapper .imgs-box .image-item__btn-wrapper-in-response button {
   height: 2em;
 }
-.upload__image-wrapper .imgs-box .image-item__btn-wrapper-in-response button.main-img {
+.upload__image-wrapper
+  .imgs-box
+  .image-item__btn-wrapper-in-response
+  button.main-img {
   width: 100%;
   font-size: 0.8em;
 }
-.upload__image-wrapper .imgs-box .image-item__btn-wrapper-in-response button img {
+.upload__image-wrapper
+  .imgs-box
+  .image-item__btn-wrapper-in-response
+  button
+  img {
   width: 1em;
   height: 1em;
   object-fit: contain;
@@ -886,8 +893,9 @@ h5 {
 
 body {
   margin: 0;
-  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #545454;
@@ -3021,7 +3029,12 @@ main.account {
   width: fit-content;
   display: flex;
 }
-.form-profile .upload__image-wrapper .imgs-box .image-item__btn-wrapper button img {
+.form-profile
+  .upload__image-wrapper
+  .imgs-box
+  .image-item__btn-wrapper
+  button
+  img {
   width: 0.9em;
   height: 0.9em;
 }
@@ -4675,8 +4688,8 @@ footer nav.mobile ul li a.active svg.type-2 path {
   top: 55px;
   font-size: 14px;
   border-radius: 8px;
-  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 4px rgba(0, 0, 0, 0.04),
-    0 20px 40px rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 4px 4px rgba(0, 0, 0, 0.04), 0 20px 40px rgba(0, 0, 0, 0.08);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 4px rgba(0, 0, 0, 0.04),
     0 20px 40px rgba(0, 0, 0, 0.08);
   transition: display 2s linear;
@@ -5066,11 +5079,11 @@ footer nav.mobile ul li a.active svg.type-2 path {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
   line-height: 1.25em;
-  height: 2.5em;
   overflow: hidden;
-  font-weight: 300;
+  font-weight: 500;
+  background-color: #d0e0e9;
+  color: #165d85;
 }
 .service-card .serv-list {
   grid-column: 2/5;
@@ -5082,8 +5095,8 @@ footer nav.mobile ul li a.active svg.type-2 path {
   align-content: flex-start;
 }
 .service-card .serv-list .serv {
-  background-color: #ececec;
-  color: #828282;
+  background-color: #d0e0e9;
+  color: #165d85;
   padding: 0.5em 1em;
   border-radius: 2em;
   font-weight: 500;
