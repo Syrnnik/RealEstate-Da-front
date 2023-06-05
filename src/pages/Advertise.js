@@ -2,7 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AddressSuggestions } from "react-dadata";
 import ImageUploading from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import {
+  NavLink,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import Scroll, { Link, animateScroll as scroll } from "react-scroll";
 import { bindActionCreators } from "redux";
 import { getAdsPage } from "../API/adspage";
@@ -33,6 +38,7 @@ import { useAccessToken, useCurrentUser } from "../store/reducers";
 
 export default function Advertise() {
   const { uuid } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const city = useSelector((state) => state?.selectedCity);
   const ref = useRef(null); // Form
   const [deal, setDeal] = useState(1); // тип сделки (по умолчанию - продажа)
@@ -64,14 +70,14 @@ export default function Advertise() {
     isEncumbrances: 0,
     sellerType: 3,
     saleType: 2,
-    totalArea: 0
+    totalArea: 0,
   });
   const [prepTypeText, setPrepTypeText] = useState("");
   const [valid, setValid] = useState(fields);
   const scroller = Scroll.scroller;
   const [statusRequest, setStatusRequest] = useState({
     error: false,
-    good: false
+    good: false,
   });
   const maxNumber = 24;
   const dispatch = useDispatch();
@@ -98,7 +104,7 @@ export default function Advertise() {
     prepaymentType: 0,
     rentalPeriod: 0,
     sellerType: 3,
-    saleType: 2
+    saleType: 2,
   });
   const [ad, setAd] = useState({});
   const [outBuildingTypes, setOutBuildingTypes] = useState([]);
@@ -147,7 +153,7 @@ export default function Advertise() {
       acres: ad?.acres || 0,
       cityDistance: ad?.cityDistance || 0,
       hasBarrierParking: ad?.hasBarrierParking,
-      hasYardParking: ad?.hasYardParking
+      hasYardParking: ad?.hasYardParking,
     });
     setBtnRadio({
       transactionType: ad?.transactionType,
@@ -180,20 +186,20 @@ export default function Advertise() {
       locationType: Number(ad?.locationType),
       hasSecurity: Number(ad?.hasSecurity),
       sellerType: Number(ad?.sellerType),
-      saleType: Number(ad?.saleType)
+      saleType: Number(ad?.saleType),
     });
     // setWindRoseDirectionType(ad?.windRoseDirectionType.);
     //! add same for outBuildingType
     // setWindRoseDirectionType(ad?.windRoseDirectionType.);
     setDeal(ad?.transactionType);
     setMainImage([
-      { data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${ad.image}` }
+      { data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${ad.image}` },
     ]);
     setImages(
       ad?.images?.map((i) => {
         return {
           id: i.id,
-          data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${i.image}`
+          data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${i.image}`,
         };
       })
     );
@@ -202,7 +208,7 @@ export default function Advertise() {
   useEffect(() => {
     if (uuid === undefined) {
       setData({
-        transactionType: 1,
+        transactionType: +searchParams.get("transactionType"),
         pledge: 0,
         commission: 0,
         rentalPeriod: 0,
@@ -212,11 +218,11 @@ export default function Advertise() {
         isEncumbrances: 0,
         sellerType: 3,
         saleType: 2,
-        totalArea: 0
+        totalArea: 0,
       });
       setBtnRadio({
-        transactionType: 1,
-        estateTypeId: null,
+        transactionType: +searchParams.get("transactionType"),
+        estateTypeId: +searchParams.get("typesEstate"),
         estateId: null,
         houseType: null,
         roomType: null,
@@ -234,7 +240,7 @@ export default function Advertise() {
         prepaymentType: 0,
         rentalPeriod: 0,
         sellerType: 3,
-        saleType: 2
+        saleType: 2,
       });
       setDeal(1);
       setMainImage([]);
@@ -246,7 +252,9 @@ export default function Advertise() {
     const adsget = async () => {
       try {
         const result =
-          currentUser?.id && uuid ? await getAdsPage(uuid, currentUser?.id) : "";
+          currentUser?.id && uuid
+            ? await getAdsPage(uuid, currentUser?.id)
+            : "";
         if (result) {
           setAd(result);
         }
@@ -259,13 +267,13 @@ export default function Advertise() {
 
   useEffect(() => {
     function updateState() {
-      let arrNames = Array.from(ref.current.querySelectorAll(`[data-for]`)).map(function (
-        el
-      ) {
-        if (el.dataset.status === "false") {
-          return el.dataset.for;
+      let arrNames = Array.from(ref.current.querySelectorAll(`[data-for]`)).map(
+        function (el) {
+          if (el.dataset.status === "false") {
+            return el.dataset.for;
+          }
         }
-      });
+      );
       setRequired(arrNames);
     }
 
@@ -302,7 +310,7 @@ export default function Advertise() {
           city: res?.suggestions[0]?.data?.city,
           name: res?.suggestions[0]?.data?.city_district
             ? res?.suggestions[0]?.data?.city_district
-            : "Не важно"
+            : "Не важно",
         })
       );
   }, [data]);
@@ -331,14 +339,17 @@ export default function Advertise() {
           fias_id: res[0]?.data?.fias_id,
           latitude: res[0]?.data?.geo_lat,
           longitude: res[0]?.data?.geo_lon,
-          city: res[0]?.data?.city
+          city: res[0]?.data?.city,
         }));
       });
     }
   }, [data?.address]);
 
   useEffect(() => {
-    if (data?.residentalComplex === null || data?.residentalComplex === undefined) {
+    if (
+      data?.residentalComplex === null ||
+      data?.residentalComplex === undefined
+    ) {
       delete data?.residentalComplex;
     }
   }, []);
@@ -378,12 +389,15 @@ export default function Advertise() {
   };
 
   const isValid = (curField) => {
-    const isInValidEstateId = data.estateId === undefined || data.estateId === 0;
+    const isInValidEstateId =
+      data.estateId === undefined || data.estateId === 0;
     const isInValidTransactionType = data.transactionType === undefined;
-    const isInValidAddress = data.address?.length < 5 || data.address === undefined;
+    const isInValidAddress =
+      data.address?.length < 5 || data.address === undefined;
     const isInValidHouseType = data.houseType === undefined;
     const isInValidRoomType = data.roomType === undefined;
-    const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0;
+    const isInValidTotalArea =
+      data.totalArea === undefined || data.totalArea <= 0;
     const isInValidLivingArea = data?.livingArea < 0;
     const isInValidKitchenArea = data?.kitchenArea < 0;
     const isInValidFloor = data.floor === undefined || data.floor <= 0;
@@ -398,15 +412,20 @@ export default function Advertise() {
       data?.yearOfConstruction?.length > 4 ||
       data?.yearOfConstruction?.length <= 3 ||
       yearsForValidation() === undefined;
-    const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100;
+    const isInValidCeilingHeight =
+      data.ceilingHeight < 0 || data.ceilingHeight > 100;
     const isInValidCommission =
-      data?.commission < 0 || data?.commission > 100 || data?.commission === undefined;
+      data?.commission < 0 ||
+      data?.commission > 100 ||
+      data?.commission === undefined;
     const isInValidCadastralNumber = data?.cadastralNumber === undefined;
-    const isInValidLandCadastralNumber = data?.landCadastralNumber === undefined;
+    const isInValidLandCadastralNumber =
+      data?.landCadastralNumber === undefined;
     const isInValidAcres = data?.acres === undefined || data?.acres <= 0;
     const isInValidBuildingType = data?.buildingType === undefined;
     const isInValidParking =
-      data?.hasGroundParking === undefined || data?.hasUnderGroundParking === undefined;
+      data?.hasGroundParking === undefined ||
+      data?.hasUnderGroundParking === undefined;
 
     // Step 1
     if (curField === 1) {
@@ -512,7 +531,9 @@ export default function Advertise() {
     else if (curField === 4) {
       if (
         (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
-          data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking)) &&
+          data?.estateTypeName
+            ?.toLowerCase()
+            ?.includes(localEstates.parking)) &&
         isInValidYear
       ) {
         scroller.scrollTo("anchor-4", { offset: -80 });
@@ -523,7 +544,10 @@ export default function Advertise() {
       ) {
         scroller.scrollTo("anchor-4", { offset: -80 });
         setValid({ ...valid, isInValidCeilingHeight: true });
-      } else if (data?.estateName.toLowerCase().includes("паркинг") && isInValidParking) {
+      } else if (
+        data?.estateName.toLowerCase().includes("паркинг") &&
+        isInValidParking
+      ) {
         scroller.scrollTo("anchor-4", { offset: -80 });
         setValid({ ...valid, isInValidParking: true });
       } else return true;
@@ -571,7 +595,10 @@ export default function Advertise() {
           formData.append(key, req[key]);
         }
         formData.append("outBuildingType", outBuildingTypes.toString());
-        formData.append("windRoseDirectionType", windRoseDirectionType.toString());
+        formData.append(
+          "windRoseDirectionType",
+          windRoseDirectionType.toString()
+        );
       }
 
       formData.append("district[][city]", district["city"]);
@@ -678,7 +705,7 @@ export default function Advertise() {
     const name = e.target.name;
     setData((prevState) => ({
       ...prevState,
-      [name]: e.target.value ? e.target.value : undefined
+      [name]: e.target.value ? e.target.value : undefined,
     }));
     if (e.target.type === "checkbox") {
       setData((prevState) => ({ ...prevState, [name]: e.target.checked }));
@@ -692,7 +719,7 @@ export default function Advertise() {
       latitude: e.data?.geo_lat,
       longitude: e.data?.geo_lon,
       fias_id: e.data?.fias_id,
-      city: e.data?.city
+      city: e.data?.city,
     }));
   }, []);
 
@@ -717,8 +744,10 @@ export default function Advertise() {
     { title: "Об объекте" },
     { title: "Описание и фото" },
     { title: "О здании" },
-    { title: "Условия сделки" }
+    { title: "Условия сделки" },
   ];
+
+  console.log(btnRadio.transactionType);
 
   return (
     <main>
@@ -732,14 +761,18 @@ export default function Advertise() {
               <NavLink to="/">Главная</NavLink>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              {uuid === undefined ? "Подача объявления" : "Редактирование объявления"}
+              {uuid === undefined
+                ? "Подача объявления"
+                : "Редактирование объявления"}
             </li>
           </ol>
         </nav>
       </div>
       <section id="sec-11" className="container mb-6">
         <h1 className="text-center text-lg-start">
-          {uuid === undefined ? "Подача объявления" : "Редактирование объявления"}
+          {uuid === undefined
+            ? "Подача объявления"
+            : "Редактирование объявления"}
         </h1>
         <form
           ref={ref}
@@ -750,7 +783,9 @@ export default function Advertise() {
           <div className="mob-indicator">
             {advertiseSteps?.map(({ title }, index) => {
               if (
-                data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
+                data?.estateTypeName
+                  ?.toLowerCase()
+                  .includes(localEstates.zemelia) &&
                 title === advertiseSteps[3].title
               )
                 advertiseSteps.splice(index, 1);
@@ -759,7 +794,9 @@ export default function Advertise() {
                 <div
                   className={
                     activeField === index + 1 ||
-                    (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
+                    (data?.estateTypeName
+                      ?.toLowerCase()
+                      .includes(localEstates.zemelia) &&
                       activeField === 5 &&
                       index === 3)
                       ? "active"
@@ -797,7 +834,7 @@ export default function Advertise() {
                     data-for="deal"
                     data-status={false}
                     style={{
-                      color: valid?.isInValidTransactionType ? "#DA1E2A" : ""
+                      color: valid?.isInValidTransactionType ? "#DA1E2A" : "",
                     }}
                   >
                     Сделка*:
@@ -815,7 +852,7 @@ export default function Advertise() {
                           onClick={() =>
                             setBtnRadio((prevState) => ({
                               ...prevState,
-                              transactionType: 0
+                              transactionType: 0,
                             }))
                           }
                           onChange={(e) => {
@@ -823,7 +860,7 @@ export default function Advertise() {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                transactionType: +e.target.value
+                                transactionType: +e.target.value,
                               };
                             });
                             resetFieldVal(e, "isInValidTransactionType");
@@ -842,7 +879,7 @@ export default function Advertise() {
                           onClick={() =>
                             setBtnRadio((prevState) => ({
                               ...prevState,
-                              transactionType: 1
+                              transactionType: 1,
                             }))
                           }
                           onChange={(e) => {
@@ -850,7 +887,7 @@ export default function Advertise() {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                transactionType: +e.target.value
+                                transactionType: +e.target.value,
                               };
                             });
                           }}
@@ -870,7 +907,7 @@ export default function Advertise() {
                         data-for="rental-type"
                         data-status={false}
                         style={{
-                          color: valid.isInValidRentalTypes ? "#DA1E2A" : ""
+                          color: valid.isInValidRentalTypes ? "#DA1E2A" : "",
                         }}
                       >
                         Тип аренды*:
@@ -888,14 +925,14 @@ export default function Advertise() {
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  rentalPeriod: 1
+                                  rentalPeriod: 1,
                                 }))
                               }
                               onChange={(e) => {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    rentalPeriod: e.target.value
+                                    rentalPeriod: e.target.value,
                                   };
                                 });
                                 resetFieldVal(e, "isInValidRentalTypes");
@@ -914,14 +951,14 @@ export default function Advertise() {
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  rentalPeriod: 3
+                                  rentalPeriod: 3,
                                 }))
                               }
                               onChange={(e) => {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    rentalPeriod: e.target.value
+                                    rentalPeriod: e.target.value,
                                   };
                                 });
                               }}
@@ -939,14 +976,14 @@ export default function Advertise() {
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  rentalPeriod: 0
+                                  rentalPeriod: 0,
                                 }))
                               }
                               onChange={(e) => {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    rentalPeriod: e.target.value
+                                    rentalPeriod: e.target.value,
                                   };
                                 });
                               }}
@@ -957,7 +994,9 @@ export default function Advertise() {
                       </div>
                     </div>
                   </div>
-                  <hr className={deal === 0 ? "d-none d-md-block my-4" : "d-none"} />
+                  <hr
+                    className={deal === 0 ? "d-none d-md-block my-4" : "d-none"}
+                  />
                 </>
               )}
               <div className="row">
@@ -966,7 +1005,7 @@ export default function Advertise() {
                     data-for="property-type"
                     data-status={false}
                     style={{
-                      color: valid.isInValidEstateTypeId ? "#DA1E2A" : ""
+                      color: valid.isInValidEstateTypeId ? "#DA1E2A" : "",
                     }}
                   >
                     Тип недвижимости*:
@@ -985,7 +1024,7 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                estateTypeId: i.id
+                                estateTypeId: i.id,
                               }))
                             }
                             onChange={(e) => {
@@ -993,7 +1032,7 @@ export default function Advertise() {
                               setData({
                                 ...data,
                                 estateTypeId: e.target.value,
-                                estateTypeName: i.name
+                                estateTypeName: i.name,
                               });
                               setEs(i.estates);
                               resetFieldVal(e, "isInValidEstateTypeId");
@@ -1015,7 +1054,7 @@ export default function Advertise() {
                         data-for="estate"
                         data-status={false}
                         style={{
-                          color: valid.isInValidEstateId ? "#DA1E2A" : ""
+                          color: valid.isInValidEstateId ? "#DA1E2A" : "",
                         }}
                       >
                         Объект*:
@@ -1034,7 +1073,7 @@ export default function Advertise() {
                                   onClick={() =>
                                     setBtnRadio((prevState) => ({
                                       ...prevState,
-                                      estateId: i.id
+                                      estateId: i.id,
                                     }))
                                   }
                                   checked={btnRadio.estateId === i.id}
@@ -1042,7 +1081,7 @@ export default function Advertise() {
                                     setData((prevData) => ({
                                       ...prevData,
                                       estateId: e.target.value,
-                                      estateName: i.name
+                                      estateName: i.name,
                                     }));
                                     resetFieldVal(e, "isInValidEstateId");
                                   }}
@@ -1056,15 +1095,19 @@ export default function Advertise() {
                   </div>
                 </>
               )}
-              {(data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
-                data?.estateTypeName?.toLowerCase()?.includes(localEstates.dom)) && (
+              {(data?.estateTypeName
+                ?.toLowerCase()
+                ?.includes(localEstates.kvartiri) ||
+                data?.estateTypeName
+                  ?.toLowerCase()
+                  ?.includes(localEstates.dom)) && (
                 <AdTypeResidential
                   estateTypeName={data?.estateTypeName}
                   onChange={seterDataInComponent}
                   info={{
                     estateType: btnRadio?.estateType,
                     landArea: data?.landArea,
-                    areaType: btnRadio?.areaType
+                    areaType: btnRadio?.areaType,
                   }}
                   seterRadio={seterRadioBtns}
                 />
@@ -1079,7 +1122,7 @@ export default function Advertise() {
                       hasVentilation: btnRadio?.hasVentilation,
                       hasFireAlarm: btnRadio?.hasFireAlarm,
                       hasSecurityAlarm: btnRadio?.hasSecurityAlarm,
-                      gradeType: btnRadio?.gradeType
+                      gradeType: btnRadio?.gradeType,
                     }}
                     onChange={seterDataInComponent}
                   />
@@ -1119,8 +1162,12 @@ export default function Advertise() {
               </div>
             </fieldset>
 
-            {(data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
-              data?.estateTypeName?.toLowerCase()?.includes(localEstates.dom)) && (
+            {(data?.estateTypeName
+              ?.toLowerCase()
+              ?.includes(localEstates.kvartiri) ||
+              data?.estateTypeName
+                ?.toLowerCase()
+                ?.includes(localEstates.dom)) && (
               <AboutResidential
                 transactionType={data?.transactionType}
                 valid={valid}
@@ -1154,7 +1201,7 @@ export default function Advertise() {
                   hasBathroom: data?.hasBathroom,
                   hasShowerCabin: data?.hasShowerCabin,
                   withKids: data?.withKids,
-                  withPets: data?.withPets
+                  withPets: data?.withPets,
                 }}
                 seterRadio={seterRadioBtns}
                 estateTypeName={data?.estateTypeName}
@@ -1163,12 +1210,14 @@ export default function Advertise() {
                   const value = e.target.value;
                   if (outBuildingTypes.includes(value)) {
                     setOutBuildingTypes((prevBuildingTypes) =>
-                      prevBuildingTypes.filter((buildingType) => buildingType !== value)
+                      prevBuildingTypes.filter(
+                        (buildingType) => buildingType !== value
+                      )
                     );
                   } else {
                     setOutBuildingTypes((prevBuildingTypes) => [
                       ...prevBuildingTypes,
-                      value
+                      value,
                     ]);
                   }
                 }}
@@ -1183,7 +1232,7 @@ export default function Advertise() {
                   } else {
                     setWindRoseDirectionType((prevWindDirectionTypes) => [
                       ...prevWindDirectionTypes,
-                      value
+                      value,
                     ]);
                   }
                 }}
@@ -1191,7 +1240,9 @@ export default function Advertise() {
                 isValid={isValid}
               />
             )}
-            {data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              ?.includes(localEstates.commer) && (
               <AboutCommercial
                 valid={valid}
                 resetValid={resetValid}
@@ -1201,12 +1252,14 @@ export default function Advertise() {
                 onChange={seterDataInComponent}
                 info={{
                   totalArea: data?.totalArea,
-                  buildingType: btnRadio?.buildingType
+                  buildingType: btnRadio?.buildingType,
                 }}
                 seterRadio={seterRadioBtns}
               />
             )}
-            {data?.estateTypeName?.toLowerCase().includes(localEstates.parking) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              .includes(localEstates.parking) && (
               <AboutParking
                 estateName={data?.estateName}
                 valid={valid}
@@ -1216,7 +1269,7 @@ export default function Advertise() {
                   residentalComplex: data?.residentalComplex,
                   locationType: btnRadio?.locationType,
                   totalArea: data?.totalArea,
-                  hasSecurity: btnRadio?.hasSecurity
+                  hasSecurity: btnRadio?.hasSecurity,
                 }}
                 seterRadio={seterRadioBtns}
                 seterActiveField={seterActiveField}
@@ -1224,14 +1277,16 @@ export default function Advertise() {
                 onChange={seterDataInComponent}
               />
             )}
-            {data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              ?.includes(localEstates.zemelia) && (
               <AboutStead
                 valid={valid}
                 resetValid={resetValid}
                 activeField={activeField}
                 info={{
                   acres: data?.acres,
-                  cityDistance: data?.cityDistance
+                  cityDistance: data?.cityDistance,
                 }}
                 seterActiveField={seterActiveField}
                 isValid={isValid}
@@ -1244,14 +1299,16 @@ export default function Advertise() {
               name="anchor-3"
               className="element frame p-lg-4 mb-4 mb-lg-5"
             >
-              <legend className="title-font fw-7 fs-15 mb-4">Описание и фото</legend>
+              <legend className="title-font fw-7 fs-15 mb-4">
+                Описание и фото
+              </legend>
               <div className="row mb-2">
                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                   <span
                     data-for="address"
                     data-status={false}
                     style={{
-                      color: valid?.isInValidAddress ? "#DA1E2A" : ""
+                      color: valid?.isInValidAddress ? "#DA1E2A" : "",
                     }}
                   >
                     Адрес*:
@@ -1266,9 +1323,9 @@ export default function Advertise() {
                     containerClassName="advertise__address"
                     inputProps={{
                       style: {
-                        borderColor: valid?.isInValidAddress ? "#DA1E2A" : ""
+                        borderColor: valid?.isInValidAddress ? "#DA1E2A" : "",
                       },
-                      placeholder: "Адрес"
+                      placeholder: "Адрес",
                     }}
                     ref={suggestionsRef}
                     token={env.DADATA_TOKEN}
@@ -1285,7 +1342,7 @@ export default function Advertise() {
                     data-for="description"
                     data-status={false}
                     style={{
-                      color: valid.isInValidDescription ? "#DA1E2A" : ""
+                      color: valid.isInValidDescription ? "#DA1E2A" : "",
                     }}
                   >
                     Описание*:
@@ -1294,7 +1351,7 @@ export default function Advertise() {
                 <div className="col-md-9">
                   <textarea
                     style={{
-                      borderColor: valid.isInValidDescription ? "#DA1E2A" : ""
+                      borderColor: valid.isInValidDescription ? "#DA1E2A" : "",
                     }}
                     name="description"
                     rows="5"
@@ -1305,7 +1362,9 @@ export default function Advertise() {
                       setData((prevData) => {
                         return {
                           ...prevData,
-                          description: e.target.value ? e.target.value : undefined
+                          description: e.target.value
+                            ? e.target.value
+                            : undefined,
                         };
                       });
                       resetFieldVal(e, "isInValidDescription");
@@ -1320,7 +1379,7 @@ export default function Advertise() {
                     data-for="imgs"
                     data-status={false}
                     style={{
-                      color: valid.isInValidImage ? "#DA1E2A" : ""
+                      color: valid.isInValidImage ? "#DA1E2A" : "",
                     }}
                   >
                     Фото и планировка*:
@@ -1342,7 +1401,7 @@ export default function Advertise() {
                       onImageRemove,
                       isDragging,
                       dragProps,
-                      errors
+                      errors,
                     }) => (
                       <>
                         <div className="upload__image-wrapper">
@@ -1355,7 +1414,10 @@ export default function Advertise() {
                                     type="button"
                                     onClick={() => onImageUpdate(index)}
                                   >
-                                    <img src="/img/icons/update.svg" alt="Обновить" />
+                                    <img
+                                      src="/img/icons/update.svg"
+                                      alt="Обновить"
+                                    />
                                   </button>
                                 </div>
                                 {index === mainImg && (
@@ -1394,7 +1456,9 @@ export default function Advertise() {
                                   strokeWidth="1.5"
                                 />
                               </svg>
-                              <span className="ms-2">Добавить главное фото</span>
+                              <span className="ms-2">
+                                Добавить главное фото
+                              </span>
                             </button>
                           </div>
                         </div>
@@ -1421,7 +1485,7 @@ export default function Advertise() {
                       onImageRemove,
                       isDragging,
                       dragProps,
-                      errors
+                      errors,
                     }) => (
                       <>
                         <div className="upload__image-wrapper">
@@ -1435,7 +1499,11 @@ export default function Advertise() {
                                     onClick={() => {
                                       onImageRemove(index);
                                       uuid &&
-                                        deleteImage(axiosPrivate, image.id, token)
+                                        deleteImage(
+                                          axiosPrivate,
+                                          image.id,
+                                          token
+                                        )
                                           .then(() =>
                                             setAlert(
                                               "success",
@@ -1444,11 +1512,18 @@ export default function Advertise() {
                                             )
                                           )
                                           .catch(() =>
-                                            setAlert("danger", true, "Произошла ошибка")
+                                            setAlert(
+                                              "danger",
+                                              true,
+                                              "Произошла ошибка"
+                                            )
                                           );
                                     }}
                                   >
-                                    <img src="/img/icons/delete.svg" alt="Удалить" />
+                                    <img
+                                      src="/img/icons/delete.svg"
+                                      alt="Удалить"
+                                    />
                                   </button>
                                 </div>
                               </div>
@@ -1496,9 +1571,9 @@ export default function Advertise() {
                     )}
                   </ImageUploading>
                   <div className="fs-08 gray-3 mt-2">
-                    Не допускаются к размещению фотографии с водяными знаками, чужих
-                    объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG или WEBP.
-                    Загрузка от 2 штук и более.
+                    Не допускаются к размещению фотографии с водяными знаками,
+                    чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG
+                    или WEBP. Загрузка от 2 штук и более.
                   </div>
                 </div>
               </div>
@@ -1520,7 +1595,8 @@ export default function Advertise() {
                     onClick={() => {
                       if (isValid(activeField))
                         setActiveField(
-                          data?.estateTypeName?.toLowerCase() === localEstates.zemelia
+                          data?.estateTypeName?.toLowerCase() ===
+                            localEstates.zemelia
                             ? 5
                             : 4
                         );
@@ -1532,8 +1608,12 @@ export default function Advertise() {
               </div>
             </fieldset>
 
-            {(data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) ||
-              data?.estateTypeName?.toLowerCase().includes(localEstates.dom)) && (
+            {(data?.estateTypeName
+              ?.toLowerCase()
+              .includes(localEstates.kvartiri) ||
+              data?.estateTypeName
+                ?.toLowerCase()
+                .includes(localEstates.dom)) && (
               <AboutBuildingResidential
                 resetValid={resetValid}
                 valid={valid}
@@ -1553,12 +1633,14 @@ export default function Advertise() {
                   hasUnderGroundParking: data?.hasUnderGroundParking,
                   hasMoreLayerParking: data?.hasMoreLayerParking,
                   hasYardParking: data?.hasYardParking,
-                  hasBarrierParking: data?.hasBarrierParking
+                  hasBarrierParking: data?.hasBarrierParking,
                 }}
                 seterRadio={seterRadioBtns}
               />
             )}
-            {data?.estateTypeName?.toLowerCase().includes(localEstates.commer) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              .includes(localEstates.commer) && (
               <AboutBuildingCommercial
                 activeField={activeField}
                 seterActiveField={seterActiveField}
@@ -1575,12 +1657,14 @@ export default function Advertise() {
                   hasUnderGroundParking: data?.hasUnderGroundParking,
                   hasMoreLayerParking: data?.hasMoreLayerParking,
                   hasYardParking: data?.hasYardParking,
-                  hasBarrierParking: data?.hasBarrierParking
+                  hasBarrierParking: data?.hasBarrierParking,
                 }}
                 seterRadio={seterRadioBtns}
               />
             )}
-            {data?.estateTypeName?.toLowerCase().includes(localEstates.parking) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              .includes(localEstates.parking) && (
               <AboutBuildingParking
                 estateName={data?.estateName}
                 valid={valid}
@@ -1595,7 +1679,7 @@ export default function Advertise() {
                   hasUnderGroundParking: data?.hasUnderGroundParking,
                   hasMoreLayerParking: data?.hasMoreLayerParking,
                   hasYardParking: data?.hasYardParking,
-                  hasBarrierParking: data?.hasBarrierParking
+                  hasBarrierParking: data?.hasBarrierParking,
                 }}
               />
             )}
@@ -1605,7 +1689,9 @@ export default function Advertise() {
               name="anchor-5"
               className="element frame p-lg-4 mb-4 mb-lg-5"
             >
-              <legend className="title-font fw-7 fs-15 mb-5">Условия сделки</legend>
+              <legend className="title-font fw-7 fs-15 mb-5">
+                Условия сделки
+              </legend>
               {
                 /* условия ПРОДАЖИ */
                 deal === 1 && (
@@ -1616,7 +1702,7 @@ export default function Advertise() {
                           data-for="price"
                           data-status={false}
                           style={{
-                            color: valid.isInValidPrice ? "#DA1E2A" : ""
+                            color: valid.isInValidPrice ? "#DA1E2A" : "",
                           }}
                         >
                           Цена*:
@@ -1625,7 +1711,7 @@ export default function Advertise() {
                       <div className="col-md-9">
                         <input
                           style={{
-                            borderColor: valid.isInValidPrice ? "#DA1E2A" : ""
+                            borderColor: valid.isInValidPrice ? "#DA1E2A" : "",
                           }}
                           type="number"
                           name="price"
@@ -1635,7 +1721,9 @@ export default function Advertise() {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                price: e.target.value ? e.target.value : undefined
+                                price: e.target.value
+                                  ? e.target.value
+                                  : undefined,
                               };
                             });
                             resetFieldVal(e, "isInValidPrice");
@@ -1649,7 +1737,7 @@ export default function Advertise() {
                           data-for="hypothec"
                           data-status={false}
                           style={{
-                            color: valid.isInValidHypothec ? "#DA1E2A" : ""
+                            color: valid.isInValidHypothec ? "#DA1E2A" : "",
                           }}
                         >
                           Ипотека*:
@@ -1665,14 +1753,14 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                isMortgage: 1
+                                isMortgage: 1,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  isMortgage: e.target.value
+                                  isMortgage: e.target.value,
                                 };
                               });
                               resetFieldVal(e, "isInValidHypothec");
@@ -1689,14 +1777,14 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                isMortgage: 0
+                                isMortgage: 0,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  isMortgage: e.target.value
+                                  isMortgage: e.target.value,
                                 };
                               });
                             }}
@@ -1706,7 +1794,9 @@ export default function Advertise() {
                       </div>
                     </div>
                     <div className="row align-items-center mt-4 mt-sm-5 mb-4">
-                      <div className="col-md-3 fs-11 title mb-3 m-md-0">Обременения:</div>
+                      <div className="col-md-3 fs-11 title mb-3 m-md-0">
+                        Обременения:
+                      </div>
                       <div className="col-md-9 d-flex">
                         <label className="me-5">
                           <input
@@ -1716,7 +1806,7 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                isEncumbrances: 1
+                                isEncumbrances: 1,
                               }))
                             }
                             value={1}
@@ -1724,7 +1814,7 @@ export default function Advertise() {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  isEncumbrances: e.target.value
+                                  isEncumbrances: e.target.value,
                                 };
                               });
                             }}
@@ -1739,7 +1829,7 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                isEncumbrances: 0
+                                isEncumbrances: 0,
                               }))
                             }
                             value={0}
@@ -1747,7 +1837,7 @@ export default function Advertise() {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  isEncumbrances: e.target.value
+                                  isEncumbrances: e.target.value,
                                 };
                               });
                             }}
@@ -1757,7 +1847,9 @@ export default function Advertise() {
                       </div>
                     </div>
                     <div className="row align-items-start mt-4 mt-sm-5 mb-4">
-                      <div className="col-md-3 fs-11 title mb-3 m-md-0">Продавцы:</div>
+                      <div className="col-md-3 fs-11 title mb-3 m-md-0">
+                        Продавцы:
+                      </div>
                       <div className="col-md-9">
                         <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                           <label>
@@ -1769,14 +1861,14 @@ export default function Advertise() {
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  sellerType: 0
+                                  sellerType: 0,
                                 }))
                               }
                               onChange={(e) => {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    sellerType: e.target.value
+                                    sellerType: e.target.value,
                                   };
                                 });
                               }}
@@ -1792,14 +1884,14 @@ export default function Advertise() {
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  sellerType: 1
+                                  sellerType: 1,
                                 }))
                               }
                               onChange={(e) => {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    sellerType: e.target.value
+                                    sellerType: e.target.value,
                                   };
                                 });
                               }}
@@ -1815,19 +1907,21 @@ export default function Advertise() {
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  sellerType: 2
+                                  sellerType: 2,
                                 }))
                               }
                               onChange={(e) => {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    sellerType: e.target.value
+                                    sellerType: e.target.value,
                                   };
                                 });
                               }}
                             />
-                            <span className="fs-11 ms-2 text-nowrap">Агенство</span>
+                            <span className="fs-11 ms-2 text-nowrap">
+                              Агенство
+                            </span>
                           </label>
                           <label>
                             <input
@@ -1838,14 +1932,14 @@ export default function Advertise() {
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  sellerType: 4
+                                  sellerType: 4,
                                 }))
                               }
                               onChange={(e) => {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    sellerType: e.target.value
+                                    sellerType: e.target.value,
                                   };
                                 });
                               }}
@@ -1863,19 +1957,21 @@ export default function Advertise() {
                               onClick={() =>
                                 setBtnRadio((prevState) => ({
                                   ...prevState,
-                                  sellerType: 3
+                                  sellerType: 3,
                                 }))
                               }
                               onChange={(e) => {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    sellerType: e.target.value
+                                    sellerType: e.target.value,
                                   };
                                 });
                               }}
                             />
-                            <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                            <span className="fs-11 ms-2 text-nowrap">
+                              Не важно
+                            </span>
                           </label>
                         </div>
                       </div>
@@ -1884,11 +1980,15 @@ export default function Advertise() {
                       <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                         <span
                           style={{
-                            color: valid?.isInValidCadastralNumber ? "#DA1E2A" : ""
+                            color: valid?.isInValidCadastralNumber
+                              ? "#DA1E2A"
+                              : "",
                           }}
                         >
                           Кадастровый номер
-                          {data?.estateTypeName?.toLowerCase().includes(localEstates.dom)
+                          {data?.estateTypeName
+                            ?.toLowerCase()
+                            .includes(localEstates.dom)
                             ? " дома"
                             : ""}
                           *:
@@ -1902,7 +2002,7 @@ export default function Advertise() {
                               style={{
                                 borderColor: valid?.isInValidCadastralNumber
                                   ? "#DA1E2A"
-                                  : ""
+                                  : "",
                               }}
                               value={data?.cadastralNumber || ""}
                               onChange={(e) => {
@@ -1910,7 +2010,7 @@ export default function Advertise() {
                                   ...prevState,
                                   cadastralNumber: e.target.value
                                     ? e.target.value
-                                    : undefined
+                                    : undefined,
                                 }));
                                 resetFieldVal(e, "isInValidCadastralNumber");
                               }}
@@ -1919,12 +2019,16 @@ export default function Advertise() {
                         </div>
                       </div>
                     </div>
-                    {data?.estateTypeName?.toLowerCase().includes(localEstates.dom) && (
+                    {data?.estateTypeName
+                      ?.toLowerCase()
+                      .includes(localEstates.dom) && (
                       <div className="row align-items-start mt-4 mt-sm-5 mb-4">
                         <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                           <span
                             style={{
-                              color: valid?.isInValidLandCadastralNumber ? "#DA1E2A" : ""
+                              color: valid?.isInValidLandCadastralNumber
+                                ? "#DA1E2A"
+                                : "",
                             }}
                           >
                             Кадастровый номер земли*:
@@ -1936,9 +2040,10 @@ export default function Advertise() {
                               <input
                                 type="text"
                                 style={{
-                                  borderColor: valid?.isInValidLandCadastralNumber
-                                    ? "#DA1E2A"
-                                    : ""
+                                  borderColor:
+                                    valid?.isInValidLandCadastralNumber
+                                      ? "#DA1E2A"
+                                      : "",
                                 }}
                                 value={data?.landCadastralNumber || ""}
                                 onChange={(e) => {
@@ -1946,9 +2051,12 @@ export default function Advertise() {
                                     ...prevState,
                                     landCadastralNumber: e.target.value
                                       ? e.target.value
-                                      : undefined
+                                      : undefined,
                                   }));
-                                  resetFieldVal(e, "isInValidLandCadastralNumber");
+                                  resetFieldVal(
+                                    e,
+                                    "isInValidLandCadastralNumber"
+                                  );
                                 }}
                               />
                             </label>
@@ -1960,9 +2068,10 @@ export default function Advertise() {
                       <div className="col-md-3 fs-11 title mb-3 m-md-0">
                         Условия сделки:
                         <div className="fs-08 gray-3 mt-2">
-                          * В прямой продаже участвуете вы и продавец. В альтернативной
-                          сделке продавец планирует покупку нового жилья одновременно с
-                          продажей старого. Обычно обе сделки проходят в один день.
+                          * В прямой продаже участвуете вы и продавец. В
+                          альтернативной сделке продавец планирует покупку
+                          нового жилья одновременно с продажей старого. Обычно
+                          обе сделки проходят в один день.
                         </div>
                       </div>
                       <div className="col-md-9 d-flex flex-wrap">
@@ -1975,13 +2084,13 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                saleType: 0
+                                saleType: 0,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => ({
                                 ...prevData,
-                                saleType: e.target.value
+                                saleType: e.target.value,
                               }));
                             }}
                           />
@@ -1996,13 +2105,13 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                saleType: 1
+                                saleType: 1,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => ({
                                 ...prevData,
-                                saleType: e.target.value
+                                saleType: e.target.value,
                               }));
                             }}
                           />
@@ -2017,17 +2126,19 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                saleType: 2
+                                saleType: 2,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => ({
                                 ...prevData,
-                                saleType: e.target.value
+                                saleType: e.target.value,
                               }));
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Не важно
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -2045,18 +2156,20 @@ export default function Advertise() {
                             data-for="rental"
                             data-status={false}
                             style={{
-                              color: valid.isInValidPrice ? "#DA1E2A" : ""
+                              color: valid.isInValidPrice ? "#DA1E2A" : "",
                             }}
                           >
                             Арендная плата*:
                           </span>
                         </div>
-                        <small className="gray-3 fs-08">Без коммунальных услуг</small>
+                        <small className="gray-3 fs-08">
+                          Без коммунальных услуг
+                        </small>
                       </div>
                       <div className="col-md-9">
                         <input
                           style={{
-                            borderColor: valid.isInValidPrice ? "#DA1E2A" : ""
+                            borderColor: valid.isInValidPrice ? "#DA1E2A" : "",
                           }}
                           type="number"
                           name="rental"
@@ -2067,7 +2180,7 @@ export default function Advertise() {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                price: e.target.value
+                                price: e.target.value,
                               };
                             });
                             resetFieldVal(e, "isInValidPrice");
@@ -2088,7 +2201,7 @@ export default function Advertise() {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                communalPrice: e.target.value
+                                communalPrice: e.target.value,
                               };
                             });
                           }}
@@ -2099,7 +2212,9 @@ export default function Advertise() {
                             name="isCountersSeparately"
                             onChange={(e) => handleCheckbox(e)}
                           />
-                          <span className="ms-2">Счетчики оплачиваются отдельно</span>
+                          <span className="ms-2">
+                            Счетчики оплачиваются отдельно
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -2121,7 +2236,7 @@ export default function Advertise() {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                pledge: e.target.value
+                                pledge: e.target.value,
                               };
                             });
                             resetFieldVal(e, "isInValidPledge");
@@ -2136,7 +2251,7 @@ export default function Advertise() {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  pledge: 0
+                                  pledge: 0,
                                 };
                               });
                             }}
@@ -2169,13 +2284,13 @@ export default function Advertise() {
                             "8 месяцев",
                             "9 месяцев",
                             "10 месяцев",
-                            "11 месяцев"
+                            "11 месяцев",
                           ]}
                           callback={({ title, value }) => {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                prepaymentType: value
+                                prepaymentType: value,
                               };
                             });
                             setPrepTypeText(title);
@@ -2187,7 +2302,7 @@ export default function Advertise() {
                       <div
                         className="col-md-3 mb-3 m-md-0 fs-11 title-req"
                         style={{
-                          color: valid.isInValidCommission && "#DA1E2A"
+                          color: valid.isInValidCommission && "#DA1E2A",
                         }}
                       >
                         Комиссия агента:
@@ -2203,7 +2318,7 @@ export default function Advertise() {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                commission: e.target.value
+                                commission: e.target.value,
                               };
                             });
                             resetFieldVal(e, "isInValidCommission");
@@ -2218,7 +2333,7 @@ export default function Advertise() {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  commission: "0"
+                                  commission: "0",
                                 };
                               });
                             }}
@@ -2228,7 +2343,9 @@ export default function Advertise() {
                       </div>
                     </div>
                     <div className="row align-items-start mt-4 mt-sm-5 mb-4">
-                      <div className="col-md-3 fs-11 title mb-3 m-md-0">Продавцы:</div>
+                      <div className="col-md-3 fs-11 title mb-3 m-md-0">
+                        Продавцы:
+                      </div>
                       <div className="col-md-9 d-flex flex-wrap gap-3">
                         <label>
                           <input
@@ -2239,14 +2356,14 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                sellerType: 0
+                                sellerType: 0,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  sellerType: e.target.value
+                                  sellerType: e.target.value,
                                 };
                               });
                             }}
@@ -2262,14 +2379,14 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                sellerType: 1
+                                sellerType: 1,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  sellerType: e.target.value
+                                  sellerType: e.target.value,
                                 };
                               });
                             }}
@@ -2285,19 +2402,21 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                sellerType: 2
+                                sellerType: 2,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  sellerType: e.target.value
+                                  sellerType: e.target.value,
                                 };
                               });
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Агенства</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Агенства
+                          </span>
                         </label>
                         <label>
                           <input
@@ -2308,19 +2427,21 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                sellerType: 4
+                                sellerType: 4,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  sellerType: e.target.value
+                                  sellerType: e.target.value,
                                 };
                               });
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Частный риелтор</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Частный риелтор
+                          </span>
                         </label>
                         <label>
                           <input
@@ -2331,19 +2452,21 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                sellerType: 3
+                                sellerType: 3,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  sellerType: e.target.value
+                                  sellerType: e.target.value,
                                 };
                               });
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Не важно
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -2352,7 +2475,9 @@ export default function Advertise() {
                         <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                           <span
                             style={{
-                              color: valid?.isInValidCadastralNumber ? "#DA1E2A" : ""
+                              color: valid?.isInValidCadastralNumber
+                                ? "#DA1E2A"
+                                : "",
                             }}
                           >
                             Кадастровый номер
@@ -2372,7 +2497,7 @@ export default function Advertise() {
                                 style={{
                                   borderColor: valid?.isInValidCadastralNumber
                                     ? "#DA1E2A"
-                                    : ""
+                                    : "",
                                 }}
                                 value={data?.cadastralNumber || ""}
                                 onChange={(e) => {
@@ -2380,7 +2505,7 @@ export default function Advertise() {
                                     ...prevState,
                                     cadastralNumber: e.target.value
                                       ? e.target.value
-                                      : undefined
+                                      : undefined,
                                   }));
                                   resetFieldVal(e, "isInValidCadastralNumber");
                                 }}
@@ -2389,14 +2514,16 @@ export default function Advertise() {
                           </div>
                         </div>
                       </div>
-                      {data?.estateTypeName?.toLowerCase().includes(localEstates.dom) && (
+                      {data?.estateTypeName
+                        ?.toLowerCase()
+                        .includes(localEstates.dom) && (
                         <div className="row align-items-start mt-4 mt-sm-5 mb-4">
                           <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                             <span
                               style={{
                                 color: valid?.isInValidLandCadastralNumber
                                   ? "#DA1E2A"
-                                  : ""
+                                  : "",
                               }}
                             >
                               Кадастровый номер земли*:
@@ -2408,9 +2535,10 @@ export default function Advertise() {
                                 <input
                                   type="text"
                                   style={{
-                                    borderColor: valid?.isInValidLandCadastralNumber
-                                      ? "#DA1E2A"
-                                      : ""
+                                    borderColor:
+                                      valid?.isInValidLandCadastralNumber
+                                        ? "#DA1E2A"
+                                        : "",
                                   }}
                                   value={data?.landCadastralNumber || ""}
                                   onChange={(e) => {
@@ -2418,9 +2546,12 @@ export default function Advertise() {
                                       ...prevState,
                                       landCadastralNumber: e.target.value
                                         ? e.target.value
-                                        : undefined
+                                        : undefined,
                                     }));
-                                    resetFieldVal(e, "isInValidLandCadastralNumber");
+                                    resetFieldVal(
+                                      e,
+                                      "isInValidLandCadastralNumber"
+                                    );
                                   }}
                                 />
                               </label>
@@ -2433,9 +2564,10 @@ export default function Advertise() {
                       <div className="col-md-3 fs-11 title mb-3 m-md-0">
                         Условия сделки:
                         <div className="fs-08 gray-3 mt-2">
-                          * В прямой продаже участвуете вы и продавец. В альтернативной
-                          сделке продавец планирует покупку нового жилья одновременно с
-                          продажей старого. Обычно обе сделки проходят в один день.
+                          * В прямой продаже участвуете вы и продавец. В
+                          альтернативной сделке продавец планирует покупку
+                          нового жилья одновременно с продажей старого. Обычно
+                          обе сделки проходят в один день.
                         </div>
                       </div>
                       <div className="col-md-9 d-flex flex-wrap">
@@ -2448,13 +2580,13 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                saleType: 0
+                                saleType: 0,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => ({
                                 ...prevData,
-                                saleType: e.target.value
+                                saleType: e.target.value,
                               }));
                             }}
                           />
@@ -2469,13 +2601,13 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                saleType: 1
+                                saleType: 1,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => ({
                                 ...prevData,
-                                saleType: e.target.value
+                                saleType: e.target.value,
                               }));
                             }}
                           />
@@ -2490,17 +2622,19 @@ export default function Advertise() {
                             onClick={() =>
                               setBtnRadio((prevState) => ({
                                 ...prevState,
-                                saleType: 2
+                                saleType: 2,
                               }))
                             }
                             onChange={(e) => {
                               setData((prevData) => ({
                                 ...prevData,
-                                saleType: e.target.value
+                                saleType: e.target.value,
                               }));
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Не важно
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -2515,7 +2649,8 @@ export default function Advertise() {
                     className="btn btn-2 w-100"
                     onClick={() =>
                       setActiveField(
-                        data?.estateTypeName?.toLowerCase() === localEstates.zemelia
+                        data?.estateTypeName?.toLowerCase() ===
+                          localEstates.zemelia
                           ? activeField - 2
                           : activeField - 1
                       )
@@ -2536,7 +2671,9 @@ export default function Advertise() {
                       }
                     }}
                   >
-                    {uuid === undefined ? "Разместить объявление" : "Сохранить изменения"}
+                    {uuid === undefined
+                      ? "Разместить объявление"
+                      : "Сохранить изменения"}
                   </button>
                 </div>
               </div>
@@ -2571,7 +2708,9 @@ export default function Advertise() {
                 }
               }}
             >
-              {uuid === undefined ? "Разместить объявление" : "Сохранить изменения"}
+              {uuid === undefined
+                ? "Разместить объявление"
+                : "Сохранить изменения"}
             </button>
             <div className="d-none d-lg-block gray-3 text-center mt-3">
               Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с{" "}
@@ -2586,7 +2725,9 @@ export default function Advertise() {
                 <ol>
                   {advertiseSteps?.map(({ title }, index) => {
                     if (
-                      data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia)
+                      data?.estateTypeName
+                        ?.toLowerCase()
+                        .includes(localEstates.zemelia)
                     )
                       index++;
 
@@ -2611,7 +2752,9 @@ export default function Advertise() {
               </nav>
               <div className="faster">
                 <img src="/img/img5.jpg" alt="" className="img-fluid" />
-                <div className="title">Хотите найти покупателя/арендатора быстрее?</div>
+                <div className="title">
+                  Хотите найти покупателя/арендатора быстрее?
+                </div>
                 <button type="button" className="btn btn-1 px-3">
                   Узнать о преимуществах
                 </button>
