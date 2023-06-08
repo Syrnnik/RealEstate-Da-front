@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux";
 import SwiperCore, { EffectFade, Navigation, Thumbs } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { createAdResponse, getAdsPage, getResponsesAd } from "../API/adspage";
+import { getServiceType } from "../API/services";
 import { emitCreateWithRealEstateTopicMessage } from "../API/socketConversations";
 import { userInfo } from "../API/users";
 import Breadcrumbs from "../components/Breadcrumbs";
@@ -47,7 +48,7 @@ export default function CardPage() {
   const maxNumber = 5;
   const [responseData, setResponseData] = useState({
     userId,
-    token
+    token,
   });
   const [userInformation, setUserInformation] = useState({});
   const onChange = (imageList, addUpdateIndex) => {
@@ -79,12 +80,19 @@ export default function CardPage() {
   }, [uuid, userId]);
 
   useEffect(() => {
-    setUserServices(
-      userInformation?.services?.map((service) => ({
-        value: service?.id,
-        title: service?.subService?.name
-      }))
-    );
+    userInformation?.services?.map((service) => {
+      getServiceType(axiosPrivate, service?.serviceTypeId).then(
+        (serviceType) => {
+          setUserServices((prevServices) => [
+            ...prevServices,
+            {
+              value: service?.id,
+              title: serviceType?.name,
+            },
+          ]);
+        }
+      );
+    });
   }, [userInformation]);
 
   useEffect(() => {
@@ -135,7 +143,8 @@ export default function CardPage() {
   };
 
   useEffect(() => {
-    ads?.id && setResponseData((prevState) => ({ ...prevState, realEstateId: ads?.id }));
+    ads?.id &&
+      setResponseData((prevState) => ({ ...prevState, realEstateId: ads?.id }));
   }, [ads?.id]);
 
   const [roomsType, setRoomsType] = useState("");
@@ -148,7 +157,10 @@ export default function CardPage() {
   const Words = () => {
     if (ads?.user?.realEstatesCount < 1) {
       return "объект";
-    } else if (ads?.user?.realEstatesCount >= 1 && ads?.user?.realEstatesCount < 4) {
+    } else if (
+      ads?.user?.realEstatesCount >= 1 &&
+      ads?.user?.realEstatesCount < 4
+    ) {
       return "объекта";
     } else {
       return "объктов";
@@ -169,14 +181,18 @@ export default function CardPage() {
       emitCreateWithRealEstateTopicMessage(ads?.user?.id, {
         conversationId: 0,
         realEstateId: ads?.id,
-        text: messageInput
+        text: messageInput,
       })
         .then(() => {
           setAlert("success", true, "Сообщение отправлено");
           resetMessage();
         })
         .catch(() =>
-          setAlert("danger", true, "Что-то пошло не так, не удалось отправить сообщение")
+          setAlert(
+            "danger",
+            true,
+            "Что-то пошло не так, не удалось отправить сообщение"
+          )
         );
     } else {
       setMessageInputError("Сообщение не должно быть пустым");
@@ -190,30 +206,39 @@ export default function CardPage() {
       window.scrollTo({
         left: 0,
         top: mapRef.current.offsetTop,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
 
   const title = () => {
-    if (ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.kvartiri) {
+    if (
+      ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
+      localEstates.kvartiri
+    ) {
       return (
         <span>
           {ads?.estate?.name} {ads?.totalArea} м<sup>2</sup>
         </span>
       );
     }
-    if (ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.zemelia) {
+    if (
+      ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.zemelia
+    ) {
       return (
         <span>
           {ads?.estate?.name} {ads?.acres} м<sup>2</sup>
         </span>
       );
     }
-    if (ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.commer) {
+    if (
+      ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.commer
+    ) {
       return <span>{ads?.buildingTypeForUser}</span>;
     }
-    if (ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.parking) {
+    if (
+      ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.parking
+    ) {
       return (
         <span>
           {ads?.estate?.name} {ads?.totalArea} м<sup>2</sup>
@@ -258,12 +283,12 @@ export default function CardPage() {
     }
   };
 
-  console.log(ads);
-
   return (
     <main>
       <div
-        className={pageTop ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"}
+        className={
+          pageTop ? "card-page-top py-2 d-md-none" : "card-page-top d-none py-2"
+        }
       >
         <div className="container">
           <div className="d-flex">
@@ -272,7 +297,10 @@ export default function CardPage() {
                 <path d="M7.5 18C7.5 18 15 11.6033 15 6.75C15 4.95979 14.2098 3.2429 12.8033 1.97703C11.3968 0.711159 9.48912 0 7.5 0C5.51088 0 3.60322 0.711159 2.1967 1.97703C0.790176 3.2429 2.96403e-08 4.95979 0 6.75C0 11.6033 7.5 18 7.5 18ZM7.5 10.125C6.50544 10.125 5.55161 9.76942 4.84835 9.13649C4.14509 8.50355 3.75 7.64511 3.75 6.75C3.75 5.85489 4.14509 4.99645 4.84835 4.36351C5.55161 3.73058 6.50544 3.375 7.5 3.375C8.49456 3.375 9.44839 3.73058 10.1517 4.36351C10.8549 4.99645 11.25 5.85489 11.25 6.75C11.25 7.64511 10.8549 8.50355 10.1517 9.13649C9.44839 9.76942 8.49456 10.125 7.5 10.125Z" />
               </svg>
             </button>
-            <BtnFav realEstateId={ads?.id} wishlistStatus={ads?.wishlistStatus} />
+            <BtnFav
+              realEstateId={ads?.id}
+              wishlistStatus={ads?.wishlistStatus}
+            />
             <BtnRep
               realEstateId={ads?.id}
               reportStatus={ads?.reportStatus}
@@ -282,11 +310,15 @@ export default function CardPage() {
         </div>
       </div>
       <div className="container py-3 py-sm-4 py-lg-5">
-        <Breadcrumbs currentRouteName={title() || "Объявление"} cardPage={true} />
+        <Breadcrumbs
+          currentRouteName={title() || "Объявление"}
+          cardPage={true}
+        />
       </div>
       <section id="sec-7" className="container pb-5">
         <div>
-          {ads?.estate?.realEstateTypeForUser?.toLowerCase() === localEstates.commer ? (
+          {ads?.estate?.realEstateTypeForUser?.toLowerCase() ===
+          localEstates.commer ? (
             <h1>{ads?.buildingTypeForUser}</h1>
           ) : (
             <h1>
@@ -299,7 +331,9 @@ export default function CardPage() {
           <img src="/img/icons/pin.svg" alt="адрес" />
           <div className="fs-11 fw-6 ms-2 ms-sm-4">
             <div>
-              {ads?.residentalComplex ? `ЖК: "${ads?.residentalComplexForUser}"` : ""}
+              {ads?.residentalComplex
+                ? `ЖК: "${ads?.residentalComplexForUser}"`
+                : ""}
             </div>
             <div className="text-capitalize">{ads?.address}</div>
           </div>
@@ -312,7 +346,10 @@ export default function CardPage() {
                   <path d="M7.5 18C7.5 18 15 11.6033 15 6.75C15 4.95979 14.2098 3.2429 12.8033 1.97703C11.3968 0.711159 9.48912 0 7.5 0C5.51088 0 3.60322 0.711159 2.1967 1.97703C0.790176 3.2429 2.96403e-08 4.95979 0 6.75C0 11.6033 7.5 18 7.5 18ZM7.5 10.125C6.50544 10.125 5.55161 9.76942 4.84835 9.13649C4.14509 8.50355 3.75 7.64511 3.75 6.75C3.75 5.85489 4.14509 4.99645 4.84835 4.36351C5.55161 3.73058 6.50544 3.375 7.5 3.375C8.49456 3.375 9.44839 3.73058 10.1517 4.36351C10.8549 4.99645 11.25 5.85489 11.25 6.75C11.25 7.64511 10.8549 8.50355 10.1517 9.13649C9.44839 9.76942 8.49456 10.125 7.5 10.125Z" />
                 </svg>
               </button>
-              <BtnFav realEstateId={ads?.id} wishlistStatus={ads?.wishlistStatus} />
+              <BtnFav
+                realEstateId={ads?.id}
+                wishlistStatus={ads?.wishlistStatus}
+              />
               <BtnRep
                 realEstateId={ads?.id}
                 reportStatus={ads?.reportStatus}
@@ -342,12 +379,16 @@ export default function CardPage() {
                 slidesPerView={1}
                 navigation={{
                   nextEl: ".swiper-button-next",
-                  prevEl: ".swiper-button-prev"
+                  prevEl: ".swiper-button-prev",
                 }}
               >
                 {imagesAd.map((src, i) => (
                   <SwiperSlide key={"main-img-" + i}>
-                    <img className="main-slider-img" src={src} alt={"фото" + i} />
+                    <img
+                      className="main-slider-img"
+                      src={src}
+                      alt={"фото" + i}
+                    />
                     <button
                       type="button"
                       data-target={i}
@@ -435,32 +476,32 @@ export default function CardPage() {
                 breakpoints={{
                   576: {
                     slidesPerView: 4,
-                    spaceBetween: 10
+                    spaceBetween: 10,
                   },
                   768: {
                     slidesPerView: 5,
-                    spaceBetween: 16
+                    spaceBetween: 16,
                   },
                   992: {
                     slidesPerView: 4,
-                    spaceBetween: 16
+                    spaceBetween: 16,
                   },
                   1200: {
                     slidesPerView: 5,
-                    spaceBetween: 16
+                    spaceBetween: 16,
                   },
                   1400: {
                     slidesPerView: 6,
-                    spaceBetween: 16
+                    spaceBetween: 16,
                   },
                   1660: {
                     slidesPerView: 7,
-                    spaceBetween: 16
-                  }
+                    spaceBetween: 16,
+                  },
                 }}
                 navigation={{
                   nextEl: ".swiper-button-next",
-                  prevEl: ".swiper-button-prev"
+                  prevEl: ".swiper-button-prev",
                 }}
               >
                 {imagesAd.map((src, index) => (
@@ -542,14 +583,21 @@ export default function CardPage() {
                         readonly={true}
                         initialRating={ads?.user?.rating}
                         fractions={2}
-                        emptySymbol={<img src="/img/icons/star-gray.svg" alt="1" />}
-                        fullSymbol={<img src="/img/icons/star-blue.svg" alt="1" />}
+                        emptySymbol={
+                          <img src="/img/icons/star-gray.svg" alt="1" />
+                        }
+                        fullSymbol={
+                          <img src="/img/icons/star-blue.svg" alt="1" />
+                        }
                       />
                       <span className="fs-11 ms-2">({ads?.user?.rating})</span>
                     </div>
                     {ads?.user?.realEstatesCount - 1 > 0 && (
                       <div className="color-1 fs-11 mt-3">
-                        <NavLink to={`/user/${ads?.user?.id}`} state={{ fromAd: true }}>
+                        <NavLink
+                          to={`/user/${ads?.user?.id}`}
+                          state={{ fromAd: true }}
+                        >
                           {`Еще ${ads?.user?.realEstatesCount - 1}`}
                           <Words />
                         </NavLink>
@@ -561,7 +609,10 @@ export default function CardPage() {
                     alt={ads?.user?.fullName}
                   />
                 </div>
-                <ShowPhone className="mt-4 fs-15" phone={ads?.user?.phoneForUser} />
+                <ShowPhone
+                  className="mt-4 fs-15"
+                  phone={ads?.user?.phoneForUser}
+                />
                 <button
                   type="button"
                   className="btn btn-1 w-100 fs-15 px-3 mt-2 mt-xl-3"
@@ -588,7 +639,10 @@ export default function CardPage() {
                 ? ads?.description
                 : ads?.description.slice(0, 100) + "... "}
               {ads?.description.length > 100 && !showFullDesc && (
-                <a className="highlighted" onClick={() => setShowFullDesc(true)}>
+                <a
+                  className="highlighted"
+                  onClick={() => setShowFullDesc(true)}
+                >
                   Читать далее
                 </a>
               )}
@@ -911,7 +965,11 @@ export default function CardPage() {
                   )}
                   {ads?.hasBathroom ? (
                     <div className="d-flex align-items-center fs-11 mb-2">
-                      <img src="/img/icons/bath.svg" alt="Ванна" className="icon-mini" />
+                      <img
+                        src="/img/icons/bath.svg"
+                        alt="Ванна"
+                        className="icon-mini"
+                      />
                       <span className="ms-2 ms-sm-3">Ванна</span>
                     </div>
                   ) : (
@@ -1058,7 +1116,10 @@ export default function CardPage() {
         <form className="message-form">
           <div className="d-flex align-items-center">
             <div className="photo me-2 me-sm-4">
-              <img src={checkPhotoPath(ads?.user?.avatar)} alt={ads?.user?.fullName} />
+              <img
+                src={checkPhotoPath(ads?.user?.avatar)}
+                alt={ads?.user?.fullName}
+              />
             </div>
             <div>
               <h4>{ads?.user?.fullName}</h4>
@@ -1109,7 +1170,7 @@ export default function CardPage() {
                 setResponseData((prevState) => ({
                   ...prevState,
                   serviceId: value,
-                  title
+                  title,
                 }));
               }}
             />
@@ -1120,7 +1181,7 @@ export default function CardPage() {
               onChange={(e) => {
                 setResponseData((prevState) => ({
                   ...prevState,
-                  description: e.target.value
+                  description: e.target.value,
                 }));
               }}
             />
@@ -1142,7 +1203,7 @@ export default function CardPage() {
                 onImageRemove,
                 onImageUpload,
                 dragProps,
-                onImageRemoveAll
+                onImageRemoveAll,
               }) => (
                 // write your building UI
                 <div className="upload__image-wrapper">
