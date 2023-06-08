@@ -1,34 +1,39 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { AddressSuggestions } from 'react-dadata';
-import ImageUploading from 'react-images-uploading';
-import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import Scroll, { Link, animateScroll as scroll } from 'react-scroll';
-import { bindActionCreators } from 'redux';
-import { getAdsPage } from '../API/adspage';
-import { addAdvertise } from '../API/config/advertise';
-import { dadataFias } from '../API/dadata';
-import { dadataReAddress } from '../API/dadataReAddress';
-import { deleteImage } from '../API/deleteImage';
-import { getTypesEstate } from '../API/typesEstate';
-import { updateAd } from '../API/users';
-import CustomModal from '../components/CustomModal';
-import CustomSelect from '../components/CustomSelect';
-import AboutBuildingCommercial from '../components/advertiseComponents/AboutBuildingCommercial';
-import AboutBuildingParking from '../components/advertiseComponents/AboutBuildingParking';
-import AboutBuildingResidential from '../components/advertiseComponents/AboutBuildingResidential';
-import AboutCommercial from '../components/advertiseComponents/AboutCommercial';
-import AboutParking from '../components/advertiseComponents/AboutParking';
-import AboutResidential from '../components/advertiseComponents/AboutResidential';
-import AboutStead from '../components/advertiseComponents/AboutStead';
-import AdTypeCommercial from '../components/advertiseComponents/AdTypeCommercial';
-import AdTypeResidential from '../components/advertiseComponents/AdTypeResidential';
-import { fields } from '../components/advertiseComponents/fields';
-import env from '../config/env';
-import { localEstates } from '../helpers/localEstates';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import actionsAlert from '../store/actions/alert';
-import { useAccessToken, useCurrentUser } from '../store/reducers';
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { AddressSuggestions } from "react-dadata";
+import ImageUploading from "react-images-uploading";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  NavLink,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import Scroll, { Link, animateScroll as scroll } from "react-scroll";
+import { bindActionCreators } from "redux";
+import { getAdsPage } from "../API/adspage";
+import { addAdvertise } from "../API/config/advertise";
+import { dadataFias } from "../API/dadata";
+import { dadataReAddress } from "../API/dadataReAddress";
+import { deleteImage } from "../API/deleteImage";
+import { getTypesEstate } from "../API/typesEstate";
+import { updateAd } from "../API/users";
+import CustomModal from "../components/CustomModal";
+import CustomSelect from "../components/CustomSelect";
+import AboutBuildingCommercial from "../components/advertiseComponents/AboutBuildingCommercial";
+import AboutBuildingParking from "../components/advertiseComponents/AboutBuildingParking";
+import AboutBuildingResidential from "../components/advertiseComponents/AboutBuildingResidential";
+import AboutCommercial from "../components/advertiseComponents/AboutCommercial";
+import AboutParking from "../components/advertiseComponents/AboutParking";
+import AboutResidential from "../components/advertiseComponents/AboutResidential";
+import AboutStead from "../components/advertiseComponents/AboutStead";
+import AdTypeCommercial from "../components/advertiseComponents/AdTypeCommercial";
+import AdTypeResidential from "../components/advertiseComponents/AdTypeResidential";
+import { fields } from "../components/advertiseComponents/fields";
+import env from "../config/env";
+import { localEstates } from "../helpers/localEstates";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import actionsAlert from "../store/actions/alert";
+import { useAccessToken, useCurrentUser } from "../store/reducers";
 // import AdTypeLandPlot from "../components/advertiseComponents/AdTypeLandPlot";
 
 export default function Advertise() {
@@ -37,13 +42,13 @@ export default function Advertise() {
   const city = useSelector((state) => state?.selectedCity);
   const ref = useRef(null); // Form
   const [deal, setDeal] = useState(1); // тип сделки (по умолчанию - продажа)
-  const [proptype, setProptype] = useState('1'); // тип недвижимости (по умолчанию - Жилая)
+  const [proptype, setProptype] = useState("1"); // тип недвижимости (по умолчанию - Жилая)
   const [requiredElems, setRequired] = useState([]);
   let navigate = useNavigate();
   const [isShow, setIsShow] = useState(false);
   const [types, setTypes] = useState([]); // result require api
   const [es, setEs] = useState([]); // state estates in types
-  const [res, setRes] = useState(''); // check id in array id's
+  const [res, setRes] = useState(""); // check id in array id's
   const [imgs, setImages] = useState([]);
   const [mainImg, setMainImg] = useState(0);
   const [activeField, setActiveField] = useState(1); //для мобильных устройств
@@ -67,7 +72,7 @@ export default function Advertise() {
     saleType: 2,
     totalArea: 0,
   });
-  const [prepTypeText, setPrepTypeText] = useState('');
+  const [prepTypeText, setPrepTypeText] = useState("");
   const [valid, setValid] = useState(fields);
   const scroller = Scroll.scroller;
   const [statusRequest, setStatusRequest] = useState({
@@ -111,7 +116,7 @@ export default function Advertise() {
       address: ad?.address,
       residentalComplex: ad?.residentalComplex,
       totalArea: ad?.totalArea || 0,
-      floor: ad['floor'] || 0,
+      floor: ad["floor"] || 0,
       hasBathroom: ad?.hasBathroom,
       hasConditioner: ad?.hasConditioner,
       hasDishWasher: ad?.hasDishWasher,
@@ -187,7 +192,9 @@ export default function Advertise() {
     //! add same for outBuildingType
     // setWindRoseDirectionType(ad?.windRoseDirectionType.);
     setDeal(ad?.transactionType);
-    setMainImage([{ data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${ad.image}` }]);
+    setMainImage([
+      { data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${ad.image}` },
+    ]);
     setImages(
       ad?.images?.map((i) => {
         return {
@@ -201,7 +208,7 @@ export default function Advertise() {
   useEffect(() => {
     if (uuid === undefined) {
       setData({
-        transactionType: +searchParams.get('transactionType'),
+        transactionType: +searchParams.get("transactionType"),
         pledge: 0,
         commission: 0,
         rentalPeriod: 0,
@@ -214,8 +221,8 @@ export default function Advertise() {
         totalArea: 0,
       });
       setBtnRadio({
-        transactionType: +searchParams.get('transactionType'),
-        estateTypeId: +searchParams.get('typesEstate'),
+        transactionType: +searchParams.get("transactionType"),
+        estateTypeId: +searchParams.get("typesEstate"),
         estateId: null,
         houseType: null,
         roomType: null,
@@ -244,7 +251,10 @@ export default function Advertise() {
   useEffect(() => {
     const adsget = async () => {
       try {
-        const result = currentUser?.id && uuid ? await getAdsPage(uuid, currentUser?.id) : '';
+        const result =
+          currentUser?.id && uuid
+            ? await getAdsPage(uuid, currentUser?.id)
+            : "";
         if (result) {
           setAd(result);
         }
@@ -257,15 +267,17 @@ export default function Advertise() {
 
   useEffect(() => {
     function updateState() {
-      let arrNames = Array.from(ref.current.querySelectorAll(`[data-for]`)).map(function (el) {
-        if (el.dataset.status === 'false') {
-          return el.dataset.for;
+      let arrNames = Array.from(ref.current.querySelectorAll(`[data-for]`)).map(
+        function (el) {
+          if (el.dataset.status === "false") {
+            return el.dataset.for;
+          }
         }
-      });
+      );
       setRequired(arrNames);
     }
 
-    ref?.current?.addEventListener('change', updateState);
+    ref?.current?.addEventListener("change", updateState);
   }, [ref]);
 
   useEffect(() => {
@@ -292,11 +304,13 @@ export default function Advertise() {
   }, [types, proptype]);
 
   useEffect(() => {
-    data['fias_id'] &&
-      dadataFias(data['fias_id']).then((res) =>
+    data["fias_id"] &&
+      dadataFias(data["fias_id"]).then((res) =>
         setDistrict({
           city: res?.suggestions[0]?.data?.city,
-          name: res?.suggestions[0]?.data?.city_district ? res?.suggestions[0]?.data?.city_district : 'Не важно',
+          name: res?.suggestions[0]?.data?.city_district
+            ? res?.suggestions[0]?.data?.city_district
+            : "Не важно",
         })
       );
   }, [data]);
@@ -332,7 +346,10 @@ export default function Advertise() {
   }, [data?.address]);
 
   useEffect(() => {
-    if (data?.residentalComplex === null || data?.residentalComplex === undefined) {
+    if (
+      data?.residentalComplex === null ||
+      data?.residentalComplex === undefined
+    ) {
       delete data?.residentalComplex;
     }
   }, []);
@@ -342,7 +359,7 @@ export default function Advertise() {
   };
 
   const onChangeForMainImage = (imageList, e) => {
-    resetFieldVal(e, 'isInValidImage');
+    resetFieldVal(e, "isInValidImage");
     setMainImage(imageList);
   };
 
@@ -355,7 +372,7 @@ export default function Advertise() {
 
   const handleCheckbox = (e) => {
     const { target } = e;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
     setData((prevData) => {
       return { ...prevData, [name]: value };
@@ -372,54 +389,72 @@ export default function Advertise() {
   };
 
   const isValid = (curField) => {
-    const isInValidEstateId = data.estateId === undefined || data.estateId === 0;
+    const isInValidEstateId =
+      data.estateId === undefined || data.estateId === 0;
     const isInValidTransactionType = data.transactionType === undefined;
-    const isInValidAddress = data.address?.length < 5 || data.address === undefined;
+    const isInValidAddress =
+      data.address?.length < 5 || data.address === undefined;
     const isInValidHouseType = data.houseType === undefined;
     const isInValidRoomType = data.roomType === undefined;
-    const isInValidTotalArea = data.totalArea === undefined || data.totalArea <= 0;
+    const isInValidTotalArea =
+      data.totalArea === undefined || data.totalArea <= 0;
     const isInValidLivingArea = data?.livingArea < 0;
     const isInValidKitchenArea = data?.kitchenArea < 0;
     const isInValidFloor = data.floor === undefined || data.floor <= 0;
     const isInValidMaxFloor = data?.maxFloor < 0;
-    const isInValidDescription = data.description?.length < 30 || data.description === undefined;
+    const isInValidDescription =
+      data.description?.length < 30 || data.description === undefined;
     const isInValidImage = f === undefined;
     const isInValidPrice = data.price === undefined || data?.price < 0;
-    const isInValidEstateTypeId = data.estateTypeId === undefined || data.estateTypeId === 0;
+    const isInValidEstateTypeId =
+      data.estateTypeId === undefined || data.estateTypeId === 0;
     const isInValidYear =
       data?.yearOfConstruction?.length > 4 ||
       data?.yearOfConstruction?.length <= 3 ||
       yearsForValidation() === undefined;
-    const isInValidCeilingHeight = data.ceilingHeight < 0 || data.ceilingHeight > 100;
-    const isInValidCommission = data?.commission < 0 || data?.commission > 100 || data?.commission === undefined;
+    const isInValidCeilingHeight =
+      data.ceilingHeight < 0 || data.ceilingHeight > 100;
+    const isInValidCommission =
+      data?.commission < 0 ||
+      data?.commission > 100 ||
+      data?.commission === undefined;
     const isInValidCadastralNumber = data?.cadastralNumber === undefined;
-    const isInValidLandCadastralNumber = data?.landCadastralNumber === undefined;
+    const isInValidLandCadastralNumber =
+      data?.landCadastralNumber === undefined;
     const isInValidAcres = data?.acres === undefined || data?.acres <= 0;
     const isInValidBuildingType = data?.buildingType === undefined;
-    const isInValidParking = data?.hasGroundParking === undefined || data?.hasUnderGroundParking === undefined;
+    const isInValidParking =
+      data?.hasGroundParking === undefined ||
+      data?.hasUnderGroundParking === undefined;
 
     // Step 1
     if (curField === 1) {
       if (isInValidTransactionType) {
-        scroll.scrollTo('anchor-1', { offset: -80 });
+        scroll.scrollTo("anchor-1", { offset: -80 });
         setValid({ ...valid, isInValidTransactionType: true });
       } else if (isInValidEstateTypeId) {
-        scroll.scrollTo('anchor-1', { offset: -80 });
+        scroll.scrollTo("anchor-1", { offset: -80 });
         setValid({ ...valid, isInValidEstateTypeId: true });
       } else if (isInValidEstateId) {
-        scroll.scrollTo('anchor-1', { offset: -80 });
+        scroll.scrollTo("anchor-1", { offset: -80 });
         setValid({ ...valid, isInValidEstateId: true });
       } else return true;
     }
 
     // Step 2
     else if (curField === 2) {
-      if (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) && isInValidHouseType) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+      if (
+        data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) &&
+        isInValidHouseType
+      ) {
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidHouseType: true });
         return false;
-      } else if (data?.estateTypeName?.toLowerCase().includes(localEstates.commer) && isInValidBuildingType) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+      } else if (
+        data?.estateTypeName?.toLowerCase().includes(localEstates.commer) &&
+        isInValidBuildingType
+      ) {
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidBuildingType: true });
         return false;
       } else if (
@@ -427,7 +462,7 @@ export default function Advertise() {
           data?.estateTypeName?.toLowerCase().includes(localEstates.dom)) &&
         isInValidRoomType
       ) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidRoomType: true });
         return false;
       } else if (
@@ -436,15 +471,21 @@ export default function Advertise() {
           data?.estateTypeName?.toLowerCase().includes(localEstates.dom)) &&
         isInValidTotalArea
       ) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidTotalArea: true });
         return false;
-      } else if (data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) && isInValidLivingArea) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+      } else if (
+        data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+        isInValidLivingArea
+      ) {
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidLivingArea: true });
         return false;
-      } else if (data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) && isInValidKitchenArea) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+      } else if (
+        data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+        isInValidKitchenArea
+      ) {
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidKitchenArea: true });
         return false;
       } else if (
@@ -452,15 +493,21 @@ export default function Advertise() {
           data?.estateTypeName?.toLowerCase().includes(localEstates.dom)) &&
         isInValidFloor
       ) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidFloor: true });
         return false;
-      } else if (data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) && isInValidMaxFloor) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+      } else if (
+        data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+        isInValidMaxFloor
+      ) {
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidMaxFloor: true });
         return false;
-      } else if (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) && isInValidAcres) {
-        scroller.scrollTo('anchor-2', { offset: -80 });
+      } else if (
+        data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
+        isInValidAcres
+      ) {
+        scroller.scrollTo("anchor-2", { offset: -80 });
         setValid({ ...valid, isInValidAcres: true });
         return false;
       } else return true;
@@ -469,13 +516,13 @@ export default function Advertise() {
     // Step 3
     else if (curField === 3) {
       if (isInValidAddress) {
-        scroller.scrollTo('anchor-3', { offset: -80 });
+        scroller.scrollTo("anchor-3", { offset: -80 });
         setValid({ ...valid, isInValidAddress: true });
       } else if (isInValidDescription) {
-        scroller.scrollTo('anchor-3', { offset: -80 });
+        scroller.scrollTo("anchor-3", { offset: -80 });
         setValid({ ...valid, isInValidDescription: true });
       } else if (isInValidImage) {
-        scroller.scrollTo('anchor-3', { offset: -80 });
+        scroller.scrollTo("anchor-3", { offset: -80 });
         setValid({ ...valid, isInValidImage: true });
       } else return true;
     }
@@ -484,16 +531,24 @@ export default function Advertise() {
     else if (curField === 4) {
       if (
         (data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
-          data?.estateTypeName?.toLowerCase()?.includes(localEstates.parking)) &&
+          data?.estateTypeName
+            ?.toLowerCase()
+            ?.includes(localEstates.parking)) &&
         isInValidYear
       ) {
-        scroller.scrollTo('anchor-4', { offset: -80 });
+        scroller.scrollTo("anchor-4", { offset: -80 });
         setValid({ ...valid, isInValidYear: true });
-      } else if (data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) && isInValidCeilingHeight) {
-        scroller.scrollTo('anchor-4', { offset: -80 });
+      } else if (
+        data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) &&
+        isInValidCeilingHeight
+      ) {
+        scroller.scrollTo("anchor-4", { offset: -80 });
         setValid({ ...valid, isInValidCeilingHeight: true });
-      } else if (data?.estateName.toLowerCase().includes('паркинг') && isInValidParking) {
-        scroller.scrollTo('anchor-4', { offset: -80 });
+      } else if (
+        data?.estateName.toLowerCase().includes("паркинг") &&
+        isInValidParking
+      ) {
+        scroller.scrollTo("anchor-4", { offset: -80 });
         setValid({ ...valid, isInValidParking: true });
       } else return true;
     }
@@ -501,16 +556,19 @@ export default function Advertise() {
     // Step 5
     else if (curField === 5) {
       if (isInValidPrice) {
-        scroller.scrollTo('anchor-5', { offset: -80 });
+        scroller.scrollTo("anchor-5", { offset: -80 });
         setValid({ ...valid, isInValidPrice: true });
       } else if (isInValidCommission) {
-        scroller.scrollTo('anchor-5', { offset: -80 });
+        scroller.scrollTo("anchor-5", { offset: -80 });
         setValid({ ...valid, isInValidCommission: true });
       } else if (isInValidCadastralNumber) {
-        scroller.scrollTo('anchor-5', { offset: -80 });
+        scroller.scrollTo("anchor-5", { offset: -80 });
         setValid({ ...valid, isInValidCadastralNumber: true });
-      } else if (data?.estateTypeName?.toLowerCase().includes(localEstates.dom) && isInValidLandCadastralNumber) {
-        scroller.scrollTo('anchor-5', { offset: -80 });
+      } else if (
+        data?.estateTypeName?.toLowerCase().includes(localEstates.dom) &&
+        isInValidLandCadastralNumber
+      ) {
+        scroller.scrollTo("anchor-5", { offset: -80 });
         setValid({ ...valid, isInValidLandCadastralNumber: true });
       } else return true;
     }
@@ -536,36 +594,43 @@ export default function Advertise() {
         for (const key in req) {
           formData.append(key, req[key]);
         }
-        formData.append('outBuildingType', outBuildingTypes.toString());
-        formData.append('windRoseDirectionType', windRoseDirectionType.toString());
+        formData.append("outBuildingType", outBuildingTypes.toString());
+        formData.append(
+          "windRoseDirectionType",
+          windRoseDirectionType.toString()
+        );
       }
 
-      formData.append('district[][city]', district['city']);
-      formData.append('district[][name]', district['name']);
+      formData.append("district[][city]", district["city"]);
+      formData.append("district[][name]", district["name"]);
 
       if (imgs?.length >= 1) {
         imgs.forEach((i, index) => {
           if (i.file?.name !== image.name) {
-            formData.append('images[]', i.file);
+            formData.append("images[]", i.file);
           }
         });
       } else {
         imgs.forEach((i, index) => {
           if (i.file?.name !== image.name) {
-            formData.append('images', i.file);
+            formData.append("images", i.file);
           }
         });
       }
 
       addAdvertise(axiosPrivate, formData)
         .then(() => {
-          setAlert('success', true, 'Объявление успешно опубликовано, переход в ваши объявления');
+          setAlert(
+            "success",
+            true,
+            "Объявление успешно опубликовано, переход в ваши объявления"
+          );
           setTimeout(() => {
-            navigate('/personal-account/my-ads', { replace: true });
+            navigate("/personal-account/my-ads", { replace: true });
           }, 2000);
         })
         .catch((error) => {
-          setAlert('danger', true, 'Произошла ошибка сервера');
+          setAlert("danger", true, "Произошла ошибка сервера");
         });
     }
   };
@@ -590,20 +655,20 @@ export default function Advertise() {
         }
       }
 
-      formData.append('district[][city]', district['city']);
-      formData.append('district[][name]', district['name']);
+      formData.append("district[][city]", district["city"]);
+      formData.append("district[][name]", district["name"]);
 
-      if (imgs.hasOwnProperty('file')) {
+      if (imgs.hasOwnProperty("file")) {
         if (imgs?.length >= 1) {
           imgs.forEach((i, index) => {
             if (i.file?.name !== image.name) {
-              formData.append('images[]', i.file);
+              formData.append("images[]", i.file);
             }
           });
         } else {
           imgs.forEach((i, index) => {
             if (i.file?.name !== image?.name) {
-              formData.append('images', i.file);
+              formData.append("images", i.file);
             }
           });
         }
@@ -611,13 +676,17 @@ export default function Advertise() {
 
       updateAd(axiosPrivate, uuid, formData)
         .then(() => {
-          setAlert('success', true, 'Объявление успешно отредактировано, переход в мои объявления');
+          setAlert(
+            "success",
+            true,
+            "Объявление успешно отредактировано, переход в мои объявления"
+          );
           setTimeout(() => {
-            navigate('/personal-account/my-ads', { replace: true });
+            navigate("/personal-account/my-ads", { replace: true });
           }, 2000);
         })
         .catch(() => {
-          setAlert('danger', true, 'Произошла ошибка сервера');
+          setAlert("danger", true, "Произошла ошибка сервера");
         });
     }
   };
@@ -638,7 +707,7 @@ export default function Advertise() {
       ...prevState,
       [name]: e.target.value ? e.target.value : undefined,
     }));
-    if (e.target.type === 'checkbox') {
+    if (e.target.type === "checkbox") {
       setData((prevState) => ({ ...prevState, [name]: e.target.checked }));
     }
   }, []);
@@ -671,11 +740,11 @@ export default function Advertise() {
   });
 
   const advertiseSteps = [
-    { title: 'Тип объявления' },
-    { title: 'Об объекте' },
-    { title: 'Описание и фото' },
-    { title: 'О здании' },
-    { title: 'Условия сделки' },
+    { title: "Тип объявления" },
+    { title: "Об объекте" },
+    { title: "Описание и фото" },
+    { title: "О здании" },
+    { title: "Условия сделки" },
   ];
 
   console.log(btnRadio.transactionType);
@@ -692,20 +761,31 @@ export default function Advertise() {
               <NavLink to="/">Главная</NavLink>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              {uuid === undefined ? 'Подача объявления' : 'Редактирование объявления'}
+              {uuid === undefined
+                ? "Подача объявления"
+                : "Редактирование объявления"}
             </li>
           </ol>
         </nav>
       </div>
       <section id="sec-11" className="container mb-6">
         <h1 className="text-center text-lg-start">
-          {uuid === undefined ? 'Подача объявления' : 'Редактирование объявления'}
+          {uuid === undefined
+            ? "Подача объявления"
+            : "Редактирование объявления"}
         </h1>
-        <form ref={ref} className="row gx-xxl-5 position-relative" name="postingAd" noValidate>
+        <form
+          ref={ref}
+          className="row gx-xxl-5 position-relative"
+          name="postingAd"
+          noValidate
+        >
           <div className="mob-indicator">
             {advertiseSteps?.map(({ title }, index) => {
               if (
-                data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
+                data?.estateTypeName
+                  ?.toLowerCase()
+                  .includes(localEstates.zemelia) &&
                 title === advertiseSteps[3].title
               )
                 advertiseSteps.splice(index, 1);
@@ -714,18 +794,25 @@ export default function Advertise() {
                 <div
                   className={
                     activeField === index + 1 ||
-                    (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) &&
+                    (data?.estateTypeName
+                      ?.toLowerCase()
+                      .includes(localEstates.zemelia) &&
                       activeField === 5 &&
                       index === 3)
-                      ? 'active'
-                      : ''
+                      ? "active"
+                      : ""
                   }
                   onClick={() => {
                     if (index < activeField) {
                       setActiveField(index + 1);
                     }
                     if (index <= activeField && isValid(activeField)) {
-                      if (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia) && index === 3) {
+                      if (
+                        data?.estateTypeName
+                          ?.toLowerCase()
+                          .includes(localEstates.zemelia) &&
+                        index === 3
+                      ) {
                         setActiveField(index + 2);
                       } else {
                         setActiveField(index + 1);
@@ -740,18 +827,20 @@ export default function Advertise() {
           </div>
           <div className="col-lg-9">
             <fieldset
-              data-show={activeField === 1 ? 'true' : 'false'}
+              data-show={activeField === 1 ? "true" : "false"}
               name="anchor-1"
               className="element frame p-lg-4 mb-4 mb-lg-5"
             >
-              <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">Тип объявления</legend>
+              <legend className="text-center text-lg-start title-font fw-7 fs-15 mb-md-4">
+                Тип объявления
+              </legend>
               <div className="row">
                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                   <span
                     data-for="deal"
                     data-status={false}
                     style={{
-                      color: valid?.isInValidTransactionType ? '#DA1E2A' : '',
+                      color: valid?.isInValidTransactionType ? "#DA1E2A" : "",
                     }}
                   >
                     Сделка*:
@@ -780,7 +869,7 @@ export default function Advertise() {
                                 transactionType: +e.target.value,
                               };
                             });
-                            resetFieldVal(e, 'isInValidTransactionType');
+                            resetFieldVal(e, "isInValidTransactionType");
                           }}
                         />
                         <span className="fs-11 ms-2">Аренда</span>
@@ -824,7 +913,7 @@ export default function Advertise() {
                         data-for="rental-type"
                         data-status={false}
                         style={{
-                          color: valid.isInValidRentalTypes ? '#DA1E2A' : '',
+                          color: valid.isInValidRentalTypes ? "#DA1E2A" : "",
                         }}
                       >
                         Тип аренды*:
@@ -852,7 +941,7 @@ export default function Advertise() {
                                     rentalPeriod: e.target.value,
                                   };
                                 });
-                                resetFieldVal(e, 'isInValidRentalTypes');
+                                resetFieldVal(e, "isInValidRentalTypes");
                               }}
                             />
                             <span className="fs-11 ms-2">Длительно</span>
@@ -911,7 +1000,9 @@ export default function Advertise() {
                       </div>
                     </div>
                   </div>
-                  <hr className={deal === 0 ? 'd-none d-md-block my-4' : 'd-none'} />
+                  <hr
+                    className={deal === 0 ? "d-none d-md-block my-4" : "d-none"}
+                  />
                 </>
               )}
               <div className="row">
@@ -920,7 +1011,7 @@ export default function Advertise() {
                     data-for="property-type"
                     data-status={false}
                     style={{
-                      color: valid.isInValidEstateTypeId ? '#DA1E2A' : '',
+                      color: valid.isInValidEstateTypeId ? "#DA1E2A" : "",
                     }}
                   >
                     Тип недвижимости*:
@@ -950,7 +1041,7 @@ export default function Advertise() {
                                 estateTypeName: i.name,
                               });
                               setEs(i.estates);
-                              resetFieldVal(e, 'isInValidEstateTypeId');
+                              resetFieldVal(e, "isInValidEstateTypeId");
                             }}
                           />
                           <span className="fs-11 ms-2">{i.name}</span>
@@ -969,7 +1060,7 @@ export default function Advertise() {
                         data-for="estate"
                         data-status={false}
                         style={{
-                          color: valid.isInValidEstateId ? '#DA1E2A' : '',
+                          color: valid.isInValidEstateId ? "#DA1E2A" : "",
                         }}
                       >
                         Объект*:
@@ -998,7 +1089,7 @@ export default function Advertise() {
                                       estateId: e.target.value,
                                       estateName: i.name,
                                     }));
-                                    resetFieldVal(e, 'isInValidEstateId');
+                                    resetFieldVal(e, "isInValidEstateId");
                                   }}
                                 />
                                 <span className="fs-11 ms-2">{i.name}</span>
@@ -1010,8 +1101,12 @@ export default function Advertise() {
                   </div>
                 </>
               )}
-              {(data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
-                data?.estateTypeName?.toLowerCase()?.includes(localEstates.dom)) && (
+              {(data?.estateTypeName
+                ?.toLowerCase()
+                ?.includes(localEstates.kvartiri) ||
+                data?.estateTypeName
+                  ?.toLowerCase()
+                  ?.includes(localEstates.dom)) && (
                 <AdTypeResidential
                   estateTypeName={data?.estateTypeName}
                   onChange={seterDataInComponent}
@@ -1023,8 +1118,8 @@ export default function Advertise() {
                   seterRadio={seterRadioBtns}
                 />
               )}
-              {data?.estateTypeName?.toLowerCase()?.includes('коммерческая ') &&
-                data?.estateName?.toLowerCase()?.includes('готовый бизнес') && (
+              {data?.estateTypeName?.toLowerCase()?.includes("коммерческая ") &&
+                data?.estateName?.toLowerCase()?.includes("готовый бизнес") && (
                   <AdTypeCommercial
                     estateName={data?.estateName}
                     seterRadio={seterRadioBtns}
@@ -1054,7 +1149,7 @@ export default function Advertise() {
                   <button
                     type="button"
                     className="btn btn-2 w-100"
-                    onClick={() => navigate('/personal-account/my-ads')}
+                    onClick={() => navigate("/personal-account/my-ads")}
                   >
                     Отменить
                   </button>
@@ -1073,8 +1168,12 @@ export default function Advertise() {
               </div>
             </fieldset>
 
-            {(data?.estateTypeName?.toLowerCase()?.includes(localEstates.kvartiri) ||
-              data?.estateTypeName?.toLowerCase()?.includes(localEstates.dom)) && (
+            {(data?.estateTypeName
+              ?.toLowerCase()
+              ?.includes(localEstates.kvartiri) ||
+              data?.estateTypeName
+                ?.toLowerCase()
+                ?.includes(localEstates.dom)) && (
               <AboutResidential
                 transactionType={data?.transactionType}
                 valid={valid}
@@ -1117,27 +1216,39 @@ export default function Advertise() {
                   const value = e.target.value;
                   if (outBuildingTypes.includes(value)) {
                     setOutBuildingTypes((prevBuildingTypes) =>
-                      prevBuildingTypes.filter((buildingType) => buildingType !== value)
+                      prevBuildingTypes.filter(
+                        (buildingType) => buildingType !== value
+                      )
                     );
                   } else {
-                    setOutBuildingTypes((prevBuildingTypes) => [...prevBuildingTypes, value]);
+                    setOutBuildingTypes((prevBuildingTypes) => [
+                      ...prevBuildingTypes,
+                      value,
+                    ]);
                   }
                 }}
                 onWindRoseDirectionTypeChange={(e) => {
                   const value = e.target.value;
                   if (windRoseDirectionType.includes(value)) {
                     setWindRoseDirectionType((prevWindDirectionType) =>
-                      prevWindDirectionType.filter((directionType) => directionType !== value)
+                      prevWindDirectionType.filter(
+                        (directionType) => directionType !== value
+                      )
                     );
                   } else {
-                    setWindRoseDirectionType((prevWindDirectionTypes) => [...prevWindDirectionTypes, value]);
+                    setWindRoseDirectionType((prevWindDirectionTypes) => [
+                      ...prevWindDirectionTypes,
+                      value,
+                    ]);
                   }
                 }}
                 seterActiveField={seterActiveField}
                 isValid={isValid}
               />
             )}
-            {data?.estateTypeName?.toLowerCase()?.includes(localEstates.commer) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              ?.includes(localEstates.commer) && (
               <AboutCommercial
                 valid={valid}
                 resetValid={resetValid}
@@ -1152,7 +1263,9 @@ export default function Advertise() {
                 seterRadio={seterRadioBtns}
               />
             )}
-            {data?.estateTypeName?.toLowerCase().includes(localEstates.parking) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              .includes(localEstates.parking) && (
               <AboutParking
                 estateName={data?.estateName}
                 valid={valid}
@@ -1170,7 +1283,9 @@ export default function Advertise() {
                 onChange={seterDataInComponent}
               />
             )}
-            {data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              ?.includes(localEstates.zemelia) && (
               <AboutStead
                 valid={valid}
                 resetValid={resetValid}
@@ -1186,18 +1301,20 @@ export default function Advertise() {
             )}
 
             <fieldset
-              data-show={activeField === 3 ? 'true' : 'false'}
+              data-show={activeField === 3 ? "true" : "false"}
               name="anchor-3"
               className="element frame p-lg-4 mb-4 mb-lg-5"
             >
-              <legend className="title-font fw-7 fs-15 mb-4">Описание и фото</legend>
+              <legend className="title-font fw-7 fs-15 mb-4">
+                Описание и фото
+              </legend>
               <div className="row mb-2">
                 <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                   <span
                     data-for="address"
                     data-status={false}
                     style={{
-                      color: valid?.isInValidAddress ? '#DA1E2A' : '',
+                      color: valid?.isInValidAddress ? "#DA1E2A" : "",
                     }}
                   >
                     Адрес*:
@@ -1212,15 +1329,15 @@ export default function Advertise() {
                     containerClassName="advertise__address"
                     inputProps={{
                       style: {
-                        borderColor: valid?.isInValidAddress ? '#DA1E2A' : '',
+                        borderColor: valid?.isInValidAddress ? "#DA1E2A" : "",
                       },
-                      placeholder: 'Адрес',
+                      placeholder: "Адрес",
                     }}
                     ref={suggestionsRef}
                     token={env.DADATA_TOKEN}
                     onChange={(e) => {
                       seterForDaData(e);
-                      resetValid(e, 'isInValidAddress');
+                      resetValid(e, "isInValidAddress");
                     }}
                   />
                 </div>
@@ -1231,7 +1348,7 @@ export default function Advertise() {
                     data-for="description"
                     data-status={false}
                     style={{
-                      color: valid.isInValidDescription ? '#DA1E2A' : '',
+                      color: valid.isInValidDescription ? "#DA1E2A" : "",
                     }}
                   >
                     Описание*:
@@ -1240,36 +1357,39 @@ export default function Advertise() {
                 <div className="col-md-9">
                   <textarea
                     style={{
-                      borderColor: valid.isInValidDescription ? '#DA1E2A' : '',
+                      borderColor: valid.isInValidDescription ? "#DA1E2A" : "",
                     }}
                     name="description"
                     rows="5"
                     className="fs-11"
-                    value={data?.description || ''}
+                    value={data?.description || ""}
                     placeholder="Расскажите подробне об объекте и условиях сделки."
                     onChange={(e) => {
                       setData((prevData) => {
                         return {
                           ...prevData,
-                          description: e.target.value ? e.target.value : undefined,
+                          description: e.target.value
+                            ? e.target.value
+                            : undefined,
                         };
                       });
-                      resetFieldVal(e, 'isInValidDescription');
+                      resetFieldVal(e, "isInValidDescription");
                     }}
                   />
                   <div className="fs-08 gray-3 mt-2">Минимум 30 символов</div>
                 </div>
               </div>
-              <div className="row">
+
+              <div className="row mb-2">
                 <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
                   <span
                     data-for="imgs"
                     data-status={false}
                     style={{
-                      color: valid.isInValidImage ? '#DA1E2A' : '',
+                      color: valid.isInValidImage ? "#DA1E2A" : "",
                     }}
                   >
-                    Фото и планировка*:
+                    Главное фото*:
                   </span>
                 </div>
                 <div className="col-md-9">
@@ -1278,68 +1398,7 @@ export default function Advertise() {
                     onChange={onChangeForMainImage}
                     maxNumber={maxNumber}
                     dataURLKey="data_url"
-                    acceptType={['JPG', 'JPEG', 'PNG', 'WEBP']}
-                  >
-                    {({
-                      imageList,
-                      onImageUpload,
-                      onImageRemoveAll,
-                      onImageUpdate,
-                      onImageRemove,
-                      isDragging,
-                      dragProps,
-                      errors,
-                    }) => (
-                      <>
-                        <div className="upload__image-wrapper">
-                          <div className="imgs-box">
-                            {imageList.map((image, index) => (
-                              <div key={index} className="image-item">
-                                <img src={image.data_url} alt="" />
-                                <div className="image-item__btn-wrapper">
-                                  <button type="button" onClick={() => onImageUpdate(index)}>
-                                    <img src="/img/icons/update.svg" alt="Обновить" />
-                                  </button>
-                                </div>
-                                {index === mainImg && <div className="mark">Главное фото</div>}
-                              </div>
-                            ))}
-                          </div>
-                          <div className="d-flex justify-content-center">
-                            <button
-                              type="button"
-                              className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
-                              style={isDragging ? { color: 'red' } : null}
-                              onClick={onImageUpload}
-                              {...dragProps}
-                            >
-                              <svg
-                                width="21"
-                                height="21"
-                                viewBox="0 0 21 21"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <line x1="10.75" x2="10.75" y2="21" stroke="white" strokeWidth="1.5" />
-                                <line y1="10.25" x2="21" y2="10.25" stroke="white" strokeWidth="1.5" />
-                              </svg>
-                              <span className="ms-2">Добавить главное фото</span>
-                            </button>
-                          </div>
-                        </div>
-                        <span className="text-danger">
-                          {errors?.acceptType && 'Поддерживаемые форматы файла: JPEG, JPG, PNG'}
-                        </span>
-                      </>
-                    )}
-                  </ImageUploading>
-                  <ImageUploading
-                    multiple
-                    value={imgs}
-                    onChange={onChangeForOtherImages}
-                    maxNumber={maxNumber}
-                    dataURLKey="data_url"
-                    acceptType={['JPG', 'JPEG', 'PNG', 'WEBP']}
+                    acceptType={["JPG", "JPEG", "PNG", "WEBP"]}
                   >
                     {({
                       imageList,
@@ -1360,17 +1419,17 @@ export default function Advertise() {
                                 <div className="image-item__btn-wrapper">
                                   <button
                                     type="button"
-                                    onClick={() => {
-                                      onImageRemove(index);
-                                      uuid &&
-                                        deleteImage(axiosPrivate, image.id, token)
-                                          .then(() => setAlert('success', true, 'Картинка успешно удалена'))
-                                          .catch(() => setAlert('danger', true, 'Произошла ошибка'));
-                                    }}
+                                    onClick={() => onImageUpdate(index)}
                                   >
-                                    <img src="/img/icons/delete.svg" alt="Удалить" />
+                                    <img
+                                      src="/img/icons/update.svg"
+                                      alt="Обновить"
+                                    />
                                   </button>
                                 </div>
+                                {index === mainImg && (
+                                  <div className="mark">Главное фото</div>
+                                )}
                               </div>
                             ))}
                           </div>
@@ -1378,7 +1437,7 @@ export default function Advertise() {
                             <button
                               type="button"
                               className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
-                              style={isDragging ? { color: 'red' } : null}
+                              style={isDragging ? { color: "red" } : null}
                               onClick={onImageUpload}
                               {...dragProps}
                             >
@@ -1389,29 +1448,168 @@ export default function Advertise() {
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
-                                <line x1="10.75" x2="10.75" y2="21" stroke="white" strokeWidth="1.5" />
-                                <line y1="10.25" x2="21" y2="10.25" stroke="white" strokeWidth="1.5" />
+                                <line
+                                  x1="10.75"
+                                  x2="10.75"
+                                  y2="21"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                />
+                                <line
+                                  y1="10.25"
+                                  x2="21"
+                                  y2="10.25"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                />
                               </svg>
-                              <span className="ms-2">Добавить фотографии</span>
+                              <span className="ms-2">
+                                Добавить главное фото
+                              </span>
                             </button>
                           </div>
                         </div>
                         <span className="text-danger">
-                          {errors?.acceptType && 'Поддерживаемые форматы файла: JPEG, JPG, PNG'}
+                          {errors?.acceptType &&
+                            "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
                         </span>
                       </>
                     )}
                   </ImageUploading>
                   <div className="fs-08 gray-3 mt-2">
-                    Не допускаются к размещению фотографии с водяными знаками, чужих объектов и рекламные баннеры.
-                    Допустимы JPG, PNG, JPEG или WEBP. Загрузка от 2 штук и более.
+                    Не допускаются к размещению фотографии с водяными знаками,
+                    чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG
+                    или WEBP. Загрузка от 2 штук и более.
                   </div>
                 </div>
               </div>
+
+              <div className="row">
+                <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
+                  <span
+                    data-for="imgs"
+                    data-status={false}
+                    style={{
+                      color: valid.isInValidImage ? "#DA1E2A" : "",
+                    }}
+                  >
+                    Фото и планировка*:
+                  </span>
+                </div>
+                <ImageUploading
+                  multiple
+                  value={imgs}
+                  onChange={onChangeForOtherImages}
+                  maxNumber={maxNumber}
+                  dataURLKey="data_url"
+                  acceptType={["JPG", "JPEG", "PNG", "WEBP"]}
+                >
+                  {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                    errors,
+                  }) => (
+                    <>
+                      <div className="upload__image-wrapper">
+                        <div className="imgs-box">
+                          {imageList.map((image, index) => (
+                            <div key={index} className="image-item">
+                              <img src={image.data_url} alt="" />
+                              <div className="image-item__btn-wrapper">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    onImageRemove(index);
+                                    uuid &&
+                                      deleteImage(axiosPrivate, image.id, token)
+                                        .then(() =>
+                                          setAlert(
+                                            "success",
+                                            true,
+                                            "Картинка успешно удалена"
+                                          )
+                                        )
+                                        .catch(() =>
+                                          setAlert(
+                                            "danger",
+                                            true,
+                                            "Произошла ошибка"
+                                          )
+                                        );
+                                  }}
+                                >
+                                  <img
+                                    src="/img/icons/delete.svg"
+                                    alt="Удалить"
+                                  />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="d-flex justify-content-center">
+                          <button
+                            type="button"
+                            className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
+                            style={isDragging ? { color: "red" } : null}
+                            onClick={onImageUpload}
+                            {...dragProps}
+                          >
+                            <svg
+                              width="21"
+                              height="21"
+                              viewBox="0 0 21 21"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <line
+                                x1="10.75"
+                                x2="10.75"
+                                y2="21"
+                                stroke="white"
+                                strokeWidth="1.5"
+                              />
+                              <line
+                                y1="10.25"
+                                x2="21"
+                                y2="10.25"
+                                stroke="white"
+                                strokeWidth="1.5"
+                              />
+                            </svg>
+                            <span className="ms-2">
+                              Добавить фото или планировку
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                      <span className="text-danger">
+                        {errors?.acceptType &&
+                          "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
+                      </span>
+                    </>
+                  )}
+                </ImageUploading>
+                <div className="fs-08 gray-3 mt-2">
+                  Не допускаются к размещению фотографии с водяными знаками,
+                  чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG
+                  или WEBP. Загрузка от 2 штук и более.
+                </div>
+              </div>
+
               {/* для мобильных устроийств */}
               <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4">
                 <div>
-                  <button type="button" className="btn btn-2 w-100" onClick={() => setActiveField(activeField - 1)}>
+                  <button
+                    type="button"
+                    className="btn btn-2 w-100"
+                    onClick={() => setActiveField(activeField - 1)}
+                  >
                     Назад
                   </button>
                 </div>
@@ -1421,7 +1619,12 @@ export default function Advertise() {
                     className="btn btn-1 w-100"
                     onClick={() => {
                       if (isValid(activeField))
-                        setActiveField(data?.estateTypeName?.toLowerCase() === localEstates.zemelia ? 5 : 4);
+                        setActiveField(
+                          data?.estateTypeName?.toLowerCase() ===
+                            localEstates.zemelia
+                            ? 5
+                            : 4
+                        );
                     }}
                   >
                     Далее
@@ -1430,8 +1633,12 @@ export default function Advertise() {
               </div>
             </fieldset>
 
-            {(data?.estateTypeName?.toLowerCase().includes(localEstates.kvartiri) ||
-              data?.estateTypeName?.toLowerCase().includes(localEstates.dom)) && (
+            {(data?.estateTypeName
+              ?.toLowerCase()
+              .includes(localEstates.kvartiri) ||
+              data?.estateTypeName
+                ?.toLowerCase()
+                .includes(localEstates.dom)) && (
               <AboutBuildingResidential
                 resetValid={resetValid}
                 valid={valid}
@@ -1456,7 +1663,9 @@ export default function Advertise() {
                 seterRadio={seterRadioBtns}
               />
             )}
-            {data?.estateTypeName?.toLowerCase().includes(localEstates.commer) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              .includes(localEstates.commer) && (
               <AboutBuildingCommercial
                 activeField={activeField}
                 seterActiveField={seterActiveField}
@@ -1478,7 +1687,9 @@ export default function Advertise() {
                 seterRadio={seterRadioBtns}
               />
             )}
-            {data?.estateTypeName?.toLowerCase().includes(localEstates.parking) && (
+            {data?.estateTypeName
+              ?.toLowerCase()
+              .includes(localEstates.parking) && (
               <AboutBuildingParking
                 estateName={data?.estateName}
                 valid={valid}
@@ -1499,11 +1710,13 @@ export default function Advertise() {
             )}
 
             <fieldset
-              data-show={activeField === 5 ? 'true' : 'false'}
+              data-show={activeField === 5 ? "true" : "false"}
               name="anchor-5"
               className="element frame p-lg-4 mb-4 mb-lg-5"
             >
-              <legend className="title-font fw-7 fs-15 mb-5">Условия сделки</legend>
+              <legend className="title-font fw-7 fs-15 mb-5">
+                Условия сделки
+              </legend>
               {
                 /* условия ПРОДАЖИ */
                 deal === 1 && (
@@ -1514,7 +1727,7 @@ export default function Advertise() {
                           data-for="price"
                           data-status={false}
                           style={{
-                            color: valid.isInValidPrice ? '#DA1E2A' : '',
+                            color: valid.isInValidPrice ? "#DA1E2A" : "",
                           }}
                         >
                           Цена*:
@@ -1523,20 +1736,22 @@ export default function Advertise() {
                       <div className="col-md-9">
                         <input
                           style={{
-                            borderColor: valid.isInValidPrice ? '#DA1E2A' : '',
+                            borderColor: valid.isInValidPrice ? "#DA1E2A" : "",
                           }}
                           type="number"
                           name="price"
-                          value={data?.price || ''}
+                          value={data?.price || ""}
                           className="fs-11 price"
                           onChange={(e) => {
                             setData((prevData) => {
                               return {
                                 ...prevData,
-                                price: e.target.value ? e.target.value : undefined,
+                                price: e.target.value
+                                  ? e.target.value
+                                  : undefined,
                               };
                             });
-                            resetFieldVal(e, 'isInValidPrice');
+                            resetFieldVal(e, "isInValidPrice");
                           }}
                         />
                       </div>
@@ -1547,7 +1762,7 @@ export default function Advertise() {
                           data-for="hypothec"
                           data-status={false}
                           style={{
-                            color: valid.isInValidHypothec ? '#DA1E2A' : '',
+                            color: valid.isInValidHypothec ? "#DA1E2A" : "",
                           }}
                         >
                           Ипотека*:
@@ -1573,7 +1788,7 @@ export default function Advertise() {
                                   isMortgage: e.target.value,
                                 };
                               });
-                              resetFieldVal(e, 'isInValidHypothec');
+                              resetFieldVal(e, "isInValidHypothec");
                             }}
                           />
                           <span className="fs-11 ms-2">Да</span>
@@ -1604,7 +1819,9 @@ export default function Advertise() {
                       </div>
                     </div>
                     <div className="row align-items-center mt-4 mt-sm-5 mb-4">
-                      <div className="col-md-3 fs-11 title mb-3 m-md-0">Обременения:</div>
+                      <div className="col-md-3 fs-11 title mb-3 m-md-0">
+                        Обременения:
+                      </div>
                       <div className="col-md-9 d-flex">
                         <label className="me-5">
                           <input
@@ -1655,7 +1872,9 @@ export default function Advertise() {
                       </div>
                     </div>
                     <div className="row align-items-start mt-4 mt-sm-5 mb-4">
-                      <div className="col-md-3 fs-11 title mb-3 m-md-0">Продавцы:</div>
+                      <div className="col-md-3 fs-11 title mb-3 m-md-0">
+                        Продавцы:
+                      </div>
                       <div className="col-md-9">
                         <div className="row row-cols-2 row-cols-sm-3 row-cols-xxl-4 gy-3">
                           <label>
@@ -1725,7 +1944,9 @@ export default function Advertise() {
                                 });
                               }}
                             />
-                            <span className="fs-11 ms-2 text-nowrap">Агенство</span>
+                            <span className="fs-11 ms-2 text-nowrap">
+                              Агенство
+                            </span>
                           </label>
                           <label>
                             <input
@@ -1748,7 +1969,9 @@ export default function Advertise() {
                                 });
                               }}
                             />
-                            <span className="fs-11 ms-2 text-nowrap">Частный риелтор</span>
+                            <span className="fs-11 ms-2 text-nowrap">
+                              Частный риелтор
+                            </span>
                           </label>
                           <label>
                             <input
@@ -1771,7 +1994,9 @@ export default function Advertise() {
                                 });
                               }}
                             />
-                            <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                            <span className="fs-11 ms-2 text-nowrap">
+                              Не важно
+                            </span>
                           </label>
                         </div>
                       </div>
@@ -1780,11 +2005,17 @@ export default function Advertise() {
                       <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                         <span
                           style={{
-                            color: valid?.isInValidCadastralNumber ? '#DA1E2A' : '',
+                            color: valid?.isInValidCadastralNumber
+                              ? "#DA1E2A"
+                              : "",
                           }}
                         >
                           Кадастровый номер
-                          {data?.estateTypeName?.toLowerCase().includes(localEstates.dom) ? ' дома' : ''}
+                          {data?.estateTypeName
+                            ?.toLowerCase()
+                            .includes(localEstates.dom)
+                            ? " дома"
+                            : ""}
                           *:
                         </span>
                       </div>
@@ -1794,27 +2025,35 @@ export default function Advertise() {
                             <input
                               type="text"
                               style={{
-                                borderColor: valid?.isInValidCadastralNumber ? '#DA1E2A' : '',
+                                borderColor: valid?.isInValidCadastralNumber
+                                  ? "#DA1E2A"
+                                  : "",
                               }}
-                              value={data?.cadastralNumber || ''}
+                              value={data?.cadastralNumber || ""}
                               onChange={(e) => {
                                 setData((prevState) => ({
                                   ...prevState,
-                                  cadastralNumber: e.target.value ? e.target.value : undefined,
+                                  cadastralNumber: e.target.value
+                                    ? e.target.value
+                                    : undefined,
                                 }));
-                                resetFieldVal(e, 'isInValidCadastralNumber');
+                                resetFieldVal(e, "isInValidCadastralNumber");
                               }}
                             />
                           </label>
                         </div>
                       </div>
                     </div>
-                    {data?.estateTypeName?.toLowerCase().includes(localEstates.dom) && (
+                    {data?.estateTypeName
+                      ?.toLowerCase()
+                      .includes(localEstates.dom) && (
                       <div className="row align-items-start mt-4 mt-sm-5 mb-4">
                         <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                           <span
                             style={{
-                              color: valid?.isInValidLandCadastralNumber ? '#DA1E2A' : '',
+                              color: valid?.isInValidLandCadastralNumber
+                                ? "#DA1E2A"
+                                : "",
                             }}
                           >
                             Кадастровый номер земли*:
@@ -1826,15 +2065,23 @@ export default function Advertise() {
                               <input
                                 type="text"
                                 style={{
-                                  borderColor: valid?.isInValidLandCadastralNumber ? '#DA1E2A' : '',
+                                  borderColor:
+                                    valid?.isInValidLandCadastralNumber
+                                      ? "#DA1E2A"
+                                      : "",
                                 }}
-                                value={data?.landCadastralNumber || ''}
+                                value={data?.landCadastralNumber || ""}
                                 onChange={(e) => {
                                   setData((prevState) => ({
                                     ...prevState,
-                                    landCadastralNumber: e.target.value ? e.target.value : undefined,
+                                    landCadastralNumber: e.target.value
+                                      ? e.target.value
+                                      : undefined,
                                   }));
-                                  resetFieldVal(e, 'isInValidLandCadastralNumber');
+                                  resetFieldVal(
+                                    e,
+                                    "isInValidLandCadastralNumber"
+                                  );
                                 }}
                               />
                             </label>
@@ -1846,8 +2093,10 @@ export default function Advertise() {
                       <div className="col-md-3 fs-11 title mb-3 m-md-0">
                         Условия сделки:
                         <div className="fs-08 gray-3 mt-2">
-                          * В прямой продаже участвуете вы и продавец. В альтернативной сделке продавец планирует
-                          покупку нового жилья одновременно с продажей старого. Обычно обе сделки проходят в один день.
+                          * В прямой продаже участвуете вы и продавец. В
+                          альтернативной сделке продавец планирует покупку
+                          нового жилья одновременно с продажей старого. Обычно
+                          обе сделки проходят в один день.
                         </div>
                       </div>
                       <div className="col-md-9 d-flex flex-wrap">
@@ -1912,7 +2161,9 @@ export default function Advertise() {
                               }));
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Не важно
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -1930,22 +2181,24 @@ export default function Advertise() {
                             data-for="rental"
                             data-status={false}
                             style={{
-                              color: valid.isInValidPrice ? '#DA1E2A' : '',
+                              color: valid.isInValidPrice ? "#DA1E2A" : "",
                             }}
                           >
                             Арендная плата*:
                           </span>
                         </div>
-                        <small className="gray-3 fs-08">Без коммунальных услуг</small>
+                        <small className="gray-3 fs-08">
+                          Без коммунальных услуг
+                        </small>
                       </div>
                       <div className="col-md-9">
                         <input
                           style={{
-                            borderColor: valid.isInValidPrice ? '#DA1E2A' : '',
+                            borderColor: valid.isInValidPrice ? "#DA1E2A" : "",
                           }}
                           type="number"
                           name="rental"
-                          value={data?.price || ''}
+                          value={data?.price || ""}
                           placeholder="0"
                           className="fs-11 price"
                           onChange={(e) => {
@@ -1955,17 +2208,19 @@ export default function Advertise() {
                                 price: e.target.value,
                               };
                             });
-                            resetFieldVal(e, 'isInValidPrice');
+                            resetFieldVal(e, "isInValidPrice");
                           }}
                         />
                       </div>
                     </div>
                     <div className="row mb-4">
-                      <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">Коммунальные платежи:</div>
+                      <div className="col-md-3 mb-3 m-md-0 fs-11 title-req">
+                        Коммунальные платежи:
+                      </div>
                       <div className="col-md-9">
                         <input
                           type="number"
-                          value={data?.communalPrice || ''}
+                          value={data?.communalPrice || ""}
                           className="fs-11 price"
                           onChange={(e) => {
                             setData((prevData) => {
@@ -1977,8 +2232,14 @@ export default function Advertise() {
                           }}
                         />
                         <div className="d-flex mt-2">
-                          <input type="checkbox" name="isCountersSeparately" onChange={(e) => handleCheckbox(e)} />
-                          <span className="ms-2">Счетчики оплачиваются отдельно</span>
+                          <input
+                            type="checkbox"
+                            name="isCountersSeparately"
+                            onChange={(e) => handleCheckbox(e)}
+                          />
+                          <span className="ms-2">
+                            Счетчики оплачиваются отдельно
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -1994,7 +2255,7 @@ export default function Advertise() {
                           name="deposit"
                           placeholder="0"
                           className="fs-11 price"
-                          value={data.pledge || ''}
+                          value={data.pledge || ""}
                           disabled={data.isPledge}
                           onChange={(e) => {
                             setData((prevData) => {
@@ -2003,7 +2264,7 @@ export default function Advertise() {
                                 pledge: e.target.value,
                               };
                             });
-                            resetFieldVal(e, 'isInValidPledge');
+                            resetFieldVal(e, "isInValidPledge");
                           }}
                         />
                         <div className="d-flex mt-2">
@@ -2037,18 +2298,18 @@ export default function Advertise() {
                           name="prepayment"
                           checkedOptions={[prepTypeText]}
                           options={[
-                            'нет',
-                            '1 месяц',
-                            '2 месяца',
-                            '3 месяца',
-                            '4 месяца',
-                            '5 месяцев',
-                            '6 месяцев',
-                            '7 месяцев',
-                            '8 месяцев',
-                            '9 месяцев',
-                            '10 месяцев',
-                            '11 месяцев',
+                            "нет",
+                            "1 месяц",
+                            "2 месяца",
+                            "3 месяца",
+                            "4 месяца",
+                            "5 месяцев",
+                            "6 месяцев",
+                            "7 месяцев",
+                            "8 месяцев",
+                            "9 месяцев",
+                            "10 месяцев",
+                            "11 месяцев",
                           ]}
                           callback={({ title, value }) => {
                             setData((prevData) => {
@@ -2066,7 +2327,7 @@ export default function Advertise() {
                       <div
                         className="col-md-3 mb-3 m-md-0 fs-11 title-req"
                         style={{
-                          color: valid.isInValidCommission && '#DA1E2A',
+                          color: valid.isInValidCommission && "#DA1E2A",
                         }}
                       >
                         Комиссия агента:
@@ -2076,7 +2337,7 @@ export default function Advertise() {
                           type="number"
                           className="percent fs-11"
                           placeholder="0-100"
-                          value={data.commission || ''}
+                          value={data.commission || ""}
                           disabled={data.isCommission}
                           onChange={(e) => {
                             setData((prevData) => {
@@ -2085,7 +2346,7 @@ export default function Advertise() {
                                 commission: e.target.value,
                               };
                             });
-                            resetFieldVal(e, 'isInValidCommission');
+                            resetFieldVal(e, "isInValidCommission");
                           }}
                         />
                         <div className="d-flex mt-2">
@@ -2097,7 +2358,7 @@ export default function Advertise() {
                               setData((prevData) => {
                                 return {
                                   ...prevData,
-                                  commission: '0',
+                                  commission: "0",
                                 };
                               });
                             }}
@@ -2107,7 +2368,9 @@ export default function Advertise() {
                       </div>
                     </div>
                     <div className="row align-items-start mt-4 mt-sm-5 mb-4">
-                      <div className="col-md-3 fs-11 title mb-3 m-md-0">Продавцы:</div>
+                      <div className="col-md-3 fs-11 title mb-3 m-md-0">
+                        Продавцы:
+                      </div>
                       <div className="col-md-9 d-flex flex-wrap gap-3">
                         <label>
                           <input
@@ -2176,7 +2439,9 @@ export default function Advertise() {
                               });
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Агенства</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Агенства
+                          </span>
                         </label>
                         <label>
                           <input
@@ -2199,7 +2464,9 @@ export default function Advertise() {
                               });
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Частный риелтор</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Частный риелтор
+                          </span>
                         </label>
                         <label>
                           <input
@@ -2222,7 +2489,9 @@ export default function Advertise() {
                               });
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Не важно
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -2231,11 +2500,17 @@ export default function Advertise() {
                         <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                           <span
                             style={{
-                              color: valid?.isInValidCadastralNumber ? '#DA1E2A' : '',
+                              color: valid?.isInValidCadastralNumber
+                                ? "#DA1E2A"
+                                : "",
                             }}
                           >
                             Кадастровый номер
-                            {data?.estateTypeName?.toLowerCase().includes(localEstates.dom) ? ' дома' : ''}
+                            {data?.estateTypeName
+                              ?.toLowerCase()
+                              .includes(localEstates.dom)
+                              ? " дома"
+                              : ""}
                             *:
                           </span>
                         </div>
@@ -2245,27 +2520,35 @@ export default function Advertise() {
                               <input
                                 type="text"
                                 style={{
-                                  borderColor: valid?.isInValidCadastralNumber ? '#DA1E2A' : '',
+                                  borderColor: valid?.isInValidCadastralNumber
+                                    ? "#DA1E2A"
+                                    : "",
                                 }}
-                                value={data?.cadastralNumber || ''}
+                                value={data?.cadastralNumber || ""}
                                 onChange={(e) => {
                                   setData((prevState) => ({
                                     ...prevState,
-                                    cadastralNumber: e.target.value ? e.target.value : undefined,
+                                    cadastralNumber: e.target.value
+                                      ? e.target.value
+                                      : undefined,
                                   }));
-                                  resetFieldVal(e, 'isInValidCadastralNumber');
+                                  resetFieldVal(e, "isInValidCadastralNumber");
                                 }}
                               />
                             </label>
                           </div>
                         </div>
                       </div>
-                      {data?.estateTypeName?.toLowerCase().includes(localEstates.dom) && (
+                      {data?.estateTypeName
+                        ?.toLowerCase()
+                        .includes(localEstates.dom) && (
                         <div className="row align-items-start mt-4 mt-sm-5 mb-4">
                           <div className="col-md-3 fs-11 title-req mt-4 mt-sm-5 mb-3 m-md-0">
                             <span
                               style={{
-                                color: valid?.isInValidLandCadastralNumber ? '#DA1E2A' : '',
+                                color: valid?.isInValidLandCadastralNumber
+                                  ? "#DA1E2A"
+                                  : "",
                               }}
                             >
                               Кадастровый номер земли*:
@@ -2277,15 +2560,23 @@ export default function Advertise() {
                                 <input
                                   type="text"
                                   style={{
-                                    borderColor: valid?.isInValidLandCadastralNumber ? '#DA1E2A' : '',
+                                    borderColor:
+                                      valid?.isInValidLandCadastralNumber
+                                        ? "#DA1E2A"
+                                        : "",
                                   }}
-                                  value={data?.landCadastralNumber || ''}
+                                  value={data?.landCadastralNumber || ""}
                                   onChange={(e) => {
                                     setData((prevState) => ({
                                       ...prevState,
-                                      landCadastralNumber: e.target.value ? e.target.value : undefined,
+                                      landCadastralNumber: e.target.value
+                                        ? e.target.value
+                                        : undefined,
                                     }));
-                                    resetFieldVal(e, 'isInValidLandCadastralNumber');
+                                    resetFieldVal(
+                                      e,
+                                      "isInValidLandCadastralNumber"
+                                    );
                                   }}
                                 />
                               </label>
@@ -2298,8 +2589,10 @@ export default function Advertise() {
                       <div className="col-md-3 fs-11 title mb-3 m-md-0">
                         Условия сделки:
                         <div className="fs-08 gray-3 mt-2">
-                          * В прямой продаже участвуете вы и продавец. В альтернативной сделке продавец планирует
-                          покупку нового жилья одновременно с продажей старого. Обычно обе сделки проходят в один день.
+                          * В прямой продаже участвуете вы и продавец. В
+                          альтернативной сделке продавец планирует покупку
+                          нового жилья одновременно с продажей старого. Обычно
+                          обе сделки проходят в один день.
                         </div>
                       </div>
                       <div className="col-md-9 d-flex flex-wrap">
@@ -2364,7 +2657,9 @@ export default function Advertise() {
                               }));
                             }}
                           />
-                          <span className="fs-11 ms-2 text-nowrap">Не важно</span>
+                          <span className="fs-11 ms-2 text-nowrap">
+                            Не важно
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -2379,7 +2674,10 @@ export default function Advertise() {
                     className="btn btn-2 w-100"
                     onClick={() =>
                       setActiveField(
-                        data?.estateTypeName?.toLowerCase() === localEstates.zemelia ? activeField - 2 : activeField - 1
+                        data?.estateTypeName?.toLowerCase() ===
+                          localEstates.zemelia
+                          ? activeField - 2
+                          : activeField - 1
                       )
                     }
                   >
@@ -2398,20 +2696,27 @@ export default function Advertise() {
                       }
                     }}
                   >
-                    {uuid === undefined ? 'Разместить объявление' : 'Сохранить изменения'}
+                    {uuid === undefined
+                      ? "Разместить объявление"
+                      : "Сохранить изменения"}
                   </button>
                 </div>
               </div>
             </fieldset>
 
-            <CustomModal isShow={isShow} setIsShow={setIsShow} closeButton={false} centre={true}>
+            <CustomModal
+              isShow={isShow}
+              setIsShow={setIsShow}
+              closeButton={false}
+              centre={true}
+            >
               {statusRequest.good && (
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ textAlign: "center" }}>
                   <p>Объявление создано, переход в "Мои объявления"</p>
                 </div>
               )}
               {statusRequest.error && (
-                <div style={{ textAlign: 'center' }}>
+                <div style={{ textAlign: "center" }}>
                   <p>Произошла ошибка</p>
                 </div>
               )}
@@ -2428,10 +2733,12 @@ export default function Advertise() {
                 }
               }}
             >
-              {uuid === undefined ? 'Разместить объявление' : 'Сохранить изменения'}
+              {uuid === undefined
+                ? "Разместить объявление"
+                : "Сохранить изменения"}
             </button>
             <div className="d-none d-lg-block gray-3 text-center mt-3">
-              Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с{' '}
+              Нажимая кнопку “Разместить объявление”, Вы соглашаетесь с{" "}
               <a href="/" className="color-1">
                 условиями сайта
               </a>
@@ -2442,7 +2749,12 @@ export default function Advertise() {
               <nav className="contents mb-4 mb-lg-5">
                 <ol>
                   {advertiseSteps?.map(({ title }, index) => {
-                    if (data?.estateTypeName?.toLowerCase().includes(localEstates.zemelia)) index++;
+                    if (
+                      data?.estateTypeName
+                        ?.toLowerCase()
+                        .includes(localEstates.zemelia)
+                    )
+                      index++;
 
                     return (
                       <li data-target={`anchor-${index + 1}`}>
@@ -2465,7 +2777,9 @@ export default function Advertise() {
               </nav>
               <div className="faster">
                 <img src="/img/img5.jpg" alt="" className="img-fluid" />
-                <div className="title">Хотите найти покупателя/арендатора быстрее?</div>
+                <div className="title">
+                  Хотите найти покупателя/арендатора быстрее?
+                </div>
                 <button type="button" className="btn btn-1 px-3">
                   Узнать о преимуществах
                 </button>
