@@ -604,19 +604,14 @@ export default function Advertise() {
       formData.append("district[][city]", district["city"]);
       formData.append("district[][name]", district["name"]);
 
-      if (imgs?.length >= 1) {
+      if (imgs?.length) {
         imgs.forEach((i, index) => {
           if (i.file?.name !== image.name) {
             formData.append("images[]", i.file);
           }
         });
-      } else {
-        imgs.forEach((i, index) => {
-          if (i.file?.name !== image.name) {
-            formData.append("images", i.file);
-          }
-        });
       }
+      formData.append("image", mainImage[0]);
 
       addAdvertise(axiosPrivate, formData)
         .then(() => {
@@ -659,19 +654,17 @@ export default function Advertise() {
       formData.append("district[][name]", district["name"]);
 
       if (imgs.hasOwnProperty("file")) {
-        if (imgs?.length >= 1) {
+        if (imgs?.length) {
           imgs.forEach((i, index) => {
             if (i.file?.name !== image.name) {
               formData.append("images[]", i.file);
             }
           });
-        } else {
-          imgs.forEach((i, index) => {
-            if (i.file?.name !== image?.name) {
-              formData.append("images", i.file);
-            }
-          });
         }
+      }
+
+      if (mainImage[0].hasOwnProperty("file")) {
+        formData.append("image", mainImage[0].file);
       }
 
       updateAd(axiosPrivate, uuid, formData)
@@ -746,8 +739,6 @@ export default function Advertise() {
     { title: "О здании" },
     { title: "Условия сделки" },
   ];
-
-  console.log(btnRadio.transactionType);
 
   return (
     <main>
@@ -1342,6 +1333,7 @@ export default function Advertise() {
                   />
                 </div>
               </div>
+
               <div className="row mb-2">
                 <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
                   <span
@@ -1479,7 +1471,7 @@ export default function Advertise() {
                   <div className="fs-08 gray-3 mt-2">
                     Не допускаются к размещению фотографии с водяными знаками,
                     чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG
-                    или WEBP. Загрузка от 2 штук и более.
+                    или WEBP.
                   </div>
                 </div>
               </div>
@@ -1493,7 +1485,7 @@ export default function Advertise() {
                       color: valid.isInValidImage ? "#DA1E2A" : "",
                     }}
                   >
-                    Фото и планировка*:
+                    Фото и планировка:
                   </span>
                 </div>
                 <ImageUploading
