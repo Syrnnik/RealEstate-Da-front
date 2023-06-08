@@ -1488,109 +1488,115 @@ export default function Advertise() {
                     Фото и планировка:
                   </span>
                 </div>
-                <ImageUploading
-                  multiple
-                  value={imgs}
-                  onChange={onChangeForOtherImages}
-                  maxNumber={maxNumber}
-                  dataURLKey="data_url"
-                  acceptType={["JPG", "JPEG", "PNG", "WEBP"]}
-                >
-                  {({
-                    imageList,
-                    onImageUpload,
-                    onImageRemoveAll,
-                    onImageUpdate,
-                    onImageRemove,
-                    isDragging,
-                    dragProps,
-                    errors,
-                  }) => (
-                    <>
-                      <div className="upload__image-wrapper">
-                        <div className="imgs-box">
-                          {imageList.map((image, index) => (
-                            <div key={index} className="image-item">
-                              <img src={image.data_url} alt="" />
-                              <div className="image-item__btn-wrapper">
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    onImageRemove(index);
-                                    uuid &&
-                                      deleteImage(axiosPrivate, image.id, token)
-                                        .then(() =>
-                                          setAlert(
-                                            "success",
-                                            true,
-                                            "Картинка успешно удалена"
-                                          )
+                <div className="col-md-9">
+                  <ImageUploading
+                    multiple
+                    value={imgs}
+                    onChange={onChangeForOtherImages}
+                    maxNumber={maxNumber}
+                    dataURLKey="data_url"
+                    acceptType={["JPG", "JPEG", "PNG", "WEBP"]}
+                  >
+                    {({
+                      imageList,
+                      onImageUpload,
+                      onImageRemoveAll,
+                      onImageUpdate,
+                      onImageRemove,
+                      isDragging,
+                      dragProps,
+                      errors,
+                    }) => (
+                      <>
+                        <div className="upload__image-wrapper">
+                          <div className="imgs-box">
+                            {imageList.map((image, index) => (
+                              <div key={index} className="image-item">
+                                <img src={image.data_url} alt="" />
+                                <div className="image-item__btn-wrapper">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      onImageRemove(index);
+                                      uuid &&
+                                        deleteImage(
+                                          axiosPrivate,
+                                          image.id,
+                                          token
                                         )
-                                        .catch(() =>
-                                          setAlert(
-                                            "danger",
-                                            true,
-                                            "Произошла ошибка"
+                                          .then(() =>
+                                            setAlert(
+                                              "success",
+                                              true,
+                                              "Картинка успешно удалена"
+                                            )
                                           )
-                                        );
-                                  }}
-                                >
-                                  <img
-                                    src="/img/icons/delete.svg"
-                                    alt="Удалить"
-                                  />
-                                </button>
+                                          .catch(() =>
+                                            setAlert(
+                                              "danger",
+                                              true,
+                                              "Произошла ошибка"
+                                            )
+                                          );
+                                    }}
+                                  >
+                                    <img
+                                      src="/img/icons/delete.svg"
+                                      alt="Удалить"
+                                    />
+                                  </button>
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="d-flex justify-content-center">
-                          <button
-                            type="button"
-                            className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
-                            style={isDragging ? { color: "red" } : null}
-                            onClick={onImageUpload}
-                            {...dragProps}
-                          >
-                            <svg
-                              width="21"
-                              height="21"
-                              viewBox="0 0 21 21"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                            ))}
+                          </div>
+                          <div className="d-flex justify-content-center">
+                            <button
+                              type="button"
+                              className="btn btn-1 px-3 px-sm-4 me-3 me-sm-4"
+                              style={isDragging ? { color: "red" } : null}
+                              onClick={onImageUpload}
+                              {...dragProps}
                             >
-                              <line
-                                x1="10.75"
-                                x2="10.75"
-                                y2="21"
-                                stroke="white"
-                                strokeWidth="1.5"
-                              />
-                              <line
-                                y1="10.25"
-                                x2="21"
-                                y2="10.25"
-                                stroke="white"
-                                strokeWidth="1.5"
-                              />
-                            </svg>
-                            <span className="ms-2">
-                              Добавить фото или планировку
-                            </span>
-                          </button>
+                              <svg
+                                width="21"
+                                height="21"
+                                viewBox="0 0 21 21"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <line
+                                  x1="10.75"
+                                  x2="10.75"
+                                  y2="21"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                />
+                                <line
+                                  y1="10.25"
+                                  x2="21"
+                                  y2="10.25"
+                                  stroke="white"
+                                  strokeWidth="1.5"
+                                />
+                              </svg>
+                              <span className="ms-2">
+                                Добавить фото или планировку
+                              </span>
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <span className="text-danger">
-                        {errors?.acceptType &&
-                          "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
-                      </span>
-                    </>
-                  )}
-                </ImageUploading>
-                <div className="fs-08 gray-3 mt-2">
-                  Не допускаются к размещению фотографии с водяными знаками,
-                  чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG
-                  или WEBP. Загрузка от 2 штук и более.
+                        <span className="text-danger">
+                          {errors?.acceptType &&
+                            "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
+                        </span>
+                      </>
+                    )}
+                  </ImageUploading>
+                  <div className="fs-08 gray-3 mt-2">
+                    Не допускаются к размещению фотографии с водяными знаками,
+                    чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG
+                    или WEBP. Загрузка от 2 штук и более.
+                  </div>
                 </div>
               </div>
 
