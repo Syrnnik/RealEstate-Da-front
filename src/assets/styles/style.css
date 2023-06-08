@@ -4555,6 +4555,11 @@ footer nav.mobile ul li a.active svg.type-2 path {
   padding: 0;
 }
 
+.offcanvas-menu__list .icon {
+  height: 21px;
+  width: 21px;
+}
+
 .btn-close {
   position: absolute;
   z-index: 100 !important;
