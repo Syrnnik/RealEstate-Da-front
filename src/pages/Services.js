@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import {
   getAttributesTypes,
   getServicesUsers,
-  getSubServicesTypes
+  getSubServicesTypes,
 } from "../API/services";
 import { emitCreateWithServiceTopicMessage } from "../API/socketConversations";
 import CustomModal from "../components/CustomModal";
@@ -32,23 +32,23 @@ export default function Services() {
   const { setAlert } = bindActionCreators(alertActions, dispatch);
   const [filterSubs, setFilterSubs] = useState({
     isLoading: false,
-    data: []
+    data: [],
   });
   const city = useSelector((state) => state?.selectedCity);
   const [users, setUsers] = useState({
     isLoading: false,
     data: [],
-    meta: {}
+    meta: {},
   });
 
   const [filterAttributes, setFilterAttributes] = useState({
     isLoading: false,
-    data: []
+    data: [],
   });
 
   const initialSendMessagePayloads = {
     serviceId: null,
-    userId: null
+    userId: null,
   };
   const [sendMessagePayloads, setSendMessagePayloads] = useState(
     initialSendMessagePayloads
@@ -69,7 +69,7 @@ export default function Services() {
   const [payload, setPayload] = useState({
     page: 1,
     limit: services.pageLimit,
-    serviceTypeId: find()
+    serviceTypeId: find(),
   });
 
   const delayPayload = useDebounce(payload, 500);
@@ -78,7 +78,7 @@ export default function Services() {
     setPayload((prevState) => ({
       ...prevState,
       serviceTypeId: find(),
-      page: services.currentPage
+      page: services.currentPage,
     }));
     window.scrollTo(0, 0);
   }, [find(), services.currentPage]);
@@ -89,7 +89,7 @@ export default function Services() {
         setUsers({
           isLoading: true,
           data: res?.body?.data,
-          meta: res?.body?.meta
+          meta: res?.body?.meta,
         })
       );
     }
@@ -112,7 +112,7 @@ export default function Services() {
       ...prevState,
       ...firstBlockFilters,
       ...secondBlockFilters,
-      ...searchFIO
+      ...searchFIO,
     }));
     services.setStartingPage(1);
     services.setCurrentPage(1);
@@ -121,19 +121,31 @@ export default function Services() {
   const miniFilter = [
     { value: "desc", title: "сначала новые" },
     { value: "desc", title: "по рейтингу(от высокого)" },
-    { value: "asc", title: "по рейтингу(от низкого)" }
+    { value: "asc", title: "по рейтингу(от низкого)" },
   ];
 
   useEffect(() => {
     switch (selectMiniFilter.title) {
       case "сначала новые":
-        setPayload({ ...payload, orderBy: selectMiniFilter.value, rating: null });
+        setPayload({
+          ...payload,
+          orderBy: selectMiniFilter.value,
+          rating: null,
+        });
         break;
       case "по рейтингу(от высокого)":
-        setPayload({ ...payload, rating: selectMiniFilter.value, orderBy: null });
+        setPayload({
+          ...payload,
+          rating: selectMiniFilter.value,
+          orderBy: null,
+        });
         break;
       case "по рейтингу(от низкого)":
-        setPayload({ ...payload, rating: selectMiniFilter.value, orderBy: null });
+        setPayload({
+          ...payload,
+          rating: selectMiniFilter.value,
+          orderBy: null,
+        });
         break;
     }
   }, [selectMiniFilter, payload?.orderBy]);
@@ -172,14 +184,18 @@ export default function Services() {
       emitCreateWithServiceTopicMessage(sendMessagePayloads.userId, {
         conversationId: 0,
         serviceId: sendMessagePayloads.serviceId,
-        text: messageInput
+        text: messageInput,
       })
         .then(() => {
           setAlert("success", true, "Сообщение отправлено");
           resetMessage();
         })
         .catch(() =>
-          setAlert("danger", true, "Что-то пошло не так, не удалось отправить сообщение")
+          setAlert(
+            "danger",
+            true,
+            "Что-то пошло не так, не удалось отправить сообщение"
+          )
         );
     } else {
       setMessageInputError("Сообщение не должно быть пустым");
@@ -262,14 +278,25 @@ export default function Services() {
                     fill="white"
                     strokeLinejoin="round"
                   />
-                  <path className="stroke" d="M28 88L28 48" strokeLinejoin="round" />
-                  <path className="stroke" d="M40 88L39.5446 32" strokeLinejoin="round" />
+                  <path
+                    className="stroke"
+                    d="M28 88L28 48"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    className="stroke"
+                    d="M40 88L39.5446 32"
+                    strokeLinejoin="round"
+                  />
                   <path
                     className="stroke"
                     d="M57.0179 87.2974L57.0179 32.1622"
                     strokeLinejoin="round"
                   />
-                  <path className="stroke" d="M68.0367 88.7778L68.0367 47.2223" />
+                  <path
+                    className="stroke"
+                    d="M68.0367 88.7778L68.0367 47.2223"
+                  />
                   <rect
                     className="stroke"
                     x="70.4868"
@@ -380,7 +407,7 @@ export default function Services() {
                       onChange={(e) => {
                         setPayload((prevState) => ({
                           ...prevState,
-                          query: e.target.value
+                          query: e.target.value,
                         }));
                       }}
                     />
@@ -416,7 +443,7 @@ export default function Services() {
                     setPayload({
                       page: 1,
                       limit: 6,
-                      serviceTypeId: find()
+                      serviceTypeId: find(),
                     })
                   }
                 >
@@ -438,7 +465,9 @@ export default function Services() {
               </button>
               <div className="d-flex flex-column-reverse flex-sm-row align-items-end justify-content-between flex-1 ms-4 ms-xl-0">
                 <div className="d-flex">
-                  <div className="d-none d-md-block fs-11 me-1">Сортировать:</div>
+                  <div className="d-none d-md-block fs-11 me-1">
+                    Сортировать:
+                  </div>
                   <CustomSelect
                     className="gray-2"
                     btnClass="fs-11"
@@ -450,11 +479,13 @@ export default function Services() {
                     }}
                   />
                 </div>
-                <div className="fs-11">Найдено {users?.meta?.total} исполнителей</div>
+                <div className="fs-11">
+                  Найдено {users?.meta?.total} исполнителей
+                </div>
               </div>
             </div>
 
-            <div className="row px-2 px-sm-0 row-cols-sm-2 row-cols-lg-3 row-cols-xl-2 row-cols-xxl-1 g-3">
+            <div className="row px-2 px-sm-0 row-cols-sm-2 row-cols-lg-3 row-cols-xl-2 row-cols-xxl-2 g-3">
               {users?.data?.map((i) => (
                 <div key={i.id} className="d-grid col-6">
                   <UserCard
@@ -469,6 +500,7 @@ export default function Services() {
                     rating={i.user.rating}
                     subServices={i.subServices}
                     serviceId={i.id}
+                    serviceTypeId={i.serviceTypeId}
                     setSendMessagePayloads={setSendMessagePayloads}
                     prevUrl={loc?.pathname}
                     isShowMessage={true}
@@ -501,7 +533,11 @@ export default function Services() {
         id="offcanvasServiceFilter"
       >
         <div className="offcanvas-body">
-          <button type="button" className="btn-close" data-bs-dismiss="offcanvas">
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="offcanvas"
+          >
             <svg viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.00006 1.18237L15 15.9049" />
               <path d="M14.9999 1.18237L1.00001 15.9049" />
