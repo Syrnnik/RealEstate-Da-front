@@ -11,7 +11,7 @@ import {
   getService,
   getServicesTypes,
   getSubServicesTypes,
-  updateService
+  updateService,
 } from "../../API/services";
 import CustomSelect from "../../components/CustomSelect";
 import MultiCheckboxSelect from "../../components/MultiCheckboxSelect";
@@ -33,7 +33,7 @@ export default function CreateService() {
   const [subServiceSelect, setSubServiceSelect] = useState([]);
   const [serviceSelect, setServiceSelect] = useState({
     value: null,
-    title: ""
+    title: "",
   });
 
   const [payloads, setPayloads] = useState({});
@@ -51,7 +51,7 @@ export default function CreateService() {
       ...prevState,
       userId: currentUser?.id,
       token: currentToken,
-      labels: tags.join(", ")
+      labels: tags.join(", "),
     }));
   }, [currentUser, currentToken, tags]);
 
@@ -71,7 +71,7 @@ export default function CreateService() {
   const fields = {
     isInValidServicesTypesSubServiceId: false,
     isInValidDescription: false,
-    isInValidAddress: false
+    isInValidAddress: false,
   };
 
   const [valid, setValid] = useState(fields);
@@ -110,7 +110,11 @@ export default function CreateService() {
       }
       createService(axiosPrivate, formData)
         .then(() => {
-          setAlert("success", true, "Услуга успешно создана, переход в мои услуги");
+          setAlert(
+            "success",
+            true,
+            "Услуга успешно создана, переход в мои услуги"
+          );
           setTimeout(() => {
             navigate("/personal-account/my-services");
           }, 2000);
@@ -134,11 +138,16 @@ export default function CreateService() {
       formData.append(key, payloads[key]);
     }
     for (let key in subServiceSelect) {
-      formData.append("subServices[]", subServiceSelect[key]);
+      formData.append("subServices[]", subServiceSelect[key].value);
     }
+    formData.append("serviceTypeId", serviceSelect.value);
     updateService(axiosPrivate, formData, id)
       .then(() => {
-        setAlert("success", true, "Услуга успешно создана, переход в мои услуги");
+        setAlert(
+          "success",
+          true,
+          "Услуга успешно создана, переход в мои услуги"
+        );
         setTimeout(() => {
           navigate("/personal-account/my-services");
         }, 2000);
@@ -152,19 +161,23 @@ export default function CreateService() {
     id &&
       getService(axiosPrivate, id).then((res) => {
         setLoadService(res);
+        setImages(res.images);
+        setServiceSelect(
+          servicesType.find((service) => service.value === res.serviceTypeId)
+        );
+        setSubServiceSelect(res.subServices);
       });
-  }, []);
+  }, [id, servicesType]);
 
   useEffect(() => {
     if (id) {
       setPayloads((prevState) => ({
         ...prevState,
         description: loadService?.description,
-        experienceTypeForUser: loadService?.experienceTypeForUser
       }));
       setAddress((prevState) => ({
         ...prevState,
-        address: loadService?.address
+        address: loadService?.address,
       }));
     }
   }, [loadService, id]);
@@ -192,7 +205,7 @@ export default function CreateService() {
           fias_id: res[0]?.data?.fias_id,
           latitude: res[0]?.data?.geo_lat,
           longitude: res[0]?.data?.geo_lon,
-          city: res[0]?.data?.city
+          city: res[0]?.data?.city,
         }));
       });
     }
@@ -205,7 +218,7 @@ export default function CreateService() {
           city: res?.suggestions[0]?.data?.city,
           name: res?.suggestions[0]?.data?.city_district
             ? res?.suggestions[0]?.data?.city_district
-            : "Не важно"
+            : "Не важно",
         })
       );
   }, [address]);
@@ -223,9 +236,14 @@ export default function CreateService() {
     setImages(imageList);
   };
 
+  const imgsUrl = `${process.env.REACT_APP_PHOTO_URL}/uploads/`;
+
   return (
     <div className="px-2 px-sm-4 px-xxl-5 pb-4 pb-xxl-5">
-      <nav className="d-block d-lg-none mt-3 mb-3 mb-sm-5" aria-label="breadcrumb">
+      <nav
+        className="d-block d-lg-none mt-3 mb-3 mb-sm-5"
+        aria-label="breadcrumb"
+      >
         <Link to="/personal-account" className="gray-3">
           &#10094; Назад
         </Link>
@@ -253,7 +271,9 @@ export default function CreateService() {
             <div
               className="fs-11 mb-1"
               style={{
-                color: valid.isInValidServicesTypesSubServiceId ? "#DA1E2A" : ""
+                color: valid.isInValidServicesTypesSubServiceId
+                  ? "#DA1E2A"
+                  : "",
               }}
             >
               Подуслуга:
@@ -267,7 +287,11 @@ export default function CreateService() {
                 checkedOptions={subServiceSelect}
                 options={subServiceType}
                 callback={({ title, value, e }) => {
-                  if (subServiceSelect.find((subService) => subService.value === value)) {
+                  if (
+                    subServiceSelect.find(
+                      (subService) => subService.value === value
+                    )
+                  ) {
                     setSubServiceSelect((prevSubServiceSelect) =>
                       prevSubServiceSelect.filter(
                         (subService) => subService.value !== value
@@ -276,7 +300,7 @@ export default function CreateService() {
                   } else {
                     setSubServiceSelect((prevSubServiceSelect) => [
                       ...prevSubServiceSelect,
-                      { title, value }
+                      { title, value },
                     ]);
                   }
                   resetFieldVal(e, "isInValidServicesTypesSubServiceId");
@@ -304,7 +328,7 @@ export default function CreateService() {
               onChange={(e) => {
                 setPayloads((prevState) => ({
                   ...prevState,
-                  description: e.target.value
+                  description: e.target.value,
                 }));
                 resetFieldVal(e, "isInValidDescription");
               }}
@@ -330,9 +354,9 @@ export default function CreateService() {
               containerClassName="advertise__address"
               inputProps={{
                 style: {
-                  borderColor: valid?.isInValidAddress ? "#DA1E2A" : ""
+                  borderColor: valid?.isInValidAddress ? "#DA1E2A" : "",
                 },
-                placeholder: "Адрес"
+                placeholder: "Адрес",
               }}
               ref={suggestionsRef}
               token={env.DADATA_TOKEN}
@@ -342,7 +366,7 @@ export default function CreateService() {
                   latitude: e.data?.geo_lat,
                   longitude: e.data?.geo_lon,
                   fias_id: e.data?.fias_id,
-                  city: e.data?.city
+                  city: e.data?.city,
                 });
                 resetFieldVal(e, "isInValidAddress");
               }}
@@ -356,7 +380,7 @@ export default function CreateService() {
               data-for="imgs"
               data-status={false}
               style={{
-                color: valid.isInValidImage ? "#DA1E2A" : ""
+                color: valid.isInValidImage ? "#DA1E2A" : "",
               }}
             >
               Фото:
@@ -379,39 +403,26 @@ export default function CreateService() {
                 onImageRemove,
                 isDragging,
                 dragProps,
-                errors
+                errors,
               }) => (
                 <>
                   <div className="upload__image-wrapper">
                     <div className="imgs-box">
                       {imageList.map((image, index) => (
                         <div key={index} className="image-item">
-                          <img src={image.data_url} alt="" />
+                          <img
+                            src={
+                              image.data_url
+                                ? image.data_url
+                                : imgsUrl + image.image
+                            }
+                            alt=""
+                          />
                           <div className="image-item__btn-wrapper">
                             <button
                               type="button"
                               onClick={() => {
                                 onImageRemove(index);
-                                // uuid &&
-                                //     deleteImage(
-                                //         axiosPrivate,
-                                //         image.id,
-                                //         token
-                                //     )
-                                //         .then(() =>
-                                //             setAlert(
-                                //                 "success",
-                                //                 true,
-                                //                 "Картинка успешно удалена"
-                                //             )
-                                //         )
-                                //         .catch(() =>
-                                //             setAlert(
-                                //                 "danger",
-                                //                 true,
-                                //                 "Произошла ошибка"
-                                //             )
-                                //         );
                               }}
                             >
                               <img src="/img/icons/delete.svg" alt="Удалить" />
@@ -455,7 +466,8 @@ export default function CreateService() {
                     </div>
                   </div>
                   <span className="text-danger">
-                    {errors?.acceptType && "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
+                    {errors?.acceptType &&
+                      "Поддерживаемые форматы файла: JPEG, JPG, PNG"}
                   </span>
                 </>
               )}

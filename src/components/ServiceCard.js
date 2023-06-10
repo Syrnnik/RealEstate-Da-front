@@ -28,8 +28,6 @@ const ServiceCard = (props) => {
     );
   }, []);
 
-  // console.log(props);
-
   const imgsUrl = `${process.env.REACT_APP_PHOTO_URL}/uploads`;
 
   return (

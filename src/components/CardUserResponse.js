@@ -1,14 +1,18 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Rating from "react-rating";
 import { Link } from "react-router-dom";
 import ImageViewer from "react-simple-image-viewer";
+import { getServiceType } from "../API/services";
 import { checkPhotoPath } from "../helpers/photo";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import CustomModal from "./CustomModal";
 
 const CardUserResponse = (props) => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
+  const [userService, setUserService] = useState({});
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -20,10 +24,16 @@ const CardUserResponse = (props) => {
     setIsViewerOpen(false);
   };
 
-  const convertPhoto = (photo) => {
-    const url = `${process.env.REACT_APP_BASE_URL}`;
-    return photo.map((i) => i.image).map((i) => `${url}${i}`);
+  const convertPhoto = () => {
+    const url = `${process.env.REACT_APP_PHOTO_URL}`;
+    return props?.images.map((img) => `${url}${img.image}`);
   };
+
+  useEffect(() => {
+    getServiceType(axiosPrivate, props?.serviceTypeId).then((serviceType) => {
+      setUserService(serviceType);
+    });
+  }, []);
 
   return (
     <div className="response-card-ad">
@@ -54,8 +64,11 @@ const CardUserResponse = (props) => {
         </div>
       </div>
       <div className="desc mt-2 mt-md-3 mt-xxl-0">
-        <button onClick={() => setIsShowModal(true)} className="button-responses">
-          <h5>{props?.subService?.name}</h5>
+        <button
+          onClick={() => setIsShowModal(true)}
+          className="button-responses"
+        >
+          <h5>{userService.name}</h5>
         </button>
         <CustomModal
           isShow={isShowModal}
@@ -70,23 +83,26 @@ const CardUserResponse = (props) => {
             </div>
             <div>
               <h4>{props?.userName}</h4>
-              <Rating
-                start="0"
-                stop="5"
-                readonly={true}
-                initialRating={props?.rating}
-                fractions={2}
-                emptySymbol={<img src="/img/icons/star-gray.svg" alt="1" />}
-                fullSymbol={<img src="/img/icons/star-blue.svg" alt="1" />}
-              />
-              <span>({props.rating})</span>
+              <div className="rating">
+                <Rating
+                  className="d-flex align-items-center"
+                  start="0"
+                  stop="5"
+                  readonly={true}
+                  initialRating={props?.rating}
+                  fractions={2}
+                  emptySymbol={<img src="/img/icons/star-gray.svg" alt="1" />}
+                  fullSymbol={<img src="/img/icons/star-blue.svg" alt="1" />}
+                />
+                <span className="ms-2">({props.rating})</span>
+              </div>
             </div>
           </div>
           <div className="row g-3">
             <div className="col-lg-4">
               <span className="fs-12 fw-bold">Услуга:</span>
             </div>
-            <div className="col-lg-8">{props?.subService?.name}</div>
+            <div className="col-lg-8">{userService?.name}</div>
             <div className="col-lg-4">
               <span className="fs-12 fw-bold">Описание услуги:</span>
             </div>
@@ -99,7 +115,7 @@ const CardUserResponse = (props) => {
                 <div className="col-lg-8">{props?.description}</div>
               </>
             )}
-            {props?.images?.length > 0 && (
+            {props?.images?.length && (
               <>
                 <div className="col-lg-4">
                   <span className="fs-12 fw-bold">Примеры работ:</span>
@@ -108,7 +124,6 @@ const CardUserResponse = (props) => {
                   <div className="row row-cols-5 g-2">
                     {props?.images?.map((i, index) => (
                       <div key={i.id}>
-                        {console.log(i.image)}
                         <img
                           onClick={() => openImageViewer(index)}
                           className="work-example"
@@ -118,7 +133,7 @@ const CardUserResponse = (props) => {
                     ))}
                     {isViewerOpen && (
                       <ImageViewer
-                        src={convertPhoto(props?.images)}
+                        src={convertPhoto()}
                         currentIndex={currentImage}
                         disableScroll={false}
                         closeOnClickOutside={true}
@@ -134,7 +149,10 @@ const CardUserResponse = (props) => {
         {props.description ? (
           <div className="text mt-1">
             <p>
-              <span className="fw-bold">Комментарий отклика:</span> {props.description}
+              <span className="fw-bold">Комментарий отклика:</span>
+            </p>
+            <p>
+              <span className="w-100">{props.description}</span>
             </p>
           </div>
         ) : (

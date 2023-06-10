@@ -2005,8 +2005,8 @@ article .text {
   border-radius: 50%;
 }
 .photo.small img {
-  width: 40px !important;
-  height: 40px !important;
+  width: 60px !important;
+  height: 60px !important;
   object-fit: cover;
   border-radius: 50%;
 }
@@ -4160,7 +4160,7 @@ footer nav.mobile ul li a.active svg.type-2 path {
 .swiper-3 .swiper-button-prev,
 .swiper-3 .swiper-button-next {
   width: 1.5em;
-  height: 3em;
+  /* height: 3em; */
 }
 .swiper-4 .swiper-button-prev::after,
 .swiper-4 .swiper-button-next::after,
@@ -4553,6 +4553,11 @@ footer nav.mobile ul li a.active svg.type-2 path {
 .offcanvas-menu__list {
   list-style: none;
   padding: 0;
+}
+
+.offcanvas-menu__list .icon {
+  height: 21px;
+  width: 21px;
 }
 
 .btn-close {
@@ -5279,7 +5284,6 @@ footer nav.mobile ul li a.active svg.type-2 path {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  height: 2.5em;
   overflow: hidden;
 }
 

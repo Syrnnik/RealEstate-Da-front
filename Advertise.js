@@ -604,14 +604,19 @@ export default function Advertise() {
       formData.append("district[][city]", district["city"]);
       formData.append("district[][name]", district["name"]);
 
-      if (imgs?.length) {
+      if (imgs?.length >= 1) {
         imgs.forEach((i, index) => {
           if (i.file?.name !== image.name) {
             formData.append("images[]", i.file);
           }
         });
+      } else {
+        imgs.forEach((i, index) => {
+          if (i.file?.name !== image.name) {
+            formData.append("images", i.file);
+          }
+        });
       }
-      formData.append("image", mainImage[0]);
 
       addAdvertise(axiosPrivate, formData)
         .then(() => {
@@ -654,17 +659,19 @@ export default function Advertise() {
       formData.append("district[][name]", district["name"]);
 
       if (imgs.hasOwnProperty("file")) {
-        if (imgs?.length) {
+        if (imgs?.length >= 1) {
           imgs.forEach((i, index) => {
             if (i.file?.name !== image.name) {
               formData.append("images[]", i.file);
             }
           });
+        } else {
+          imgs.forEach((i, index) => {
+            if (i.file?.name !== image?.name) {
+              formData.append("images", i.file);
+            }
+          });
         }
-      }
-
-      if (mainImage[0].hasOwnProperty("file")) {
-        formData.append("image", mainImage[0].file);
       }
 
       updateAd(axiosPrivate, uuid, formData)
@@ -740,6 +747,8 @@ export default function Advertise() {
     { title: "Условия сделки" },
   ];
 
+  console.log(btnRadio.transactionType);
+
   return (
     <main>
       <div className="container py-3 py-sm-4 py-lg-5">
@@ -794,22 +803,20 @@ export default function Advertise() {
                       : ""
                   }
                   onClick={() => {
-                    if (index < activeField) {
-                      setActiveField(index + 1);
-                    }
-                    if (index <= activeField && isValid(activeField)) {
+                    if (index < activeField) {setActiveField(index + 1)};
+                    if ((index <= activeField) && (isValid(activeField))) {                      
                       if (
                         data?.estateTypeName
                           ?.toLowerCase()
                           .includes(localEstates.zemelia) &&
-                        index === 3
-                      ) {
-                        setActiveField(index + 2);
-                      } else {
-                        setActiveField(index + 1);
-                      }
+                        index === 3) {
+                          setActiveField(index + 2);
+                        } else {
+                          setActiveField(index + 1);
+                        };
+                      };
                     }
-                  }}
+                  }
                 >
                   {index + 1}
                 </div>
@@ -1333,7 +1340,6 @@ export default function Advertise() {
                   />
                 </div>
               </div>
-
               <div className="row mb-2">
                 <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
                   <span
@@ -1371,8 +1377,7 @@ export default function Advertise() {
                   <div className="fs-08 gray-3 mt-2">Минимум 30 символов</div>
                 </div>
               </div>
-
-              <div className="row mb-2">
+              <div className="row">
                 <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
                   <span
                     data-for="imgs"
@@ -1381,7 +1386,7 @@ export default function Advertise() {
                       color: valid.isInValidImage ? "#DA1E2A" : "",
                     }}
                   >
-                    Главное фото*:
+                    Фото и планировка*:
                   </span>
                 </div>
                 <div className="col-md-9">
@@ -1468,27 +1473,6 @@ export default function Advertise() {
                       </>
                     )}
                   </ImageUploading>
-                  <div className="fs-08 gray-3 mt-2">
-                    Не допускаются к размещению фотографии с водяными знаками,
-                    чужих объектов и рекламные баннеры. Допустимы JPG, PNG, JPEG
-                    или WEBP.
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-md-3 fs-11 title-req mb-3 m-md-0">
-                  <span
-                    data-for="imgs"
-                    data-status={false}
-                    style={{
-                      color: valid.isInValidImage ? "#DA1E2A" : "",
-                    }}
-                  >
-                    Фото и планировка:
-                  </span>
-                </div>
-                <div className="col-md-9">
                   <ImageUploading
                     multiple
                     value={imgs}
@@ -1579,9 +1563,7 @@ export default function Advertise() {
                                   strokeWidth="1.5"
                                 />
                               </svg>
-                              <span className="ms-2">
-                                Добавить фото или планировку
-                              </span>
+                              <span className="ms-2">Добавить фотографии</span>
                             </button>
                           </div>
                         </div>
@@ -1599,7 +1581,6 @@ export default function Advertise() {
                   </div>
                 </div>
               </div>
-
               {/* для мобильных устроийств */}
               <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4">
                 <div>
