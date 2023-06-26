@@ -40,6 +40,8 @@ export default function MainPage() {
   const [ids, setIds] = useState([]);
   const [cards, setCards] = useState([]);
 
+  const [newsFilter, setNewsFilter] = useState("");
+
   useEffect(() => {
     getForMap(city, userId).then((items) => setMapData(items));
   }, [city, userId]);
@@ -256,9 +258,33 @@ export default function MainPage() {
               </NavLink>
             </div>
           </div>
-          <h3>Статьи</h3>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 20,
+            }}
+          >
+            <h3
+              style={{
+                margin: 0,
+              }}
+            >
+              Статьи
+            </h3>
+            <input
+              className="w-25"
+              style={{
+                margin: 0,
+              }}
+              value={newsFilter}
+              onChange={(event) => setNewsFilter(event.target.value)}
+              placeholder="Поиск"
+            />
+          </div>
           <div className="position-relative">
-            <Slider2 />
+            <Slider2 filter={newsFilter} />
           </div>
           <div className="text-center mt-4">
             <Link to="/articles" className="fs-12 color-1 bb-1">
