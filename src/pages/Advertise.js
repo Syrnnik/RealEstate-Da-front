@@ -61,6 +61,8 @@ export default function Advertise() {
   const [district, setDistrict] = useState({});
   const [data, setData] = useState({
     transactionType: 1,
+    estateTypeId: +searchParams.get("typesEstate"),
+    estateTypeName: types[+searchParams.get("typesEstate") - 1]?.name,
     pledge: 0,
     commission: 0,
     rentalPeriod: 0,
@@ -209,6 +211,8 @@ export default function Advertise() {
     if (uuid === undefined) {
       setData({
         transactionType: +searchParams.get("transactionType"),
+        estateTypeId: +searchParams.get("typesEstate"),
+        estateTypeName: types[+searchParams.get("typesEstate") - 1]?.name,
         pledge: 0,
         commission: 0,
         rentalPeriod: 0,
