@@ -4,26 +4,33 @@ import SwiperCore, { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { getRandomArticle } from "../API/news";
 import { checkPhotoPath } from "../helpers/photo";
+import usePagination from "../hooks/pagination";
 import Article from "./Article";
 
 SwiperCore.use([Navigation, Pagination]);
 
 export const Slider2 = ({ filter }) => {
   const { page } = useParams();
+  const articlesPag = usePagination(6);
   const [randomArticle, setRandomArticles] = useState([]);
   const [newsArticles, setNewsArticles] = useState([]);
 
   useEffect(() => {
     getRandomArticle(page, 5).then((result) => {
+      console.log(result);
       setNewsArticles(result);
       setRandomArticles(result);
     });
+    // getNews(articlesPag.currentPage, articlesPag.pageLimit).then((result) => {
+    //   setNewsArticles(result.data);
+    //   setRandomArticles(result.data);
+    // });
   }, [page]);
 
   useEffect(() => {
     if (filter)
       setRandomArticles(
-        newsArticles.filter(
+        newsArticles?.filter(
           (article) =>
             article.title.toLowerCase().includes(filter.toLowerCase()) ||
             article.description.toLowerCase().includes(filter.toLowerCase())
