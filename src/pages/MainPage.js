@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useSelector } from "react-redux";
 import { Link, NavLink, useParams } from "react-router-dom";
 import { getCatalog } from "../API/catalog";
@@ -274,7 +275,7 @@ export default function MainPage() {
               Статьи
             </h3>
             <input
-              className="w-25"
+              className={`${isMobile ? "w-100" : "w-25"} fs-11`}
               style={{
                 margin: 0,
               }}
