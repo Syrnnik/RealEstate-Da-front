@@ -275,10 +275,7 @@ export default function MainPage() {
               Статьи
             </h3>
             <input
-              className={`${isMobile ? "w-100" : "w-25"} fs-11`}
-              style={{
-                margin: 0,
-              }}
+              className={`articleInput ${isMobile ? "w-100" : "w-25"} fs-11`}
               value={newsFilter}
               onChange={(event) => setNewsFilter(event.target.value)}
               placeholder="Поиск"

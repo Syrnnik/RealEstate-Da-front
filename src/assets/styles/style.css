@@ -262,6 +262,13 @@ label.inp-text input:checked + div {
   color: #fff;
 }
 
+input.articleInput {
+  background: url(bg-imgs/search.svg) no-repeat 0.4em center;
+  background-size: 1.5em;
+  padding: 0.5em 1.2em 0.5em 2em;
+  margin: 0;
+}
+
 select {
   appearance: none;
   -webkit-appearance: none;
