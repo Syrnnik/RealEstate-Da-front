@@ -1,0 +1,63 @@
+.welcomeContainer {
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+
+.welcomeText {
+  font-weight: 600;
+  font-size: 64px;
+  text-align: center;
+  border-radius: 30px;
+  padding: 50px 100px;
+  color: #165d85;
+}
+
+/* Morning */
+.welcomeContainer.morning {
+  background-image: url(welcome-bgs/morning.svg);
+}
+.welcomeContainer.morning .welcomeText {
+  background-color: #ffbb65;
+}
+
+/* Day */
+.welcomeContainer.day {
+  background-image: url(welcome-bgs/day.svg);
+}
+.welcomeContainer.day .welcomeText {
+  background-color: #bedcff;
+}
+
+/* Evening */
+.welcomeContainer.evening {
+  background-image: url(welcome-bgs/evening.svg);
+}
+.welcomeContainer.evening .welcomeText {
+  background-color: #d29967;
+}
+
+/* Night */
+.welcomeContainer.night {
+  background-image: url(welcome-bgs/night.svg);
+}
+.welcomeContainer.night .welcomeText {
+  background-color: #081d2e;
+}
+
+.welcomeContainer.morning .welcomeText .userNameText,
+.welcomeContainer.evening .welcomeText .userNameText {
+  color: #fff;
+}
+
+.welcomeContainer.day .welcomeText .userNameText,
+.welcomeContainer.night .welcomeText .userNameText {
+  color: #c59c7e;
+}
