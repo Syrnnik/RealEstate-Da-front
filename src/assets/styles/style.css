@@ -5240,10 +5240,11 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 
 .button-responses {
-  color: #146492;
+  color: #545454;
 }
 .button-responses:hover {
-  color: #c59c7e;
+  color: #146492;
+  /* color: #c59c7e; */
 }
 
 .card-page__ymaps {
