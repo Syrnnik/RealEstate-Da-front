@@ -1,0 +1,15 @@
+.rieltorModalInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 1px solid #bdbdbd;
+  background: #fff;
+}
+
+.callRieltorBtn {
+  border: 2px solid #146492;
+  color: #c59c7e;
+}

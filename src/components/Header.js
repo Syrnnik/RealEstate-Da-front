@@ -19,6 +19,7 @@ import HypotecIcon from "../assets/styles/bg-imgs/menu-hypothec.svg";
 import MainPageIcon from "../assets/styles/bg-imgs/menu-main.svg";
 import QuestionIcon from "../assets/styles/bg-imgs/menu-question.svg";
 import ServicesIcon from "../assets/styles/bg-imgs/menu-services.svg";
+import { CallRieltorModal } from "./CallRieltorModal";
 
 const Header = () => {
   const { isConnected } = useSocket();
@@ -46,6 +47,7 @@ const Header = () => {
   };
 
   const [valid, setValid] = useState(fields);
+  const [showRieltorModal, setIsShowRieltorModal] = useState(false);
 
   const mailSample = Object.values(data).find((i) =>
     i?.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
@@ -165,6 +167,14 @@ const Header = () => {
             onClick={() => setIsShowMenu((prevIsShowMenu) => !prevIsShowMenu)}
           >
             <img src="/img/icons/menu.svg" alt="меню" />
+          </button>
+
+          <button
+            type="button"
+            className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4"
+            onClick={() => setIsShowRieltorModal(true)}
+          >
+            Вызвать риелтора
           </button>
         </div>
       </header>
@@ -371,6 +381,11 @@ const Header = () => {
           </form>
         </div>
       </CustomModal>
+
+      <CallRieltorModal
+        showRieltorModal={showRieltorModal}
+        setIsShowRieltorModal={setIsShowRieltorModal}
+      />
     </>
   );
 };
