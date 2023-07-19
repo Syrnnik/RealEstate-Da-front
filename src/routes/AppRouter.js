@@ -28,7 +28,6 @@ import AuthProtector from "./AuthProtector";
 const AppRouter = () => {
   return (
     <Routes>
-      {/* <Route path="welcome" element={<WelcomeScreen />} /> */}
       <Route exact path="/" element={<AppLayout />}>
         <Route index path="/" element={<MainPage />} />
         <Route path="catalog" element={<Catalog routeName="Каталог" />} />

@@ -169,13 +169,13 @@ const Header = () => {
             <img src="/img/icons/menu.svg" alt="меню" />
           </button>
 
-          <button
+          {/* <button
             type="button"
             className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4"
             onClick={() => setIsShowRieltorModal(true)}
           >
             Вызвать риелтора
-          </button>
+          </button> */}
         </div>
       </header>
 
