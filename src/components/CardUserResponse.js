@@ -6,6 +6,7 @@ import { getServiceType } from "../API/services";
 import { checkPhotoPath } from "../helpers/photo";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import CustomModal from "./CustomModal";
+import HoverSlider from "./HoverSlider";
 
 const CardUserResponse = (props) => {
   const [isShowModal, setIsShowModal] = useState(false);
@@ -38,38 +39,41 @@ const CardUserResponse = (props) => {
   return (
     <div className="response-card-ad">
       <div className="title">
-        <div className="d-flex align-items-center">
-          <div className="photo">
+        <div className="d-flex flex-column align-items-center">
+          <div className="photo small">
             <Link to={`/user/${props.userId}`}>
               <img src={checkPhotoPath(props.avatar)} alt={props.userName} />
             </Link>
           </div>
-          <div className="">
-            <h4 className="color-1">
-              <Link to={`/user/${props.userId}`}>{props.userName}</Link>
-            </h4>
-            <div className="rating">
-              <Rating
-                start="0"
-                stop="5"
-                readonly={true}
-                initialRating={props?.rating}
-                fractions={2}
-                emptySymbol={<img src="/img/icons/star-gray.svg" alt="1" />}
-                fullSymbol={<img src="/img/icons/star-blue.svg" alt="1" />}
-              />
-              <span>({props.rating})</span>
-            </div>
+          <div className="rating mb-2">
+            <Rating
+              start="0"
+              stop="5"
+              readonly={true}
+              initialRating={props?.rating}
+              fractions={2}
+              emptySymbol={<img src="/img/icons/star-gray.svg" alt="1" />}
+              fullSymbol={<img src="/img/icons/star-blue.svg" alt="1" />}
+            />
+            <span>({props.rating})</span>
           </div>
+          <button
+            onClick={() => setIsShowModal(true)}
+            className="button-responses"
+          >
+            <h5 className="fw-bold">{userService.name}</h5>
+          </button>
+          <h5 className="color-1 fw-bold">
+            <Link to={`/user/${props.userId}`}>{props.userName}</Link>
+          </h5>
         </div>
       </div>
+
+      <div className="w-75">
+        <HoverSlider urls={convertPhoto()} />
+      </div>
+
       <div className="desc mt-2 mt-md-3 mt-xxl-0">
-        <button
-          onClick={() => setIsShowModal(true)}
-          className="button-responses"
-        >
-          <h5>{userService.name}</h5>
-        </button>
         <CustomModal
           isShow={isShowModal}
           setIsShow={setIsShowModal}
@@ -146,6 +150,7 @@ const CardUserResponse = (props) => {
             )}
           </div>
         </CustomModal>
+
         {props.description ? (
           <div className="text mt-1">
             <p>

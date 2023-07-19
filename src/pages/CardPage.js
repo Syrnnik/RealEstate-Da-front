@@ -598,7 +598,7 @@ export default function CardPage() {
                           to={`/user/${ads?.user?.id}`}
                           state={{ fromAd: true }}
                         >
-                          {`Еще ${ads?.user?.realEstatesCount - 1}`}
+                          {`Еще ${ads?.user?.realEstatesCount - 1} `}
                           <Words />
                         </NavLink>
                       </div>

@@ -53,7 +53,7 @@ function UserCard(props) {
                   <img src={checkPhotoPath(props.photo)} alt={props.userName} />
                 </Link>
               </div>
-              <div className="rating mb-3 mb-xl-2 ms-xxl-4">
+              <div className="rating mb-2 mb-xl-2 ms-xxl-4">
                 <Rating
                   readonly={true}
                   initialRating={props?.rating}
@@ -62,9 +62,9 @@ function UserCard(props) {
                   fullSymbol={<img src="/img/icons/star-blue.svg" alt="1" />}
                 />
               </div>
-              <h4 className="text-center mb-2 mb-xl-2 mb-xxl-0">
+              <h5 className="text-center fw-bold mb-2 mb-xl-2 mb-xxl-0">
                 <Link to={props.link}>{serviceType?.name}</Link>
-              </h4>
+              </h5>
               <h5 className="text-center fw-bold color-1 mb-1 mb-xl-2 mb-xxl-0">
                 <Link to={props.link}>{props.userName}</Link>
               </h5>

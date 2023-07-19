@@ -69,7 +69,7 @@ export default function Articles({ routeName }) {
         >
           <h1 className="text-center text-md-start g-4 m-0">Статьи</h1>
           <input
-            className={`${isMobile ? "w-100" : "w-25"} fs-11`}
+            className={`articleInput ${isMobile ? "w-100" : "w-25"} fs-11`}
             value={newsFilter}
             onChange={(event) => setNewsFilter(event.target.value)}
             placeholder="Поиск"

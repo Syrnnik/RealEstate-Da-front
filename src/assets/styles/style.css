@@ -262,6 +262,13 @@ label.inp-text input:checked + div {
   color: #fff;
 }
 
+input.articleInput {
+  background: url(bg-imgs/search.svg) no-repeat 0.4em center;
+  background-size: 1.5em;
+  padding: 0.5em 1.2em 0.5em 2em;
+  margin: 0;
+}
+
 select {
   appearance: none;
   -webkit-appearance: none;
@@ -5233,10 +5240,11 @@ footer nav.mobile ul li a.active svg.type-2 path {
 }
 
 .button-responses {
-  color: #146492;
+  color: #545454;
 }
 .button-responses:hover {
-  color: #c59c7e;
+  color: #146492;
+  /* color: #c59c7e; */
 }
 
 .card-page__ymaps {

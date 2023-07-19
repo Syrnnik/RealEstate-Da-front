@@ -250,7 +250,7 @@ export default function Advertise() {
       setMainImage([]);
       setImages([]);
     }
-  }, [uuid]);
+  }, [types, uuid]);
 
   useEffect(() => {
     const adsget = async () => {
@@ -1113,7 +1113,7 @@ export default function Advertise() {
                   seterRadio={seterRadioBtns}
                 />
               )}
-              {data?.estateTypeName?.toLowerCase()?.includes("коммерческая ") &&
+              {data?.estateTypeName?.toLowerCase()?.includes("коммерческая") &&
                 data?.estateName?.toLowerCase()?.includes("готовый бизнес") && (
                   <AdTypeCommercial
                     estateName={data?.estateName}
@@ -1128,15 +1128,6 @@ export default function Advertise() {
                     onChange={seterDataInComponent}
                   />
                 )}
-              {/*{(data?.estateTypeName?.toLowerCase()?.includes(localEstates.zemelia) && data?.estateName?.toLowerCase()?.includes('земельный участок')) &&
-                                <AdTypeLandPlot
-                                    seterRadio={seterRadioBtns}
-                                    onChange={seterDataInComponent}
-                                    info={{
-                                        areaType: btnRadio?.areaType
-                                    }}
-                                />
-                            }*/}
 
               {/* для мобильных устроийств */}
               <div className="d-lg-none row row-cols-2 row-cols-md-3 gx-2 gx-sm-4 justify-content-center mt-4 mt-sm-5">

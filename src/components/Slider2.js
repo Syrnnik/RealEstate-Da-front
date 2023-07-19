@@ -17,7 +17,6 @@ export const Slider2 = ({ filter }) => {
 
   useEffect(() => {
     getRandomArticle(page, 5).then((result) => {
-      console.log(result);
       setNewsArticles(result);
       setRandomArticles(result);
     });
