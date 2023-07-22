@@ -19,6 +19,7 @@ import HypotecIcon from "../assets/styles/bg-imgs/menu-hypothec.svg";
 import MainPageIcon from "../assets/styles/bg-imgs/menu-main.svg";
 import QuestionIcon from "../assets/styles/bg-imgs/menu-question.svg";
 import ServicesIcon from "../assets/styles/bg-imgs/menu-services.svg";
+import PhoneIcon from "../img/icons/phone.svg";
 import { CallRieltorModal } from "./CallRieltorModal";
 
 const Header = () => {
@@ -169,13 +170,13 @@ const Header = () => {
             <img src="/img/icons/menu.svg" alt="меню" />
           </button>
 
-          {/* <button
+          <button
             type="button"
-            className="ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4"
+            className="d-none d-md-flex ms-md-4 btn btn-1 text-uppercase p-2 order-3 order-lg-4"
             onClick={() => setIsShowRieltorModal(true)}
           >
             Вызвать риелтора
-          </button> */}
+          </button>
         </div>
       </header>
 
@@ -271,6 +272,18 @@ const Header = () => {
                 <img className="icon" src={ArticlesIcon} alt="Статьи" />
                 Статьи
               </NavLink>
+            </li>
+            <li>
+              <button
+                className="button-header-question__offcanvas w-100 d-flex p-2 justify-content-start align-items-center gap-2"
+                onClick={() => {
+                  closeCanvas();
+                  setIsShowRieltorModal(true);
+                }}
+              >
+                <img className="icon" src={PhoneIcon} alt="Вызвать риелтора" />
+                Вызвать риелтора
+              </button>
             </li>
           </ul>
         </nav>
