@@ -31,8 +31,6 @@ export const CallRieltorModal = ({
         .then((result) => setDistricts(result));
   }, [selectedCity]);
 
-  console.log(districts);
-
   return (
     <CustomModal
       isShow={showRieltorModal}
