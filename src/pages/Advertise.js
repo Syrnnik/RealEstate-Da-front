@@ -190,9 +190,8 @@ export default function Advertise() {
       sellerType: Number(ad?.sellerType),
       saleType: Number(ad?.saleType),
     });
-    // setWindRoseDirectionType(ad?.windRoseDirectionType.);
-    //! add same for outBuildingType
-    // setWindRoseDirectionType(ad?.windRoseDirectionType.);
+    setWindRoseDirectionType(ad?.windRoseDirectionTypes);
+    setOutBuildingTypes(ad?.outBuildingTypes);
     setDeal(ad?.transactionType);
     setMainImage([
       { data_url: `${process.env.REACT_APP_PHOTO_URL}/uploads/${ad.image}` },
@@ -598,11 +597,6 @@ export default function Advertise() {
         for (const key in req) {
           formData.append(key, req[key]);
         }
-        formData.append("outBuildingType", outBuildingTypes.toString());
-        formData.append(
-          "windRoseDirectionType",
-          windRoseDirectionType.toString()
-        );
       }
 
       formData.append("district[][city]", district["city"]);
@@ -657,18 +651,16 @@ export default function Advertise() {
       formData.append("district[][city]", district["city"]);
       formData.append("district[][name]", district["name"]);
 
-      if (imgs.hasOwnProperty("file")) {
-        if (imgs?.length) {
-          imgs.forEach((i, index) => {
-            if (i.file?.name !== image.name) {
-              formData.append("images[]", i.file);
-            }
-          });
-        }
+      if (imgs?.length) {
+        imgs.forEach((i, index) => {
+          if (i.file?.name !== image.name) {
+            formData.append("images[]", i.file);
+          }
+        });
       }
 
-      if (mainImage[0].hasOwnProperty("file")) {
-        formData.append("image", mainImage[0].file);
+      if (mainImage[0].file) {
+        formData.set("image", mainImage[0].file);
       }
 
       updateAd(axiosPrivate, uuid, formData)
@@ -933,7 +925,7 @@ export default function Advertise() {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    rentalPeriod: e.target.value,
+                                    rentalPeriod: 1,
                                   };
                                 });
                                 resetFieldVal(e, "isInValidRentalTypes");
@@ -959,7 +951,7 @@ export default function Advertise() {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    rentalPeriod: e.target.value,
+                                    rentalPeriod: 3,
                                   };
                                 });
                               }}
@@ -984,7 +976,7 @@ export default function Advertise() {
                                 setData((prevData) => {
                                   return {
                                     ...prevData,
-                                    rentalPeriod: e.target.value,
+                                    rentalPeriod: 0,
                                   };
                                 });
                               }}

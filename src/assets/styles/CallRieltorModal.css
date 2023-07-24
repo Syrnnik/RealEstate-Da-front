@@ -10,6 +10,15 @@
 }
 
 .callRieltorBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 2px solid #146492;
   color: #c59c7e;
+}
+
+.modalBtns {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
 }

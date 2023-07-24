@@ -48,9 +48,9 @@ function WelcomeScreen() {
   return (
     <div className={`welcomeContainer ${containerClasses[timeType]}`}>
       <div className="welcomeText">
-        <span>{`${welcomeTexts[timeType]}`}</span>
+        <span>{`${welcomeTexts[timeType]}${userName ? "," : ""}`}</span>
         <br />
-        {userName && <span className="userNameText">{userName}</span>}
+        {userName && <span className="userNameText">{userName}!</span>}
       </div>
     </div>
   );
